@@ -1,10 +1,13 @@
+package hu.ak_akademia.mss.model;
+
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class Client {
 
     private int clientId;
     private boolean active;
-    private int registrationDate;
+    private LocalDate registrationDate;
     private String email;
     private String password;
     private String firstName;
@@ -40,11 +43,11 @@ public class Client {
         this.active = active;
     }
 
-    public int getRegistrationDate() {
+    public LocalDate getRegistrationDate() {
         return registrationDate;
     }
 
-    public void setRegistrationDate(int registrationDate) {
+    public void setRegistrationDate(LocalDate registrationDate) {
         this.registrationDate = registrationDate;
     }
 
@@ -195,7 +198,7 @@ public class Client {
     public Client() {
     }
 
-    public Client(int clientId, boolean active, int registrationDate, String email, String password, String firstName, String lastName, int birthDay, String birthPlace, String mothersName, int tajNumber, String gender, String nationality, String motherLanguage, String job, String adress, int reservations, int medicalRecords, int bills, int financialBalance, String phoneNumber) {
+    public Client(int clientId, boolean active, LocalDate registrationDate, String email, String password, String firstName, String lastName, int birthDay, String birthPlace, String mothersName, int tajNumber, String gender, String nationality, String motherLanguage, String job, String adress, int reservations, int medicalRecords, int bills, int financialBalance, String phoneNumber) {
         this.clientId = clientId;
         this.active = active;
         this.registrationDate = registrationDate;
@@ -219,6 +222,7 @@ public class Client {
         this.phoneNumber = phoneNumber;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -228,13 +232,14 @@ public class Client {
 
         if (clientId != client.clientId) return false;
         if (active != client.active) return false;
-        if (registrationDate != client.registrationDate) return false;
         if (birthDay != client.birthDay) return false;
         if (tajNumber != client.tajNumber) return false;
         if (reservations != client.reservations) return false;
         if (medicalRecords != client.medicalRecords) return false;
         if (bills != client.bills) return false;
         if (financialBalance != client.financialBalance) return false;
+        if (!Objects.equals(registrationDate, client.registrationDate))
+            return false;
         if (!Objects.equals(email, client.email)) return false;
         if (!Objects.equals(password, client.password)) return false;
         if (!Objects.equals(firstName, client.firstName)) return false;
@@ -254,7 +259,7 @@ public class Client {
     public int hashCode() {
         int result = clientId;
         result = 31 * result + (active ? 1 : 0);
-        result = 31 * result + registrationDate;
+        result = 31 * result + (registrationDate != null ? registrationDate.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
