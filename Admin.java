@@ -1,4 +1,4 @@
-package hu.ak_akademia.mss;
+
 
 public class Admin {
 
