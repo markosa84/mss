@@ -4,7 +4,7 @@ public class Admin {
 
     private int adminId;
     private boolean  active;
-    private int registrationDate;
+    private LocalDate registrationDate;
     private  String userName;
     private String email;
     private String  password;
@@ -13,7 +13,7 @@ public class Admin {
    public Admin(){
    }
 
-    public Admin(int adminId, boolean active, int registrationDate, String userName, String email, String password, String phoneNumber) {
+    public Admin(int adminId, boolean active, LocalDtae registrationDate, String userName, String email, String password, String phoneNumber) {
         this.adminId = adminId;
         this.active = active;
         this.registrationDate = registrationDate;
@@ -27,7 +27,7 @@ public class Admin {
         return adminId;
     }
 
-    public int getRegistrationDate() {
+    public LocalDate getRegistrationDate() {
         return registrationDate;
     }
 
