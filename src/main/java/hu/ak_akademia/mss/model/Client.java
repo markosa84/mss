@@ -20,7 +20,7 @@ public class Client {
     private String nationality;
     private String motherLanguage;
     private String job;
-    private String adress;
+    private String address;
     private int reservations;
     private int medicalRecords;
     private int bills;
@@ -147,12 +147,12 @@ public class Client {
         this.job = job;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public int getReservations() {
@@ -214,7 +214,7 @@ public class Client {
         this.nationality = nationality;
         this.motherLanguage = motherLanguage;
         this.job = job;
-        this.adress = adress;
+        this.address = adress;
         this.reservations = reservations;
         this.medicalRecords = medicalRecords;
         this.bills = bills;
@@ -222,63 +222,17 @@ public class Client {
         this.phoneNumber = phoneNumber;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Client client = (Client) o;
-
-        if (clientId != client.clientId) return false;
-        if (active != client.active) return false;
-        if (birthDay != client.birthDay) return false;
-        if (tajNumber != client.tajNumber) return false;
-        if (reservations != client.reservations) return false;
-        if (medicalRecords != client.medicalRecords) return false;
-        if (bills != client.bills) return false;
-        if (financialBalance != client.financialBalance) return false;
-        if (!Objects.equals(registrationDate, client.registrationDate))
-            return false;
-        if (!Objects.equals(email, client.email)) return false;
-        if (!Objects.equals(password, client.password)) return false;
-        if (!Objects.equals(firstName, client.firstName)) return false;
-        if (!Objects.equals(lastName, client.lastName)) return false;
-        if (!Objects.equals(birthPlace, client.birthPlace)) return false;
-        if (!Objects.equals(mothersName, client.mothersName)) return false;
-        if (!Objects.equals(gender, client.gender)) return false;
-        if (!Objects.equals(nationality, client.nationality)) return false;
-        if (!Objects.equals(motherLanguage, client.motherLanguage))
-            return false;
-        if (!Objects.equals(job, client.job)) return false;
-        if (!Objects.equals(adress, client.adress)) return false;
-        return Objects.equals(phoneNumber, client.phoneNumber);
+        return clientId == client.clientId && active == client.active && birthDay == client.birthDay && tajNumber == client.tajNumber && reservations == client.reservations && medicalRecords == client.medicalRecords && bills == client.bills && financialBalance == client.financialBalance && Objects.equals(registrationDate, client.registrationDate) && Objects.equals(email, client.email) && Objects.equals(password, client.password) && Objects.equals(firstName, client.firstName) && Objects.equals(lastName, client.lastName) && Objects.equals(birthPlace, client.birthPlace) && Objects.equals(mothersName, client.mothersName) && Objects.equals(gender, client.gender) && Objects.equals(nationality, client.nationality) && Objects.equals(motherLanguage, client.motherLanguage) && Objects.equals(job, client.job) && Objects.equals(address, client.address) && Objects.equals(phoneNumber, client.phoneNumber);
     }
 
     @Override
     public int hashCode() {
-        int result = clientId;
-        result = 31 * result + (active ? 1 : 0);
-        result = 31 * result + (registrationDate != null ? registrationDate.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
-        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-        result = 31 * result + birthDay;
-        result = 31 * result + (birthPlace != null ? birthPlace.hashCode() : 0);
-        result = 31 * result + (mothersName != null ? mothersName.hashCode() : 0);
-        result = 31 * result + tajNumber;
-        result = 31 * result + (gender != null ? gender.hashCode() : 0);
-        result = 31 * result + (nationality != null ? nationality.hashCode() : 0);
-        result = 31 * result + (motherLanguage != null ? motherLanguage.hashCode() : 0);
-        result = 31 * result + (job != null ? job.hashCode() : 0);
-        result = 31 * result + (adress != null ? adress.hashCode() : 0);
-        result = 31 * result + reservations;
-        result = 31 * result + medicalRecords;
-        result = 31 * result + bills;
-        result = 31 * result + financialBalance;
-        result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
-        return result;
+        return Objects.hash(clientId, active, registrationDate, email, password, firstName, lastName, birthDay, birthPlace, mothersName, tajNumber, gender, nationality, motherLanguage, job, address, reservations, medicalRecords, bills, financialBalance, phoneNumber);
     }
 
     @Override
@@ -299,7 +253,7 @@ public class Client {
                 ", nationality='" + nationality + '\'' +
                 ", motherLanguage='" + motherLanguage + '\'' +
                 ", job='" + job + '\'' +
-                ", adress='" + adress + '\'' +
+                ", adress='" + address + '\'' +
                 ", reservations=" + reservations +
                 ", medicalRecords=" + medicalRecords +
                 ", bills=" + bills +
