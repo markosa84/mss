@@ -1,4 +1,7 @@
+package hu.ak_akademia.mss.model;
 
+import java.time.LocalDate;
+import java.util.Objects;
 
 public class Admin {
 
@@ -13,7 +16,7 @@ public class Admin {
    public Admin(){
    }
 
-    public Admin(int adminId, boolean active, LocalDtae registrationDate, String userName, String email, String password, String phoneNumber) {
+    public Admin(int adminId, boolean active, LocalDate registrationDate, String userName, String email, String password, String phoneNumber) {
         this.adminId = adminId;
         this.active = active;
         this.registrationDate = registrationDate;
@@ -59,7 +62,7 @@ public class Admin {
         this.active = active;
     }
 
-    public void setRegistrationDate(int registrationDate) {
+    public void setRegistrationDate(LocalDate registrationDate) {
         this.registrationDate = registrationDate;
     }
 
@@ -82,26 +85,29 @@ public class Admin {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Admin admin)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
 
-        if (getAdminId() != admin.getAdminId()) return false;
-        if (isActive() != admin.isActive()) return false;
-        if (getRegistrationDate() != admin.getRegistrationDate()) return false;
-        if (!getUserName().equals(admin.getUserName())) return false;
-        if (!getEmail().equals(admin.getEmail())) return false;
-        if (!getPassword().equals(admin.getPassword())) return false;
-        return getPhoneNumber().equals(admin.getPhoneNumber());
+        Admin admin = (Admin) o;
+
+        if (adminId != admin.adminId) return false;
+        if (active != admin.active) return false;
+        if (!Objects.equals(registrationDate, admin.registrationDate))
+            return false;
+        if (!Objects.equals(userName, admin.userName)) return false;
+        if (!Objects.equals(email, admin.email)) return false;
+        if (!Objects.equals(password, admin.password)) return false;
+        return Objects.equals(phoneNumber, admin.phoneNumber);
     }
 
     @Override
     public int hashCode() {
-        int result = getAdminId();
-        result = 31 * result + (isActive() ? 1 : 0);
-        result = 31 * result + getRegistrationDate();
-        result = 31 * result + getUserName().hashCode();
-        result = 31 * result + getEmail().hashCode();
-        result = 31 * result + getPassword().hashCode();
-        result = 31 * result + getPhoneNumber().hashCode();
+        int result = adminId;
+        result = 31 * result + (active ? 1 : 0);
+        result = 31 * result + (registrationDate != null ? registrationDate.hashCode() : 0);
+        result = 31 * result + (userName != null ? userName.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
         return result;
     }
 
