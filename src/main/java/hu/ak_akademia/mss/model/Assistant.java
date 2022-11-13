@@ -1,29 +1,33 @@
+package hu.ak_akademia.mss.model;
+
+import java.time.LocalDate;
+
 public class Assistant {
-    private int assitantId;
+    private int assistantId;
     private boolean active;
     private LocalDate registrationDate;
     private String email;
     private String password;
     private String firstName;
     private String lastName;
-    private LocalDate birthDay;
-    private String brithPlase;
-    private String mothersName;
+    private LocalDate birthDay;  // TODO: is it one word?
+    private String brithPlace;
+    private String mothersName;  // TODO: plural?
     private String gender;
     private String nationality;
     private String foreignLanguage;
     private int doctorsId;
-    private int areaOfexpertise;
-    private String adress;
-    private int reservations;
-    private int appointments;
-    private String phoneNumber
+    private int areaOfExpertise; //TODO: why the type is 'int'?
+    private String address;
+    private int reservations; // TODO: plural?
+    private int appointments; // TODO: plural?
+    private String phoneNumber;
 
     public Assistant() {
-
     }
-      public Assistant(int assitantId, boolean active, LocalDate registrationDate, String email, String password, Stirng firstName, String lastName, LocalDate birthDay, String brithPlase, String mothersName,String gender, String nationality, String foreignLanguage, int doctorsId, int areaOfexpertise, String adress, int reservations, int appointments, String phoneNumber ){
-        this.assitantId = assitantId;
+
+    public Assistant(int assistantId, boolean active, LocalDate registrationDate, String email, String password, String firstName, String lastName, LocalDate birthDay, String brithPlace, String mothersName, String gender, String nationality, String foreignLanguage, int doctorsId, int areaOfExpertise, String address, int reservations, int appointments, String phoneNumber) {
+        this.assistantId = assistantId;
         this.active = active;
         this.registrationDate = registrationDate;
         this.email = email;
@@ -31,22 +35,18 @@ public class Assistant {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDay = birthDay;
-        this.brithPlase = brithPlase;
+        this.brithPlace = brithPlace;
         this.mothersName = mothersName;
         this.gender = gender;
         this.nationality = nationality;
         this.foreignLanguage = foreignLanguage;
         this.doctorsId = doctorsId;
-        this.areaOfexpertise = areaOfexpertise;
-        this.adress = adress;
+        this.areaOfExpertise = areaOfExpertise;
+        this.address = address;
         this.reservations = reservations;
         this.appointments = appointments;
         this.phoneNumber = phoneNumber;
-      }
-
-
-
-
+    }
 
     public String getPhoneNumber() {
         return phoneNumber;
@@ -72,20 +72,20 @@ public class Assistant {
         this.reservations = reservations;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public int getAreaOfexpertise() {
-        return areaOfexpertise;
+    public int getAreaOfExpertise() {
+        return areaOfExpertise;
     }
 
-    public void setAreaOfexpertise(int areaOfexpertise) {
-        this.areaOfexpertise = areaOfexpertise;
+    public void setAreaOfExpertise(int areaOfExpertise) {
+        this.areaOfExpertise = areaOfExpertise;
     }
 
     public int getDoctorsId() {
@@ -128,12 +128,12 @@ public class Assistant {
         this.mothersName = mothersName;
     }
 
-    public String getBrithPlase() {
-        return brithPlase;
+    public String getBrithPlace() {
+        return brithPlace;
     }
 
-    public void setBrithPlase(String brithPlase) {
-        this.brithPlase = brithPlase;
+    public void setBrithPlace(String brithPlace) {
+        this.brithPlace = brithPlace;
     }
 
     public LocalDate getBirthDay() {
@@ -192,13 +192,14 @@ public class Assistant {
         this.registrationDate = registrationDate;
     }
 
-    public int getAssitantId() {
-        return assitantId;
+    public int getAssistantId() {
+        return assistantId;
     }
 
-    public void setAssitantId(int assitantId) {
-        this.assitantId = assitantId;
+    public void setAssistantId(int assistantId) {
+        this.assistantId = assistantId;
     }
+
     public boolean equals(Object object) {
         if (this == object) return true;
         if (!(object instanceof Assistant)) return false;
@@ -206,10 +207,10 @@ public class Assistant {
 
         Assistant assistant = (Assistant) object;
 
-        if (getAssitantId() != assistant.getAssitantId()) return false;
+        if (getAssistantId() != assistant.getAssistantId()) return false;
         if (isActive() != assistant.isActive()) return false;
         if (getDoctorsId() != assistant.getDoctorsId()) return false;
-        if (getAreaOfexpertise() != assistant.getAreaOfexpertise()) return false;
+        if (getAreaOfExpertise() != assistant.getAreaOfExpertise()) return false;
         if (getReservations() != assistant.getReservations()) return false;
         if (getAppointments() != assistant.getAppointments()) return false;
         if (!getRegistrationDate().equals(assistant.getRegistrationDate())) return false;
@@ -218,19 +219,20 @@ public class Assistant {
         if (!getFirstName().equals(assistant.getFirstName())) return false;
         if (!getLastName().equals(assistant.getLastName())) return false;
         if (!getBirthDay().equals(assistant.getBirthDay())) return false;
-        if (!getBrithPlase().equals(assistant.getBrithPlase())) return false;
+        if (!getBrithPlace().equals(assistant.getBrithPlace())) return false;
         if (!getMothersName().equals(assistant.getMothersName())) return false;
         if (!getGender().equals(assistant.getGender())) return false;
         if (!getNationality().equals(assistant.getNationality())) return false;
         if (!getForeignLanguage().equals(assistant.getForeignLanguage())) return false;
-        if (!getAdress().equals(assistant.getAdress())) return false;
+        if (!getAddress().equals(assistant.getAddress())) return false;
         if (!getPhoneNumber().equals(assistant.getPhoneNumber())) return false;
 
         return true;
     }
+
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + getAssitantId();
+        result = 31 * result + getAssistantId();
         result = 31 * result + (isActive() ? 1 : 0);
         result = 31 * result + getRegistrationDate().hashCode();
         result = 31 * result + getEmail().hashCode();
@@ -238,24 +240,24 @@ public class Assistant {
         result = 31 * result + getFirstName().hashCode();
         result = 31 * result + getLastName().hashCode();
         result = 31 * result + getBirthDay().hashCode();
-        result = 31 * result + getBrithPlase().hashCode();
+        result = 31 * result + getBrithPlace().hashCode();
         result = 31 * result + getMothersName().hashCode();
         result = 31 * result + getGender().hashCode();
         result = 31 * result + getNationality().hashCode();
         result = 31 * result + getForeignLanguage().hashCode();
         result = 31 * result + getDoctorsId();
-        result = 31 * result + getAreaOfexpertise();
-        result = 31 * result + getAdress().hashCode();
+        result = 31 * result + getAreaOfExpertise();
+        result = 31 * result + getAddress().hashCode();
         result = 31 * result + getReservations();
         result = 31 * result + getAppointments();
         result = 31 * result + getPhoneNumber().hashCode();
         return result;
     }
 
-    @java.lang.Override
+    @Override
     public java.lang.String toString() {
         return "Assistant{" +
-                "assitantId=" + assitantId +
+                "assistantId=" + assistantId +
                 ", active=" + active +
                 ", registrationDate=" + registrationDate +
                 ", email='" + email + '\'' +
@@ -263,14 +265,13 @@ public class Assistant {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", birthDay=" + birthDay +
-                ", brithPlase='" + brithPlase + '\'' +
+                ", brithPlace='" + brithPlace + '\'' +
                 ", mothersName='" + mothersName + '\'' +
                 ", gender='" + gender + '\'' +
                 ", nationality='" + nationality + '\'' +
                 ", foreignLanguage='" + foreignLanguage + '\'' +
                 ", doctorsId=" + doctorsId +
-                ", areaOfexpertise=" + areaOfexpertise +
-                ", adress='" + adress + '\'' +
+                ", areaOfExpertise='" + address + '\'' +
                 ", reservations=" + reservations +
                 ", appointments=" + appointments +
                 ", phoneNumber='" + phoneNumber + '\'' +

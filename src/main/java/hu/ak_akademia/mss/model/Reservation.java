@@ -1,5 +1,9 @@
+package hu.ak_akademia.mss.model;
+
+import java.time.LocalDate;
+
 public class Reservation {
-    private int reservationID;
+    private int reservationId;
     private int clientId;
     private int doctorId;
     private LocalDate date;
@@ -9,14 +13,14 @@ public class Reservation {
     private boolean booked;
     private boolean completed;
     private boolean cancelled;
-    private int medicalRecordIds;
-    private int billIds;
+    private int medicalRecordId;
+    private int billId;
 
     public Reservation() {
     }
 
-    public Reservation(int reservationID, int clientId,int doctorId, LocalDate date, int centerId, int roomId, int areaOfExpertisesId, boolean booked, boolean completed, boolean cancelled, int medicalRecordIds, int billIds ) {
-        this.reservationID = reservationID;
+    public Reservation(int reservationID, int clientId, int doctorId, LocalDate date, int centerId, int roomId, int areaOfExpertisesId, boolean booked, boolean completed, boolean cancelled, int medicalRecordIds, int billIds) {
+        this.reservationId = reservationID;
         this.clientId = clientId;
         this.doctorId = doctorId;
         this.date = date;
@@ -26,16 +30,16 @@ public class Reservation {
         this.booked = booked;
         this.completed = completed;
         this.cancelled = cancelled;
-        this.medicalRecordIds = medicalRecordIds;
-        this.billIds = billIds;
+        this.medicalRecordId = medicalRecordIds;
+        this.billId = billIds;
     }
 
-    public int getReservationID() {
-        return reservationID;
+    public int getReservationId() {
+        return reservationId;
     }
 
-    public void setReservationID(int reservationID) {
-        this.reservationID = reservationID;
+    public void setReservationId(int reservationId) {
+        this.reservationId = reservationId;
     }
 
     public int getClientId() {
@@ -110,20 +114,20 @@ public class Reservation {
         this.cancelled = cancelled;
     }
 
-    public int getMedicalRecordIds() {
-        return medicalRecordIds;
+    public int getMedicalRecordId() {
+        return medicalRecordId;
     }
 
-    public void setMedicalRecordIds(int medicalRecordIds) {
-        this.medicalRecordIds = medicalRecordIds;
+    public void setMedicalRecordId(int medicalRecordId) {
+        this.medicalRecordId = medicalRecordId;
     }
 
-    public int getBillIds() {
-        return billIds;
+    public int getBillId() {
+        return billId;
     }
 
-    public void setBillIds(int billIds) {
-        this.billIds = billIds;
+    public void setBillId(int billId) {
+        this.billId = billId;
     }
 
     public boolean equals(Object object) {
@@ -133,7 +137,7 @@ public class Reservation {
 
         Reservation that = (Reservation) object;
 
-        if (getReservationID() != that.getReservationID()) return false;
+        if (getReservationId() != that.getReservationId()) return false;
         if (getClientId() != that.getClientId()) return false;
         if (getDoctorId() != that.getDoctorId()) return false;
         if (getCenterId() != that.getCenterId()) return false;
@@ -142,8 +146,8 @@ public class Reservation {
         if (isBooked() != that.isBooked()) return false;
         if (isCompleted() != that.isCompleted()) return false;
         if (isCancelled() != that.isCancelled()) return false;
-        if (getMedicalRecordIds() != that.getMedicalRecordIds()) return false;
-        if (getBillIds() != that.getBillIds()) return false;
+        if (getMedicalRecordId() != that.getMedicalRecordId()) return false;
+        if (getBillId() != that.getBillId()) return false;
         if (!getDate().equals(that.getDate())) return false;
 
         return true;
@@ -151,7 +155,7 @@ public class Reservation {
 
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + getReservationID();
+        result = 31 * result + getReservationId();
         result = 31 * result + getClientId();
         result = 31 * result + getDoctorId();
         result = 31 * result + getDate().hashCode();
@@ -161,15 +165,15 @@ public class Reservation {
         result = 31 * result + (isBooked() ? 1 : 0);
         result = 31 * result + (isCompleted() ? 1 : 0);
         result = 31 * result + (isCancelled() ? 1 : 0);
-        result = 31 * result + getMedicalRecordIds();
-        result = 31 * result + getBillIds();
+        result = 31 * result + getMedicalRecordId();
+        result = 31 * result + getBillId();
         return result;
     }
 
-    @java.lang.Override
+    @Override
     public java.lang.String toString() {
         return "Reservation{" +
-                "reservationID=" + reservationID +
+                "reservationID=" + reservationId +
                 ", clientId=" + clientId +
                 ", doctorId=" + doctorId +
                 ", date=" + date +
@@ -179,8 +183,8 @@ public class Reservation {
                 ", booked=" + booked +
                 ", completed=" + completed +
                 ", cancelled=" + cancelled +
-                ", medicalRecordIds=" + medicalRecordIds +
-                ", billIds=" + billIds +
+                ", medicalRecordIds=" + medicalRecordId +
+                ", billIds=" + billId +
                 '}';
     }
 }

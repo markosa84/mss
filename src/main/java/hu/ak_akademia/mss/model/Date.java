@@ -1,6 +1,6 @@
 package hu.ak_akademia.mss.model;
 
-public class Date {
+public class Date {  // TODO: really need this class?
 
     private int dateId;
     private byte year;

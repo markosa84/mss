@@ -1,10 +1,13 @@
+package hu.ak_akademia.mss.model;
+
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class Doctor {
 
     private int doctorId;
     private boolean active;
-    private int registrationDate;
+    private LocalDate registrationDate;
     private String email;
     private String password;
     private String firstName;
@@ -16,7 +19,7 @@ public class Doctor {
     private String nationality;
     private String foreignLanguage;
     private String areaOfExpertise;
-    private String adress;
+    private String address;
     private int reservations;
     private int appointments;
     private int financialBalance;
@@ -25,7 +28,7 @@ public class Doctor {
     public Doctor() {
     }
 
-    public Doctor(int doctorId, boolean active, int registrationDate, String email, String password, String firstName, String lastName, int birthDay, String birthPlace, String mothersName, String gender, String nationality, String foreignLanguage, String areaOfExpertise, String adress, int reservations, int appointments, int financialBalance, String phoneNumber) {
+    public Doctor(int doctorId, boolean active, LocalDate registrationDate, String email, String password, String firstName, String lastName, int birthDay, String birthPlace, String mothersName, String gender, String nationality, String foreignLanguage, String areaOfExpertise, String address, int reservations, int appointments, int financialBalance, String phoneNumber) {
         this.doctorId = doctorId;
         this.active = active;
         this.registrationDate = registrationDate;
@@ -40,7 +43,7 @@ public class Doctor {
         this.nationality = nationality;
         this.foreignLanguage = foreignLanguage;
         this.areaOfExpertise = areaOfExpertise;
-        this.adress = adress;
+        this.address = address;
         this.reservations = reservations;
         this.appointments = appointments;
         this.financialBalance = financialBalance;
@@ -63,11 +66,11 @@ public class Doctor {
         this.active = active;
     }
 
-    public int getRegistrationDate() {
+    public LocalDate getRegistrationDate() {
         return registrationDate;
     }
 
-    public void setRegistrationDate(int registrationDate) {
+    public void setRegistrationDate(LocalDate registrationDate) {
         this.registrationDate = registrationDate;
     }
 
@@ -159,12 +162,12 @@ public class Doctor {
         this.areaOfExpertise = areaOfExpertise;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public int getReservations() {
@@ -203,9 +206,7 @@ public class Doctor {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Doctor doctor = (Doctor) o;
-
         if (doctorId != doctor.doctorId) return false;
         if (active != doctor.active) return false;
         if (registrationDate != doctor.registrationDate) return false;
@@ -225,32 +226,13 @@ public class Doctor {
             return false;
         if (!Objects.equals(areaOfExpertise, doctor.areaOfExpertise))
             return false;
-        if (!Objects.equals(adress, doctor.adress)) return false;
+        if (!Objects.equals(address, doctor.address)) return false;
         return Objects.equals(phoneNumber, doctor.phoneNumber);
     }
 
     @Override
     public int hashCode() {
-        int result = doctorId;
-        result = 31 * result + (active ? 1 : 0);
-        result = 31 * result + registrationDate;
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
-        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-        result = 31 * result + birthDay;
-        result = 31 * result + (birthPlace != null ? birthPlace.hashCode() : 0);
-        result = 31 * result + (mothersName != null ? mothersName.hashCode() : 0);
-        result = 31 * result + (gender != null ? gender.hashCode() : 0);
-        result = 31 * result + (nationality != null ? nationality.hashCode() : 0);
-        result = 31 * result + (foreignLanguage != null ? foreignLanguage.hashCode() : 0);
-        result = 31 * result + (areaOfExpertise != null ? areaOfExpertise.hashCode() : 0);
-        result = 31 * result + (adress != null ? adress.hashCode() : 0);
-        result = 31 * result + reservations;
-        result = 31 * result + appointments;
-        result = 31 * result + financialBalance;
-        result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
-        return result;
+        return Objects.hash(doctorId, active, registrationDate, email, password, firstName, lastName, birthDay, birthPlace, mothersName, gender, nationality, foreignLanguage, areaOfExpertise, address, reservations, appointments, financialBalance, phoneNumber);
     }
 
     @Override
@@ -270,7 +252,7 @@ public class Doctor {
                 ", nationality='" + nationality + '\'' +
                 ", foreignLanguage='" + foreignLanguage + '\'' +
                 ", areaOfExpertise='" + areaOfExpertise + '\'' +
-                ", adress='" + adress + '\'' +
+                ", address='" + address + '\'' +
                 ", reservations=" + reservations +
                 ", appointments=" + appointments +
                 ", financialBalance=" + financialBalance +

@@ -1,12 +1,13 @@
+package hu.ak_akademia.mss.model;
+
 import java.util.Objects;
 
 public class Center {
 
-
     private int centerId;
     private String centerName;
-    private int areaOfExpertisesIds;
-    private String adress;
+    private int areaOfExpertiseId;
+    private String address;
     private String phoneNumber;
     private String description;
 
@@ -34,20 +35,20 @@ public class Center {
         this.phoneNumber = phoneNumber;
     }
 
-    public int getAreaOfExpertisesIds() {
-        return areaOfExpertisesIds;
+    public int getAreaOfExpertiseId() {
+        return areaOfExpertiseId;
     }
 
-    public void setAreaOfExpertisesIds(int areaOfExpertisesIds) {
-        this.areaOfExpertisesIds = areaOfExpertisesIds;
+    public void setAreaOfExpertiseId(int areaOfExpertiseId) {
+        this.areaOfExpertiseId = areaOfExpertiseId;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getDescription() {
@@ -58,6 +59,24 @@ public class Center {
         this.description = description;
     }
 
+    public Center() {
+    }
+
+
+    public Center(int centerId, String centerName, int areaOfExpertiseId, String address, String phoneNumber, String description) {
+        this.centerId = centerId;
+        this.centerName = centerName;
+        this.areaOfExpertiseId = areaOfExpertiseId;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.description = description;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(centerId, centerName, areaOfExpertiseId, address, phoneNumber, description);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -66,35 +85,11 @@ public class Center {
         Center center = (Center) o;
 
         if (centerId != center.centerId) return false;
-        if (areaOfExpertisesIds != center.areaOfExpertisesIds) return false;
+        if (areaOfExpertiseId != center.areaOfExpertiseId) return false;
         if (!Objects.equals(centerName, center.centerName)) return false;
-        if (!Objects.equals(adress, center.adress)) return false;
+        if (!Objects.equals(address, center.address)) return false;
         if (!Objects.equals(phoneNumber, center.phoneNumber)) return false;
         return Objects.equals(description, center.description);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = centerId;
-        result = 31 * result + (centerName != null ? centerName.hashCode() : 0);
-        result = 31 * result + areaOfExpertisesIds;
-        result = 31 * result + (adress != null ? adress.hashCode() : 0);
-        result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        return result;
-    }
-
-    public Center() {
-    }
-
-
-    public Center(int centerId, String centerName, int areaOfExpertisesIds, String adress, String phoneNumber, String description) {
-        this.centerId = centerId;
-        this.centerName = centerName;
-        this.areaOfExpertisesIds = areaOfExpertisesIds;
-        this.adress = adress;
-        this.phoneNumber = phoneNumber;
-        this.description = description;
     }
 
     @Override
@@ -102,8 +97,8 @@ public class Center {
         return "Center{" +
                 "centerId=" + centerId +
                 ", centerName='" + centerName + '\'' +
-                ", areaOfExpertisesIds=" + areaOfExpertisesIds +
-                ", adress='" + adress + '\'' +
+                ", areaOfExpertiseId=" + areaOfExpertiseId +
+                ", address='" + address + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", description='" + description + '\'' +
                 '}';

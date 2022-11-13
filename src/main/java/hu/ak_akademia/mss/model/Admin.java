@@ -6,15 +6,15 @@ import java.util.Objects;
 public class Admin {
 
     private int adminId;
-    private boolean  active;
+    private boolean active;
     private LocalDate registrationDate;
-    private  String userName;
+    private String userName;
     private String email;
-    private String  password;
+    private String password;
     private String phoneNumber;
 
-   public Admin(){
-   }
+    public Admin() {
+    }
 
     public Admin(int adminId, boolean active, LocalDate registrationDate, String userName, String email, String password, String phoneNumber) {
         this.adminId = adminId;
@@ -24,7 +24,7 @@ public class Admin {
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
-   }
+    }
 
     public int getAdminId() {
         return adminId;
