@@ -1,3 +1,5 @@
+package hu.ak_akademia.mss.model;
+
 public class Date {
 
     private int dateId;
