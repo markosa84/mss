@@ -1,12 +1,14 @@
-public class Email_subject {
+package hu.ak_akademia.mss.model;
+
+public class EmailSubject {
     private int subjectId;
     private String subjectName;
     private String subjectDescription;
 
-    public Email_subject() {
+    public EmailSubject() {
     }
 
-    public Email_subject(int subjectId, String subjectName, String subjectDescription) {
+    public EmailSubject(int subjectId, String subjectName, String subjectDescription) {
         this.subjectId = subjectId;
         this.subjectName = subjectName;
         this.subjectDescription = subjectDescription;
@@ -38,10 +40,10 @@ public class Email_subject {
 
     public boolean equals(Object object) {
         if (this == object) return true;
-        if (!(object instanceof Email_subject)) return false;
+        if (!(object instanceof EmailSubject)) return false;
         if (!super.equals(object)) return false;
 
-        Email_subject that = (Email_subject) object;
+        EmailSubject that = (EmailSubject) object;
 
         if (getSubjectId() != that.getSubjectId()) return false;
         if (!getSubjectName().equals(that.getSubjectName())) return false;
@@ -58,8 +60,8 @@ public class Email_subject {
         return result;
     }
 
-    @java.lang.Override
-    public java.lang.String toString() {
+    @Override
+    public String toString() {
         return "Email_subject{" +
                 "subjectId=" + subjectId +
                 ", subjectName='" + subjectName + '\'' +

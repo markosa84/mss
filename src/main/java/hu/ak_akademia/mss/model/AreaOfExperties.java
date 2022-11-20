@@ -1,38 +1,40 @@
-public class Area_of_experties {
+package hu.ak_akademia.mss.model;
+
+public class AreaOfExperties {
     private int areaOfExpertisesId;
     private String expertiesName;
     private int treatmentLength;
     private int administrationLength;
     private int centerId;
     private int roomId;
-    private int prise;
+    private int price;
 
-    public Area_of_experties() {
+    public AreaOfExperties() {
     }
 
-    public Area_of_experties(int areaOfExpertisesId, String expertiesName, int treatmentLength, int administrationLength, int centerId, int roomId, int prise) {
+    public AreaOfExperties(int areaOfExpertisesId, String expertiesName, int treatmentLength, int administrationLength, int centerId, int roomId, int price) {
         this.areaOfExpertisesId = areaOfExpertisesId;
         this.expertiesName = expertiesName;
         this.treatmentLength = treatmentLength;
         this.administrationLength = administrationLength;
         this.centerId = centerId;
         this.roomId = roomId;
-        this.prise = prise;
+        this.price = price;
     }
 
     public boolean equals(Object object) {
         if (this == object) return true;
-        if (!(object instanceof Area_of_experties)) return false;
+        if (!(object instanceof AreaOfExperties)) return false;
         if (!super.equals(object)) return false;
 
-        Area_of_experties that = (Area_of_experties) object;
+        AreaOfExperties that = (AreaOfExperties) object;
 
         if (areaOfExpertisesId != that.areaOfExpertisesId) return false;
         if (treatmentLength != that.treatmentLength) return false;
         if (administrationLength != that.administrationLength) return false;
         if (centerId != that.centerId) return false;
         if (roomId != that.roomId) return false;
-        if (prise != that.prise) return false;
+        if (price != that.price) return false;
         if (!expertiesName.equals(that.expertiesName)) return false;
 
         return true;
@@ -46,12 +48,12 @@ public class Area_of_experties {
         result = 31 * result + administrationLength;
         result = 31 * result + centerId;
         result = 31 * result + roomId;
-        result = 31 * result + prise;
+        result = 31 * result + price;
         return result;
     }
 
-    @java.lang.Override
-    public java.lang.String toString() {
+    @Override
+    public String toString() {
         return "Area_of_experties{" +
                 "areaOfExpertisesId=" + areaOfExpertisesId +
                 ", expertiesName='" + expertiesName + '\'' +
@@ -59,7 +61,7 @@ public class Area_of_experties {
                 ", administrationLength=" + administrationLength +
                 ", centerId=" + centerId +
                 ", roomId=" + roomId +
-                ", prise=" + prise +
+                ", price=" + price +
                 '}';
     }
 }

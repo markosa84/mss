@@ -1,3 +1,5 @@
+package hu.ak_akademia.mss.model;
+
 public class Room {
    private int roomId;
    private  String roomName;
@@ -94,8 +96,8 @@ public class Room {
         return result;
     }
 
-    @java.lang.Override
-    public java.lang.String toString() {
+    @Override
+    public String toString() {
         return "Room{" +
                 "roomId=" + roomId +
                 ", roomName='" + roomName + '\'' +

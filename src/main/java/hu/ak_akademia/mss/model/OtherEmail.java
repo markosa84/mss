@@ -1,4 +1,8 @@
-public class Other_email {
+package hu.ak_akademia.mss.model;
+
+import java.time.LocalDate;
+
+public class OtherEmail {
     private int otherEmailId;
     private String emailSubject;
     private LocalDate date;
@@ -6,10 +10,10 @@ public class Other_email {
     private String clientEmail;
     private  String politeText;
 
-    public Other_email() {
+    public OtherEmail() {
     }
 
-    public Other_email(int otherEmailId, String emailSubject, LocalDate date,String clientName, String clientEmail, String politeText) {
+    public OtherEmail(int otherEmailId, String emailSubject, LocalDate date, String clientName, String clientEmail, String politeText) {
         this.otherEmailId = otherEmailId;
         this.emailSubject = emailSubject;
         this.date = date;
@@ -68,10 +72,10 @@ public class Other_email {
 
     public boolean equals(Object object) {
         if (this == object) return true;
-        if (!(object instanceof Other_email)) return false;
+        if (!(object instanceof OtherEmail)) return false;
         if (!super.equals(object)) return false;
 
-        Other_email that = (Other_email) object;
+        OtherEmail that = (OtherEmail) object;
 
         if (getOtherEmailId() != that.getOtherEmailId()) return false;
         if (!getEmailSubject().equals(that.getEmailSubject())) return false;
@@ -94,8 +98,8 @@ public class Other_email {
         return result;
     }
 
-    @java.lang.Override
-    public java.lang.String toString() {
+    @Override
+    public String toString() {
         return "Other_email{" +
                 "otherEmailId=" + otherEmailId +
                 ", emailSubject='" + emailSubject + '\'' +

@@ -1,3 +1,7 @@
+package hu.ak_akademia.mss.model;
+
+import java.time.LocalDate;
+
 public class Equipment {
     private  int equipmentId;
     private boolean active;
@@ -82,8 +86,8 @@ public class Equipment {
         return result;
     }
 
-    @java.lang.Override
-    public java.lang.String toString() {
+    @Override
+    public String toString() {
         return "Equipment{" +
                 "equipmentId=" + equipmentId +
                 ", active=" + active +

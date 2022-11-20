@@ -1,12 +1,14 @@
-public class Polite_text {
+package hu.ak_akademia.mss.model;
+
+public class PoliteText {
     private int politeText;
     private String politeTextName;
     private String text;
 
-    public Polite_text() {
+    public PoliteText() {
     }
 
-    public Polite_text(int politeText, String politeTextName, String text) {
+    public PoliteText(int politeText, String politeTextName, String text) {
         this.politeText = politeText;
         this.politeTextName = politeTextName;
         this.text = text;
@@ -38,10 +40,10 @@ public class Polite_text {
 
     public boolean equals(Object object) {
         if (this == object) return true;
-        if (!(object instanceof Polite_text)) return false;
+        if (!(object instanceof PoliteText)) return false;
         if (!super.equals(object)) return false;
 
-        Polite_text that = (Polite_text) object;
+        PoliteText that = (PoliteText) object;
 
         if (getPoliteText() != that.getPoliteText()) return false;
         if (!getPoliteTextName().equals(that.getPoliteTextName())) return false;
@@ -58,8 +60,8 @@ public class Polite_text {
         return result;
     }
 
-    @java.lang.Override
-    public java.lang.String toString() {
+    @Override
+    public String toString() {
         return "Polite_text{" +
                 "politeText=" + politeText +
                 ", politeTextName='" + politeTextName + '\'' +

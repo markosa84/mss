@@ -6,7 +6,7 @@ import java.util.Objects;
 public class Admin {
 
     private int adminId;
-    private boolean  active;
+    private boolean active;
     private LocalDate registrationDate;
     private  String userName;
     private String email;

@@ -1,4 +1,8 @@
-public class Reservation_warning_email {
+package hu.ak_akademia.mss.model;
+
+import java.time.LocalDate;
+
+public class ReservationWarningEmail {
     private int reservationEmailId;
     private String emailSubject;
     private LocalDate date;
@@ -11,10 +15,10 @@ public class Reservation_warning_email {
     private int roomNumber;
     private String politeText;
 
-    public Reservation_warning_email() {
+    public ReservationWarningEmail() {
     }
 
-    public Reservation_warning_email(int reservationEmailId, String emailSubject, LocalDate date, String clientName, String clientEmail, String doctorName, String doctorEmail, String expertiesName, String centerName, int roomNumber, String politeText ) {
+    public ReservationWarningEmail(int reservationEmailId, String emailSubject, LocalDate date, String clientName, String clientEmail, String doctorName, String doctorEmail, String expertiesName, String centerName, int roomNumber, String politeText ) {
         this.reservationEmailId = reservationEmailId;
         this.emailSubject = emailSubject;
         this.date = date;
@@ -118,10 +122,10 @@ public class Reservation_warning_email {
 
     public boolean equals(Object object) {
         if (this == object) return true;
-        if (!(object instanceof Reservation_warning_email)) return false;
+        if (!(object instanceof ReservationWarningEmail)) return false;
         if (!super.equals(object)) return false;
 
-        Reservation_warning_email that = (Reservation_warning_email) object;
+        ReservationWarningEmail that = (ReservationWarningEmail) object;
 
         if (getReservationEmailId() != that.getReservationEmailId()) return false;
         if (getRoomNumber() != that.getRoomNumber()) return false;
@@ -154,8 +158,8 @@ public class Reservation_warning_email {
         return result;
     }
 
-    @java.lang.Override
-    public java.lang.String toString() {
+    @Override
+    public String toString() {
         return "Reservation_warning_email{" +
                 "reservationEmailId=" + reservationEmailId +
                 ", emailSubject='" + emailSubject + '\'' +

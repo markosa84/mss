@@ -1,4 +1,8 @@
-public class Financial_colleague {
+package hu.ak_akademia.mss.model;
+
+import java.time.LocalDate;
+
+public class FinancialColleague {
     private int finan_colleagueID;
     private boolean active;
     private LocalDate registractionDate;
@@ -7,20 +11,20 @@ public class Financial_colleague {
     private String firstName;
     private String lastName;
     private String birthDay;
-    private Sring birthPlace;
+    private String birthPlace;
     private String mothersName;
     private String gender;
     private String nationality;
     private int centersIds;
     private int roomsIds;
-    private String adress;
+    private String address;
     private String phoneNumber;
 
-    public Financial_colleague() {
+    public FinancialColleague() {
 
     }
 
-    public Financial_colleague(int finan_colleagueID, boolean active, LocalDate registractionDate, String email, String password, String firstName, String lastName, String birthDay, Sring birthPlace, String mothersName, String gender, String nationality, int centersIds, int roomsIds, String adress, String phoneNumber) {
+    public FinancialColleague(int finan_colleagueID, boolean active, LocalDate registractionDate, String email, String password, String firstName, String lastName, String birthDay, String birthPlace, String mothersName, String gender, String nationality, int centersIds, int roomsIds, String address, String phoneNumber) {
         this.finan_colleagueID = finan_colleagueID;
         this.active = active;
         this.registractionDate = registractionDate;
@@ -35,7 +39,7 @@ public class Financial_colleague {
         this.nationality = nationality;
         this.centersIds = centersIds;
         this.roomsIds = roomsIds;
-        this.adress = adress;
+        this.address = address;
         this.phoneNumber = phoneNumber;
     }
 
@@ -103,11 +107,11 @@ public class Financial_colleague {
         this.birthDay = birthDay;
     }
 
-    public Sring getBirthPlace() {
+    public String getBirthPlace() {
         return birthPlace;
     }
 
-    public void setBirthPlace(Sring birthPlace) {
+    public void setBirthPlace(String birthPlace) {
         this.birthPlace = birthPlace;
     }
 
@@ -151,12 +155,12 @@ public class Financial_colleague {
         this.roomsIds = roomsIds;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getPhoneNumber() {
@@ -169,10 +173,10 @@ public class Financial_colleague {
 
     public boolean equals(Object object) {
         if (this == object) return true;
-        if (!(object instanceof Financial_colleague)) return false;
+        if (!(object instanceof FinancialColleague)) return false;
         if (!super.equals(object)) return false;
 
-        Financial_colleague that = (Financial_colleague) object;
+        FinancialColleague that = (FinancialColleague) object;
 
         if (getFinan_colleagueID() != that.getFinan_colleagueID()) return false;
         if (isActive() != that.isActive()) return false;
@@ -188,7 +192,7 @@ public class Financial_colleague {
         if (!getMothersName().equals(that.getMothersName())) return false;
         if (!getGender().equals(that.getGender())) return false;
         if (!getNationality().equals(that.getNationality())) return false;
-        if (!getAdress().equals(that.getAdress())) return false;
+        if (!getAddress().equals(that.getAddress())) return false;
         if (!getPhoneNumber().equals(that.getPhoneNumber())) return false;
 
         return true;
@@ -210,13 +214,13 @@ public class Financial_colleague {
         result = 31 * result + getNationality().hashCode();
         result = 31 * result + getCentersIds();
         result = 31 * result + getRoomsIds();
-        result = 31 * result + getAdress().hashCode();
+        result = 31 * result + getAddress().hashCode();
         result = 31 * result + getPhoneNumber().hashCode();
         return result;
     }
 
-    @java.lang.Override
-    public java.lang.String toString() {
+    @Override
+    public String toString() {
         return "Financial_colleague{" +
                 "finan_colleagueID=" + finan_colleagueID +
                 ", active=" + active +
@@ -232,7 +236,7 @@ public class Financial_colleague {
                 ", nationality='" + nationality + '\'' +
                 ", centersIds=" + centersIds +
                 ", roomsIds=" + roomsIds +
-                ", adress='" + adress + '\'' +
+                ", address='" + address + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 '}';
     }

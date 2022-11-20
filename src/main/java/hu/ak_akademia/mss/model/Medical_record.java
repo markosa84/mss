@@ -1,3 +1,7 @@
+package hu.ak_akademia.mss.model;
+
+import java.time.LocalDate;
+
 public class Medical_record {
     private int medical_recordId;
     private int clientId;
@@ -10,14 +14,14 @@ public class Medical_record {
     public Medical_record() {
     }
 
-    public Medical_record(int medical_recordId, int clientId, int doctorId, Localdate date, int areaOfExperitisesIds, String comment, int medical_presciptionsIds  ) {
+    public Medical_record(int medical_recordId, int clientId, int doctorId, LocalDate date, int areaOfExperitisesIds, String comment, int medical_presciptionsIds  ) {
         this.medical_recordId = medical_recordId;
         this.clientId = clientId;
         this.doctorId = doctorId;
         this.date = date;
         this.areaOfExperitisesIds = areaOfExperitisesIds;
         this.comment = comment;
-        this.medical_presciptionsIds;
+        this.medical_presciptionsIds = medical_presciptionsIds;
     }
 
     public int getMedical_recordId() {
@@ -106,8 +110,8 @@ public class Medical_record {
         return result;
     }
 
-    @java.lang.Override
-    public java.lang.String toString() {
+    @Override
+    public String toString() {
         return "Medical_record{" +
                 "medical_recordId=" + medical_recordId +
                 ", clientId=" + clientId +

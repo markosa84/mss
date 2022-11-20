@@ -1,12 +1,14 @@
-public class Waring_Pop_up {
+package hu.ak_akademia.mss.model;
+
+public class WarningPopUp {
     private int popUpId;
     private String popUpName;
     private String politeText;
 
-    public Waring_Pop_up() {
+    public WarningPopUp() {
     }
 
-    public Waring_Pop_up(int popUpId, String popUpName, String politeText) {
+    public WarningPopUp(int popUpId, String popUpName, String politeText) {
         this.popUpId = popUpId;
         this.popUpName = popUpName;
         this.politeText = politeText;
@@ -38,10 +40,10 @@ public class Waring_Pop_up {
 
     public boolean equals(Object object) {
         if (this == object) return true;
-        if (!(object instanceof Waring_Pop_up)) return false;
+        if (!(object instanceof WarningPopUp)) return false;
         if (!super.equals(object)) return false;
 
-        Waring_Pop_up that = (Waring_Pop_up) object;
+        WarningPopUp that = (WarningPopUp) object;
 
         if (getPopUpId() != that.getPopUpId()) return false;
         if (!getPopUpName().equals(that.getPopUpName())) return false;
@@ -58,8 +60,8 @@ public class Waring_Pop_up {
         return result;
     }
 
-    @java.lang.Override
-    public java.lang.String toString() {
+    @Override
+    public String toString() {
         return "Waring_Pop_up{" +
                 "popUpId=" + popUpId +
                 ", popUpName='" + popUpName + '\'' +

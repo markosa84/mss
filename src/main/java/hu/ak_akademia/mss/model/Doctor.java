@@ -1,3 +1,5 @@
+package hu.ak_akademia.mss.model;
+
 import java.util.Objects;
 
 public class Doctor {
@@ -16,7 +18,7 @@ public class Doctor {
     private String nationality;
     private String foreignLanguage;
     private String areaOfExpertise;
-    private String adress;
+    private String address;
     private int reservations;
     private int appointments;
     private int financialBalance;
@@ -25,7 +27,7 @@ public class Doctor {
     public Doctor() {
     }
 
-    public Doctor(int doctorId, boolean active, int registrationDate, String email, String password, String firstName, String lastName, int birthDay, String birthPlace, String mothersName, String gender, String nationality, String foreignLanguage, String areaOfExpertise, String adress, int reservations, int appointments, int financialBalance, String phoneNumber) {
+    public Doctor(int doctorId, boolean active, int registrationDate, String email, String password, String firstName, String lastName, int birthDay, String birthPlace, String mothersName, String gender, String nationality, String foreignLanguage, String areaOfExpertise, String address, int reservations, int appointments, int financialBalance, String phoneNumber) {
         this.doctorId = doctorId;
         this.active = active;
         this.registrationDate = registrationDate;
@@ -40,7 +42,7 @@ public class Doctor {
         this.nationality = nationality;
         this.foreignLanguage = foreignLanguage;
         this.areaOfExpertise = areaOfExpertise;
-        this.adress = adress;
+        this.address = address;
         this.reservations = reservations;
         this.appointments = appointments;
         this.financialBalance = financialBalance;
@@ -159,12 +161,12 @@ public class Doctor {
         this.areaOfExpertise = areaOfExpertise;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public int getReservations() {
@@ -225,7 +227,7 @@ public class Doctor {
             return false;
         if (!Objects.equals(areaOfExpertise, doctor.areaOfExpertise))
             return false;
-        if (!Objects.equals(adress, doctor.adress)) return false;
+        if (!Objects.equals(address, doctor.address)) return false;
         return Objects.equals(phoneNumber, doctor.phoneNumber);
     }
 
@@ -245,7 +247,7 @@ public class Doctor {
         result = 31 * result + (nationality != null ? nationality.hashCode() : 0);
         result = 31 * result + (foreignLanguage != null ? foreignLanguage.hashCode() : 0);
         result = 31 * result + (areaOfExpertise != null ? areaOfExpertise.hashCode() : 0);
-        result = 31 * result + (adress != null ? adress.hashCode() : 0);
+        result = 31 * result + (address != null ? address.hashCode() : 0);
         result = 31 * result + reservations;
         result = 31 * result + appointments;
         result = 31 * result + financialBalance;
@@ -270,7 +272,7 @@ public class Doctor {
                 ", nationality='" + nationality + '\'' +
                 ", foreignLanguage='" + foreignLanguage + '\'' +
                 ", areaOfExpertise='" + areaOfExpertise + '\'' +
-                ", adress='" + adress + '\'' +
+                ", address='" + address + '\'' +
                 ", reservations=" + reservations +
                 ", appointments=" + appointments +
                 ", financialBalance=" + financialBalance +

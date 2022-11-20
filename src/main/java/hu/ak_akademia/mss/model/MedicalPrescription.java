@@ -1,12 +1,14 @@
-public class Medical_prescription {
+package hu.ak_akademia.mss.model;
+
+public class MedicalPrescription {
     private int medicalPrescriptionsId;
     private String prescriptionName;
     private String description;
 
-    public Medical_prescription() {
+    public MedicalPrescription() {
     }
 
-    public Medical_prescription(int medicalPrescriptionsId, String prescriptionName, String description) {
+    public MedicalPrescription(int medicalPrescriptionsId, String prescriptionName, String description) {
         this.medicalPrescriptionsId = medicalPrescriptionsId;
         this.prescriptionName = prescriptionName;
         this.description = description;
@@ -38,10 +40,10 @@ public class Medical_prescription {
 
     public boolean equals(Object object) {
         if (this == object) return true;
-        if (!(object instanceof Medical_prescription)) return false;
+        if (!(object instanceof MedicalPrescription)) return false;
         if (!super.equals(object)) return false;
 
-        Medical_prescription that = (Medical_prescription) object;
+        MedicalPrescription that = (MedicalPrescription) object;
 
         if (getMedicalPrescriptionsId() != that.getMedicalPrescriptionsId()) return false;
         if (!getPrescriptionName().equals(that.getPrescriptionName())) return false;
@@ -58,8 +60,8 @@ public class Medical_prescription {
         return result;
     }
 
-    @java.lang.Override
-    public java.lang.String toString() {
+    @Override
+    public String toString() {
         return "Medical_prescription{" +
                 "medicalPrescriptionsId=" + medicalPrescriptionsId +
                 ", prescriptionName='" + prescriptionName + '\'' +

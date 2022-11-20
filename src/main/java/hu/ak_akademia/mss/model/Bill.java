@@ -1,3 +1,7 @@
+package hu.ak_akademia.mss.model;
+
+import java.time.LocalDate;
+
 public class Bill {
     private int billId;
     private int clientId;
@@ -106,7 +110,7 @@ public class Bill {
         return result;
     }
 
-    @java.lang.Override
+    @Override
     public java.lang.String toString() {
         return "Bill{" +
                 "billId=" + billId +

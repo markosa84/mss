@@ -1,3 +1,7 @@
+package hu.ak_akademia.mss.model;
+
+import java.time.LocalDate;
+
 public class Reservation {
     private int reservationID;
     private int clientId;
@@ -166,8 +170,8 @@ public class Reservation {
         return result;
     }
 
-    @java.lang.Override
-    public java.lang.String toString() {
+    @Override
+    public String toString() {
         return "Reservation{" +
                 "reservationID=" + reservationID +
                 ", clientId=" + clientId +

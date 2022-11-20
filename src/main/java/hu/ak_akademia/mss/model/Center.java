@@ -1,3 +1,5 @@
+package hu.ak_akademia.mss.model;
+
 import java.util.Objects;
 
 public class Center {
@@ -6,7 +8,7 @@ public class Center {
     private int centerId;
     private String centerName;
     private int areaOfExpertisesIds;
-    private String adress;
+    private String address;
     private String phoneNumber;
     private String description;
 
@@ -42,12 +44,12 @@ public class Center {
         this.areaOfExpertisesIds = areaOfExpertisesIds;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getDescription() {
@@ -68,7 +70,7 @@ public class Center {
         if (centerId != center.centerId) return false;
         if (areaOfExpertisesIds != center.areaOfExpertisesIds) return false;
         if (!Objects.equals(centerName, center.centerName)) return false;
-        if (!Objects.equals(adress, center.adress)) return false;
+        if (!Objects.equals(address, center.address)) return false;
         if (!Objects.equals(phoneNumber, center.phoneNumber)) return false;
         return Objects.equals(description, center.description);
     }
@@ -78,7 +80,7 @@ public class Center {
         int result = centerId;
         result = 31 * result + (centerName != null ? centerName.hashCode() : 0);
         result = 31 * result + areaOfExpertisesIds;
-        result = 31 * result + (adress != null ? adress.hashCode() : 0);
+        result = 31 * result + (address != null ? address.hashCode() : 0);
         result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         return result;
@@ -88,11 +90,11 @@ public class Center {
     }
 
 
-    public Center(int centerId, String centerName, int areaOfExpertisesIds, String adress, String phoneNumber, String description) {
+    public Center(int centerId, String centerName, int areaOfExpertisesIds, String address, String phoneNumber, String description) {
         this.centerId = centerId;
         this.centerName = centerName;
         this.areaOfExpertisesIds = areaOfExpertisesIds;
-        this.adress = adress;
+        this.address = address;
         this.phoneNumber = phoneNumber;
         this.description = description;
     }
@@ -103,7 +105,7 @@ public class Center {
                 "centerId=" + centerId +
                 ", centerName='" + centerName + '\'' +
                 ", areaOfExpertisesIds=" + areaOfExpertisesIds +
-                ", adress='" + adress + '\'' +
+                ", address='" + address + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", description='" + description + '\'' +
                 '}';
