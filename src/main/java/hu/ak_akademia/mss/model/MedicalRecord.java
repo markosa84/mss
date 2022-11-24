@@ -2,7 +2,7 @@ package hu.ak_akademia.mss.model;
 
 import java.time.LocalDate;
 
-public class Medical_record {
+public class MedicalRecord {
     private int medical_recordId;
     private int clientId;
     private int doctorId;
@@ -11,10 +11,10 @@ public class Medical_record {
     private String comment;
     private int medical_presciptionsIds;
 
-    public Medical_record() {
+    public MedicalRecord() {
     }
 
-    public Medical_record(int medical_recordId, int clientId, int doctorId, LocalDate date, int areaOfExperitisesIds, String comment, int medical_presciptionsIds  ) {
+    public MedicalRecord(int medical_recordId, int clientId, int doctorId, LocalDate date, int areaOfExperitisesIds, String comment, int medical_presciptionsIds  ) {
         this.medical_recordId = medical_recordId;
         this.clientId = clientId;
         this.doctorId = doctorId;
@@ -82,10 +82,10 @@ public class Medical_record {
 
     public boolean equals(Object object) {
         if (this == object) return true;
-        if (!(object instanceof Medical_record)) return false;
+        if (!(object instanceof MedicalRecord)) return false;
         if (!super.equals(object)) return false;
 
-        Medical_record that = (Medical_record) object;
+        MedicalRecord that = (MedicalRecord) object;
 
         if (getMedical_recordId() != that.getMedical_recordId()) return false;
         if (getClientId() != that.getClientId()) return false;
