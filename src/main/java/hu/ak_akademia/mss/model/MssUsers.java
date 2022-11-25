@@ -1,10 +1,17 @@
 package hu.ak_akademia.mss.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.time.LocalDate;
 import java.util.Objects;
 
+@Entity
 public class MssUsers {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int userId;
     private boolean active;
     private LocalDate registrationDate;
@@ -13,14 +20,15 @@ public class MssUsers {
     private int userTypeId;
     private String firstName;
     private String lastName;
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
     private String placeOfBirth;
     private String mothersName;
     private String tajNumber;
     private int genderId;
     private String nationality;
     private String preferableLanguage;
-    private String address;;
+    private String address;
+    ;
     private int financialBalanceHuf;
     private String areaOfExpertise;
     private String phoneNumber;
@@ -28,7 +36,7 @@ public class MssUsers {
     public MssUsers() {
     }
 
-    public MssUsers(int userId, boolean active, LocalDate registrationDate, String email, String password, int userTypeId, String firstName, String lastName, Date dateOfBirth, String placeOfBirth, String mothersName, String tajNumber, int genderId, String nationality, String preferableLanguage, String address, int financialBalanceHuf, String areaOfExpertise, String phoneNumber) {
+    public MssUsers(int userId, boolean active, LocalDate registrationDate, String email, String password, int userTypeId, String firstName, String lastName, LocalDate dateOfBirth, String placeOfBirth, String mothersName, String tajNumber, int genderId, String nationality, String preferableLanguage, String address, int financialBalanceHuf, String areaOfExpertise, String phoneNumber) {
         this.userId = userId;
         this.active = active;
         this.registrationDate = registrationDate;
@@ -114,11 +122,11 @@ public class MssUsers {
         this.lastName = lastName;
     }
 
-    public Date getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
