@@ -1,5 +1,6 @@
 package hu.ak_akademia.mss.controller;
 
+import hu.ak_akademia.mss.model.Client;
 import hu.ak_akademia.mss.service.LoginService;
 import hu.ak_akademia.mss.service.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,13 +41,15 @@ public class HomeController {
     @PostMapping("/login")
     public String loginRequest(Model model, @RequestParam String email, @RequestParam String password) {
         System.out.println("email: " + email + ", password: " + password);
+        // TODO: join the data to the LoginService class.
         return "redirect:/";
     }
 
 //    **************************************************************************************************************
 
     @GetMapping("/register")
-    public String registration() {
+    public String registration(Client client) {
+        // TODO: join the client object to the RegistrationService;
         return "/registration";
     }
 
