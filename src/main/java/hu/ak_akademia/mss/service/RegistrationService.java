@@ -1,7 +1,8 @@
 package hu.ak_akademia.mss.service;
 
-import hu.ak_akademia.mss.model.MssUsers;
-import hu.ak_akademia.mss.repository.MSSUserRepository;
+import hu.ak_akademia.mss.model.Client;
+import hu.ak_akademia.mss.repository.ClientRepository;
+import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,15 +11,24 @@ import java.util.List;
 @Service
 public class RegistrationService {
 
-    private MSSUserRepository mssUserRepository;
+    private ClientRepository clientRepository;
 
     @Autowired
-    public void setMssUserRepository(MSSUserRepository mssUserRepository) {
-        this.mssUserRepository = mssUserRepository;
+    public void setClientRepository(ClientRepository clientRepository) {
+        this.clientRepository = clientRepository;
     }
 
-    public List<MssUsers> getAllMSSUsers(String name, String password) {
-        mssUserRepository.findAll();
-        return null; //TODO make up code!
+    public List<Client> findAllClient() {
+        return clientRepository.findAll();
+    }
+
+    public void saveClient(Client client) {
+        var validator = new Validator();
+        try {
+            validator.process(client);
+            clientRepository.save(client);
+        } catch (IncorrectEnteredDataException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
