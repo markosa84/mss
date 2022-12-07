@@ -8,7 +8,7 @@ public class EmailValidator {
 
 
     public static void emailValidator(Client client) throws IncorrectEnteredDataException {
-        if (!client.getEmail().matches(".+@\\w+\\.[a-z]+")) {
+        if (!client.getEmail().matches(".+@\\w+\\.[a-z]+") || client.getEmail() == null) {
             throw new IncorrectEnteredDataException("Incorrect e-mail format!");
         }
     }

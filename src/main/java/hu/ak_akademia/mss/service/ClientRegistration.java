@@ -12,27 +12,7 @@ public class ClientRegistration {
         Scanner sc  = new Scanner(System.in);
 
 
-        Client client1 = new Client(/* sc.nextInt(),
-                sc.nextBoolean(),
-                LocalDate.from(LocalDateTime.now()),
-                null,
-                null,
-                null,
-                null,
-                0,
-                null,
-                null,
-                0,
-                null,
-                null,
-                null,
-                null,
-                null,
-                0,
-                0,
-                0,
-                0,
-                null */);
+        Client client1 = new Client();
 
         client1.setClientId(1);
         client1.setActive(true);
