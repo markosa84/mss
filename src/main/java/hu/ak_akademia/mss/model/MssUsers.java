@@ -28,7 +28,6 @@ public class MssUsers {
     private String nationality;
     private String preferableLanguage;
     private String address;
-    ;
     private int financialBalanceHuf;
     private String areaOfExpertise;
     private String phoneNumber;

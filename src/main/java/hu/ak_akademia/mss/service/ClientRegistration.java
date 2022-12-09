@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class ClientRegistration {
     public static void main(String[] args) {
 
-        Scanner sc  = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
 
 
         Client client1 = new Client();
@@ -35,7 +35,7 @@ public class ClientRegistration {
         sc.nextLine();
 
         print("Adja meg a születési idejét:");
-        client1.setBirthday(sc.nextInt());
+        client1.setBirthday(LocalDate.parse(sc.nextLine()));
         sc.nextLine();
 
         print("Adja meg a születési helyét:");
@@ -47,7 +47,7 @@ public class ClientRegistration {
         sc.nextLine();
 
         print("Adja meg a tajszámát:");
-        client1.setTAJNumber(sc.nextInt());
+        client1.setTAJNumber(sc.nextLine());
         sc.nextLine();
 
         print("Adja meg a nemét:");
@@ -80,12 +80,11 @@ public class ClientRegistration {
         client1.setFinancialBalance(0);
 
 
-
-         print(client1.toString());
+        print(client1.toString());
 
     }
 
-    public static void print(String s){
+    public static void print(String s) {
         System.out.print(s);
     }
 }

@@ -3,13 +3,11 @@ package hu.ak_akademia.mss.controller;
 import hu.ak_akademia.mss.model.Client;
 import hu.ak_akademia.mss.service.LoginService;
 import hu.ak_akademia.mss.service.RegistrationService;
+import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/")
@@ -30,7 +28,18 @@ public class HomeController {
 
     @GetMapping
     public String index() {
+        Client client = new Client();
+        client.setPhoneNumber("+36303519011");
+        client.setLastName("Istv5án");
+        client.setPassword("Abc123**");
+        registrationService.saveClient(client);
         return "/index";
+    }
+
+    @ExceptionHandler(value = IncorrectEnteredDataException.class)
+    public String error(IncorrectEnteredDataException e, Model model) {
+        model.addAttribute("exception", e.getMessage());
+        return "error";
     }
 
 //    ************************************************************************************************************
@@ -51,10 +60,10 @@ public class HomeController {
 
     @GetMapping("/register")
     public String registration(Client client) {
+        registrationService.saveClient(client);
         // TODO: join the client object to the RegistrationService;
-        return "/registration";
+        return "registration";
     }
-
     //TODO: make registration post mapping controller!
 
 }

@@ -19,10 +19,10 @@ public class Client {
     private String password;
     private String firstName;
     private String lastName;
-    private int birthday;
+    private LocalDate birthday;
     private String birthPlace;
     private String motherName;
-    private int TAJNumber;
+    private String TAJNumber;
     private String gender;
     private String nationality;
     private String motherLanguage;
@@ -90,11 +90,11 @@ public class Client {
         this.lastName = lastName;
     }
 
-    public int getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(int birthday) {
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
 
@@ -114,11 +114,11 @@ public class Client {
         this.motherName = motherName;
     }
 
-    public int getTAJNumber() {
+    public String getTAJNumber() {
         return TAJNumber;
     }
 
-    public void setTAJNumber(int TAJNumber) {
+    public void setTAJNumber(String TAJNumber) {
         this.TAJNumber = TAJNumber;
     }
 
@@ -205,7 +205,7 @@ public class Client {
     public Client() {
     }
 
-    public Client(int clientId, boolean active, LocalDate registrationDate, String email, String password, String firstName, String lastName, int birthDay, String birthPlace, String mothersName, int tajNumber, String gender, String nationality, String motherLanguage, String job, String address, int reservations, int medicalRecords, int bills, int financialBalance, String phoneNumber) {
+    public Client(int clientId, boolean active, LocalDate registrationDate, String email, String password, String firstName, String lastName, LocalDate birthDay, String birthPlace, String mothersName, String tajNumber, String gender, String nationality, String motherLanguage, String job, String address, int reservations, int medicalRecords, int bills, int financialBalance, String phoneNumber) {
         this.clientId = clientId;
         this.active = active;
         this.registrationDate = registrationDate;
