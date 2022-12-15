@@ -13,7 +13,6 @@ public class ClientRegistration {
 
 
         Client client1 = new Client();
-
         client1.setClientId(1);
         client1.setActive(true);
         client1.setRegistrationDate(LocalDate.from(LocalDateTime.now()));

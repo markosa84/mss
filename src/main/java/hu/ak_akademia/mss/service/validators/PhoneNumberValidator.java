@@ -1,8 +1,10 @@
-package hu.ak_akademia.mss.service;
+package hu.ak_akademia.mss.service.validators;
 
+import hu.ak_akademia.mss.model.Client;
+import hu.ak_akademia.mss.service.Validator;
 import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;
 
-public class PhoneNumberValidation {
+class PhoneNumberValidator implements Validator<Client> {
     private static final String PHONE_NUMBER_REGEX = "^(06|\\+36)?" + //country code -> currently optional, delete ? to make it mandatory
             "[\\s\\-]?" + //delimiter (optional)
             "(([2,3,7]0" + //HU mobile codes
@@ -12,9 +14,15 @@ public class PhoneNumberValidation {
             "[\\s\\-]?" +
             "\\d{3}[\\s\\-]?\\d{3}))$"; //HU landline format
 
-    public void validatePhoneNumber(String phoneNumber) throws IncorrectEnteredDataException{
-        if(phoneNumber == null || !phoneNumber.matches(PHONE_NUMBER_REGEX)) {
+    @Override
+    public void validate(Client client) throws IncorrectEnteredDataException {
+        if (client.getPhoneNumber() == null || !client.getPhoneNumber().matches(PHONE_NUMBER_REGEX)) {
             throw new IncorrectEnteredDataException("A megadott telefonszám érvénytelen.");
         }
     }
 }
+//    public void validatePhoneNumber(String phoneNumber) throws IncorrectEnteredDataException {
+//        if (phoneNumber == null || !phoneNumber.matches(PHONE_NUMBER_REGEX)) {
+//            throw new IncorrectEnteredDataException("A megadott telefonszám érvénytelen.");
+//        }
+//    }

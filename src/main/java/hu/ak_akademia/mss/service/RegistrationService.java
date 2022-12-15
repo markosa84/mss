@@ -2,11 +2,14 @@ package hu.ak_akademia.mss.service;
 
 import hu.ak_akademia.mss.model.Client;
 import hu.ak_akademia.mss.repository.ClientRepository;
-import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;
+import hu.ak_akademia.mss.service.validators.ClientValidatorFactory;
+import hu.ak_akademia.mss.service.validators.CompositeClientValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class RegistrationService {
@@ -22,13 +25,14 @@ public class RegistrationService {
         return clientRepository.findAll();
     }
 
-    public void saveClient(Client client) {
-        var validator = new Validator();
-        try {
-            validator.process(client);
-            clientRepository.save(client);
-        } catch (IncorrectEnteredDataException e) {
-            throw new RuntimeException(e);
-        }
+    public void save(Client client) {
+        clientRepository.save(client);
+    }
+
+    public Map<String, String> testClientData(Client client) {
+        var clientValidator = new CompositeClientValidator();
+        clientValidator.addValidators(ClientValidatorFactory.getInstance().getAllClientValidators());
+        clientValidator.validate(client);
+        return clientValidator.getValidatorErrorList();
     }
 }
