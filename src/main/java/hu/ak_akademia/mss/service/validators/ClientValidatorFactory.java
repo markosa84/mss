@@ -19,6 +19,7 @@ public class ClientValidatorFactory {
     private static List<Validator<Client>> LIST = List.of( //
 //            new AddressValidator(), //
 //            new DateOfBirthValidator(), //
+//            new GenderValidator(), //
 //            new EmailValidator(), //
             new FirstNameValidator(), //
             new LastNameValidator() //

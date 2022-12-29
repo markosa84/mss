@@ -13,7 +13,7 @@ class LastNameValidator implements Validator<Client> {
     @Override
     public void validate(Client client) throws IncorrectEnteredDataException {
         if (client.getLastName() == null || !client.getLastName().matches(LAST_NAME_REGEX)) {
-            throw new IncorrectEnteredDataException("lastNameError", "Nem megfelelő karakter használata.");
+            throw new IncorrectEnteredDataException("lastNameError", "Incorrect last name format!");
         }
     }
 

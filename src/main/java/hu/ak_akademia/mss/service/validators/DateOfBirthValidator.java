@@ -12,10 +12,10 @@ class DateOfBirthValidator implements Validator<Client> {
     @Override
     public void validate(Client client) throws IncorrectEnteredDataException {
         if (client.getBirthday() == null) {
-            throw new IncorrectEnteredDataException("A megadott születési dátum érvénytelen!");
+            throw new IncorrectEnteredDataException("dateOfBirthError", "The given date of birth is invalid!");
         }
         if (Period.between(client.getBirthday(), LocalDate.now()).getYears() < 18) {
-            throw new IncorrectEnteredDataException("A klinika szolgáltatásait csak nagykorú kliens veheti igénybe!");
+            throw new IncorrectEnteredDataException("dateOfBirthError", "Only adult clients can use the services of the clinic!");
         }
     }
 
