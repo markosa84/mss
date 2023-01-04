@@ -16,20 +16,23 @@
 <div>
     <img src="/css/registration_1920x600.jpg" class="img-fluid" alt="Regisztráció">
 </div>
-<form th:action="@{/register/client}" method="post" class="row g-3 needs-validation registration-form-frame" th:object="${client}">
+<form th:action="@{/register/client}" method="post" class="row g-3 needs-validation registration-form-frame"
+      th:object="${client}">
     <div class="header-1-view">
         <h1>New Patient Registration</h1>
     </div>
     <div class="col-md-4">
         <label for="validationCustom01" class="form-label">First name</label>
         <!-- <input type="text" class="form-control" id="validationCustom01" th:field="*{firstName}"> -->
-        <input type="text" class="form-control" id="validationCustom01" th:field="*{firstName}" placeholder="e.g.: Gábor" required>
+        <input type="text" class="form-control" id="validationCustom01" th:field="*{firstName}"
+               placeholder="e.g.: Gábor" required>
         <span class="validatorError" th:text="${firstNameError} == null ? '' : ${firstNameError}"></span>
     </div>
     <div class="col-md-4">
         <label for="validationCustom02" class="form-label">Last name</label>
         <!-- <input type="text" class="form-control" id="validationCustom02" th:field="*{lastName}"> -->
-        <input type="text" class="form-control" id="validationCustom02" th:field="*{lastName}" placeholder="e.g.: Kovács" required>
+        <input type="text" class="form-control" id="validationCustom02" th:field="*{lastName}"
+               placeholder="e.g.: Kovács" required>
         <span class="validatorError" th:text="${lastNameError} == null ? '' : ${lastNameError}"></span>
     </div>
     <div class="col-md-4">
@@ -37,7 +40,8 @@
         <div class="input-group has-validation">
             <span class="input-group-text" id="inputGroupPrepend">@</span>
             <!-- <input type="text" class="form-control" id="validationCustom03" aria-describedby="inputGroupPrepend"> -->
-            <input type="text" class="form-control" id="validationCustom03" aria-describedby="inputGroupPrepend" placeholder="e.g.: gaborkovacs@gmail.com" required>
+            <input type="text" class="form-control" id="validationCustom03" aria-describedby="inputGroupPrepend"
+                   placeholder="e.g.: gaborkovacs@gmail.com" required>
         </div>
         <span class="validatorError" th:text="${emailError} == null ? '' : ${emailError}"></span>
     </div>
@@ -49,7 +53,7 @@
     <div class="col-md-4">
         <label for="validationCustom05" class="form-label">Password</label>
         <!-- <input type="text" class="form-control" id="validationCustom05"> -->
-        <input type="text" class="form-control" id="validationCustom05" required>
+        <input type="text" class="form-control" id="validationCustom05" th:field="*{password}" required>
     </div>
     <div class="col-md-4">
         <label for="validationCustom06" class="form-label">Gender</label>
@@ -69,7 +73,8 @@
     </div>
     <div class="col-md-4">
         <label for="validationCustom08" class="form-label">Birthday</label>
-        <input type="date" class="form-control" id="validationCustom08" required>
+        <input type="date" class="form-control" id="validationCustom08" th:field="*{birthday}" required>
+        <span class="validatorError" th:text="${dateOfBirthError} == null ? '' : ${dateOfBirthError}"></span>
     </div>
     <div class="col-md-4">
         <label for="validationCustom09" class="form-label">Mother Name</label>
