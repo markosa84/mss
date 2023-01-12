@@ -18,17 +18,17 @@ public class ClientValidatorFactory {
 
     private static List<Validator<Client>> LIST = List.of( //
 //            new AddressValidator(), //
-//            new DateOfBirthValidator(), //
+            new DateOfBirthValidator(), //
 //            new GenderValidator(), //
-//            new EmailValidator(), //
+            new EmailValidator(), //
             new FirstNameValidator(), //
-            new LastNameValidator() //
-//            new MotherNameValidator(), //
+            new LastNameValidator(), //
+            new MotherNameValidator(), //
 //            new NationalityValidator(), //
 //            new PasswordValidator(), //
 //            new PhoneNumberValidator(), //
-//            new PlaceOfBirthValidator(), //
-//            new TAJNumberValidator()
+            new PlaceOfBirthValidator(), //
+            new TAJNumberValidator()
     ); //
 
     public List<Validator<Client>> getAllClientValidators() {

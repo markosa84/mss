@@ -1,5 +1,7 @@
 package hu.ak_akademia.mss.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,13 +21,14 @@ public class Client {
     private String password;
     private String firstName;
     private String lastName;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthday;
     private String birthPlace;
     private String motherName;
     private String TAJNumber;
     private String gender;
     private String nationality;
-    private String motherLanguage;
+    private String language;
     private String job;
     private String address;
     private int reservations;
@@ -138,12 +141,12 @@ public class Client {
         this.nationality = nationality;
     }
 
-    public String getMotherLanguage() {
-        return motherLanguage;
+    public String getLanguage() {
+        return language;
     }
 
-    public void setMotherLanguage(String motherLanguage) {
-        this.motherLanguage = motherLanguage;
+    public void setLanguage(String language) {
+        this.language = language;
     }
 
     public String getJob() {
@@ -205,9 +208,9 @@ public class Client {
     public Client() {
     }
 
-    public Client(int clientId, boolean active, LocalDate registrationDate, String email, String password, String firstName, String lastName, LocalDate birthDay, String birthPlace, String mothersName, String tajNumber, String gender, String nationality, String motherLanguage, String job, String address, int reservations, int medicalRecords, int bills, int financialBalance, String phoneNumber) {
+    public Client(int clientId, boolean active, LocalDate registrationDate, String email, String password, String firstName, String lastName, LocalDate birthDay, String birthPlace, String mothersName, String tajNumber, String gender, String nationality, String language, String job, String address, int reservations, int medicalRecords, int bills, int financialBalance, String phoneNumber) {
         this.clientId = clientId;
-        this.active = active;
+        this.active = true;
         this.registrationDate = registrationDate;
         this.email = email;
         this.password = password;
@@ -219,7 +222,7 @@ public class Client {
         this.TAJNumber = tajNumber;
         this.gender = gender;
         this.nationality = nationality;
-        this.motherLanguage = motherLanguage;
+        this.language = language;
         this.job = job;
         this.address = address;
         this.reservations = reservations;
@@ -234,12 +237,12 @@ public class Client {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Client client = (Client) o;
-        return clientId == client.clientId && active == client.active && birthday == client.birthday && TAJNumber == client.TAJNumber && reservations == client.reservations && medicalRecords == client.medicalRecords && bill == client.bill && financialBalance == client.financialBalance && Objects.equals(registrationDate, client.registrationDate) && Objects.equals(email, client.email) && Objects.equals(password, client.password) && Objects.equals(firstName, client.firstName) && Objects.equals(lastName, client.lastName) && Objects.equals(birthPlace, client.birthPlace) && Objects.equals(motherName, client.motherName) && Objects.equals(gender, client.gender) && Objects.equals(nationality, client.nationality) && Objects.equals(motherLanguage, client.motherLanguage) && Objects.equals(job, client.job) && Objects.equals(address, client.address) && Objects.equals(phoneNumber, client.phoneNumber);
+        return clientId == client.clientId && active == client.active && birthday == client.birthday && TAJNumber == client.TAJNumber && reservations == client.reservations && medicalRecords == client.medicalRecords && bill == client.bill && financialBalance == client.financialBalance && Objects.equals(registrationDate, client.registrationDate) && Objects.equals(email, client.email) && Objects.equals(password, client.password) && Objects.equals(firstName, client.firstName) && Objects.equals(lastName, client.lastName) && Objects.equals(birthPlace, client.birthPlace) && Objects.equals(motherName, client.motherName) && Objects.equals(gender, client.gender) && Objects.equals(nationality, client.nationality) && Objects.equals(language, client.language) && Objects.equals(job, client.job) && Objects.equals(address, client.address) && Objects.equals(phoneNumber, client.phoneNumber);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(clientId, active, registrationDate, email, password, firstName, lastName, birthday, birthPlace, motherName, TAJNumber, gender, nationality, motherLanguage, job, address, reservations, medicalRecords, bill, financialBalance, phoneNumber);
+        return Objects.hash(clientId, active, registrationDate, email, password, firstName, lastName, birthday, birthPlace, motherName, TAJNumber, gender, nationality, language, job, address, reservations, medicalRecords, bill, financialBalance, phoneNumber);
     }
 
     @Override
@@ -258,7 +261,7 @@ public class Client {
                 ", tajNumber=" + TAJNumber +
                 ", gender='" + gender + '\'' +
                 ", nationality='" + nationality + '\'' +
-                ", motherLanguage='" + motherLanguage + '\'' +
+                ", language='" + language + '\'' +
                 ", job='" + job + '\'' +
                 ", address='" + address + '\'' +
                 ", reservations=" + reservations +

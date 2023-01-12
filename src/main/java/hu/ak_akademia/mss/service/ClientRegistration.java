@@ -58,7 +58,7 @@ public class ClientRegistration {
         sc.nextLine();
 
         print("Adja meg az anyanyelvét:");
-        client1.setMotherLanguage(sc.next());
+        client1.setLanguage(sc.next());
         sc.nextLine();
 
         print("Adja meg a foglalkozását:");
