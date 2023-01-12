@@ -35,4 +35,9 @@ public class RegistrationService {
         clientValidator.validate(client);
         return clientValidator.getValidatorErrorList();
     }
+
+    public void encryptPassword(Client client) {
+        var passwordEncrypt = new PasswordEncryption();
+        client.setPassword(passwordEncrypt.encrypt(client));
+    }
 }

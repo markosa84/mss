@@ -10,7 +10,7 @@ class AddressValidator implements Validator<Client> {
     public void validate(Client client) throws IncorrectEnteredDataException {
         if (client.getAddress() == null || !client.getAddress().matches("^[1-9]\\d{3}" + //valid HUN postal code format
                 "[\\p{L}\\d\\s-,./]{10,246}$")) {
-            throw new IncorrectEnteredDataException("A megadott lakcím formátuma érvénytelen!");
+            throw new IncorrectEnteredDataException("addressError","A megadott lakcím formátuma érvénytelen!");
         }
     }
 

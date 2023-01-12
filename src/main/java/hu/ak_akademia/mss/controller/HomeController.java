@@ -67,6 +67,7 @@ public class HomeController {
         System.out.println(client);
         Map<String, String> errorList = registrationService.testClientData(client);
         if (errorList.isEmpty()) {
+            registrationService.encryptPassword(client);
             registrationService.save(client);
             return "index";
         }

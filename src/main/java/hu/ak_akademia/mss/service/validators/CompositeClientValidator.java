@@ -9,7 +9,7 @@ import java.util.*;
 public class CompositeClientValidator implements Validator<Client> {
 
     private final List<Validator<Client>> validators = new ArrayList<>();
-    private Map<String, String> validatorErrorList = new HashMap<>();
+    private final Map<String, String> validatorErrorList = new HashMap<>();
 
     @Override
     public void validate(Client client) {
