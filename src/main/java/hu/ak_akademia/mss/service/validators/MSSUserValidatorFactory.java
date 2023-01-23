@@ -1,37 +1,37 @@
 package hu.ak_akademia.mss.service.validators;
 
-import hu.ak_akademia.mss.model.Client;
+import hu.ak_akademia.mss.model.MssUsers;
 import hu.ak_akademia.mss.service.Validator;
 
 import java.util.List;
 
-public class ClientValidatorFactory {
+public class MSSUserValidatorFactory {
 
-    private static final ClientValidatorFactory INSTANCE = new ClientValidatorFactory();
+    private static final MSSUserValidatorFactory INSTANCE = new MSSUserValidatorFactory();
 
-    private ClientValidatorFactory() {
+    private MSSUserValidatorFactory() {
     }
 
-    public static ClientValidatorFactory getInstance() {
+    public static MSSUserValidatorFactory getInstance() {
         return INSTANCE;
     }
 
-    private static List<Validator<Client>> LIST = List.of( //
-//            new AddressValidator(), //
+    private static List<Validator<MssUsers>> LIST = List.of( //
             new DateOfBirthValidator(), //
+//            new AddressValidator(), //
 //            new GenderValidator(), //
             new EmailValidator(), //
             new FirstNameValidator(), //
             new LastNameValidator(), //
             new MotherNameValidator(), //
 //            new NationalityValidator(), //
-//            new PasswordValidator(), //
+            new PasswordValidator(), //
 //            new PhoneNumberValidator(), //
             new PlaceOfBirthValidator(), //
             new TAJNumberValidator()
     ); //
 
-    public List<Validator<Client>> getAllClientValidators() {
+    public List<Validator<MssUsers>> getAllMSSUserValidators() {
         return LIST;
     }
 }

@@ -1,21 +1,24 @@
 package hu.ak_akademia.mss.service.validators;
 
-import hu.ak_akademia.mss.model.Client;
+import hu.ak_akademia.mss.model.MssUsers;
 import hu.ak_akademia.mss.service.Validator;
 import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class CompositeClientValidator implements Validator<Client> {
+public class CompositeMSSUserValidator implements Validator<MssUsers> {
 
-    private final List<Validator<Client>> validators = new ArrayList<>();
+    private final List<Validator<MssUsers>> validators = new ArrayList<>();
     private final Map<String, String> validatorErrorList = new HashMap<>();
 
     @Override
-    public void validate(Client client) {
+    public void validate(MssUsers mssUsers) {
         for (var v : validators) {
             try {
-                v.validate(client);
+                v.validate(mssUsers);
             } catch (IncorrectEnteredDataException e) {
                 validatorErrorList.put(e.getMessage(), e.getErrorMessage());
             }
@@ -26,7 +29,7 @@ public class CompositeClientValidator implements Validator<Client> {
         return validatorErrorList;
     }
 
-    public void addValidators(List<Validator<Client>> validator) {
+    public void addValidators(List<Validator<MssUsers>> validator) {
         validators.addAll(validator);
     }
 

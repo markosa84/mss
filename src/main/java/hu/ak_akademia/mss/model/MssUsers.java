@@ -1,5 +1,7 @@
 package hu.ak_akademia.mss.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,15 +13,16 @@ import java.util.Objects;
 public class MssUsers {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userId;
-    private boolean active;
-    private LocalDate registrationDate;
+    private boolean active;  // automatically true value
+    private LocalDate registrationDate = LocalDate.now(); // automatically LocalDate.now() value
     private String email;
     private String password;
     private int userTypeId;
     private String firstName;
     private String lastName;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfBirth;
     private String placeOfBirth;
     private String mothersName;
@@ -28,7 +31,7 @@ public class MssUsers {
     private String nationality;
     private String preferableLanguage;
     private String address;
-    private int financialBalanceHuf;
+    private int financialBalanceHuf = 0;  // start with 0 value
     private String areaOfExpertise;
     private String phoneNumber;
 
@@ -55,6 +58,44 @@ public class MssUsers {
         this.financialBalanceHuf = financialBalanceHuf;
         this.areaOfExpertise = areaOfExpertise;
         this.phoneNumber = phoneNumber;
+    }
+
+    @Override
+    public String toString() {
+        return "MssUsers{" +
+                "userId=" + userId +
+                ", active=" + active +
+                ", registrationDate=" + registrationDate +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", userTypeId=" + userTypeId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                ", placeOfBirth='" + placeOfBirth + '\'' +
+                ", mothersName='" + mothersName + '\'' +
+                ", tajNumber='" + tajNumber + '\'' +
+                ", genderId=" + genderId +
+                ", nationality='" + nationality + '\'' +
+                ", preferableLanguage='" + preferableLanguage + '\'' +
+                ", address='" + address + '\'' +
+                ", financialBalanceHuf=" + financialBalanceHuf +
+                ", areaOfExpertise='" + areaOfExpertise + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MssUsers mssUsers = (MssUsers) o;
+        return userId == mssUsers.userId && active == mssUsers.active && userTypeId == mssUsers.userTypeId && genderId == mssUsers.genderId && financialBalanceHuf == mssUsers.financialBalanceHuf && Objects.equals(registrationDate, mssUsers.registrationDate) && Objects.equals(email, mssUsers.email) && Objects.equals(password, mssUsers.password) && Objects.equals(firstName, mssUsers.firstName) && Objects.equals(lastName, mssUsers.lastName) && Objects.equals(dateOfBirth, mssUsers.dateOfBirth) && Objects.equals(placeOfBirth, mssUsers.placeOfBirth) && Objects.equals(mothersName, mssUsers.mothersName) && Objects.equals(tajNumber, mssUsers.tajNumber) && Objects.equals(nationality, mssUsers.nationality) && Objects.equals(preferableLanguage, mssUsers.preferableLanguage) && Objects.equals(address, mssUsers.address) && Objects.equals(areaOfExpertise, mssUsers.areaOfExpertise) && Objects.equals(phoneNumber, mssUsers.phoneNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId, active, registrationDate, email, password, userTypeId, firstName, lastName, dateOfBirth, placeOfBirth, mothersName, tajNumber, genderId, nationality, preferableLanguage, address, financialBalanceHuf, areaOfExpertise, phoneNumber);
     }
 
     public int getUserId() {
@@ -207,91 +248,6 @@ public class MssUsers {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        MssUsers mss_users = (MssUsers) o;
-
-        if (userId != mss_users.userId) return false;
-        if (active != mss_users.active) return false;
-        if (userTypeId != mss_users.userTypeId) return false;
-        if (genderId != mss_users.genderId) return false;
-        if (financialBalanceHuf != mss_users.financialBalanceHuf) return false;
-        if (!Objects.equals(registrationDate, mss_users.registrationDate))
-            return false;
-        if (!Objects.equals(email, mss_users.email)) return false;
-        if (!Objects.equals(password, mss_users.password)) return false;
-        if (!Objects.equals(firstName, mss_users.firstName)) return false;
-        if (!Objects.equals(lastName, mss_users.lastName)) return false;
-        if (!Objects.equals(dateOfBirth, mss_users.dateOfBirth))
-            return false;
-        if (!Objects.equals(placeOfBirth, mss_users.placeOfBirth))
-            return false;
-        if (!Objects.equals(mothersName, mss_users.mothersName))
-            return false;
-        if (!Objects.equals(tajNumber, mss_users.tajNumber)) return false;
-        if (!Objects.equals(nationality, mss_users.nationality))
-            return false;
-        if (!Objects.equals(preferableLanguage, mss_users.preferableLanguage))
-            return false;
-        if (!Objects.equals(address, mss_users.address)) return false;
-        if (!Objects.equals(areaOfExpertise, mss_users.areaOfExpertise))
-            return false;
-        return Objects.equals(phoneNumber, mss_users.phoneNumber);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = userId;
-        result = 31 * result + (active ? 1 : 0);
-        result = 31 * result + (registrationDate != null ? registrationDate.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + userTypeId;
-        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
-        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-        result = 31 * result + (dateOfBirth != null ? dateOfBirth.hashCode() : 0);
-        result = 31 * result + (placeOfBirth != null ? placeOfBirth.hashCode() : 0);
-        result = 31 * result + (mothersName != null ? mothersName.hashCode() : 0);
-        result = 31 * result + (tajNumber != null ? tajNumber.hashCode() : 0);
-        result = 31 * result + genderId;
-        result = 31 * result + (nationality != null ? nationality.hashCode() : 0);
-        result = 31 * result + (preferableLanguage != null ? preferableLanguage.hashCode() : 0);
-        result = 31 * result + (address != null ? address.hashCode() : 0);
-        result = 31 * result + financialBalanceHuf;
-        result = 31 * result + (areaOfExpertise != null ? areaOfExpertise.hashCode() : 0);
-        result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
-        return result;
-    }
-
-
-    @Override
-    public String toString() {
-        return "Mss_users{" +
-                "userId=" + userId +
-                ", active=" + active +
-                ", registrationDate=" + registrationDate +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", userTypeId=" + userTypeId +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", dateOfBirth=" + dateOfBirth +
-                ", placeOfBirth='" + placeOfBirth + '\'' +
-                ", mothersName='" + mothersName + '\'' +
-                ", tajNumber='" + tajNumber + '\'' +
-                ", genderId=" + genderId +
-                ", nationality='" + nationality + '\'' +
-                ", preferableLanguage='" + preferableLanguage + '\'' +
-                ", address='" + address + '\'' +
-                ", financialBalanceHuf=" + financialBalanceHuf +
-                ", areaOfExpertise='" + areaOfExpertise + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                '}';
     }
 }
 

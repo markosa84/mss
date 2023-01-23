@@ -1,16 +1,14 @@
 package hu.ak_akademia.mss.controller;
 
-import hu.ak_akademia.mss.model.Client;
+import hu.ak_akademia.mss.model.MssUsers;
 import hu.ak_akademia.mss.service.LoginService;
 import hu.ak_akademia.mss.service.RegistrationService;
-import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/")
@@ -34,11 +32,11 @@ public class HomeController {
         return "/index";
     }
 
-    @ExceptionHandler(value = RuntimeException.class)
-    public String error(RuntimeException e, Model model) {
-        model.addAttribute("exception", e.getMessage());
-        return "error";
-    }
+//    @ExceptionHandler(value = RuntimeException.class)
+//    public String error(RuntimeException e, Model model) {
+//        model.addAttribute("exception", e.getMessage());
+//        return "error";
+//    }
 
 //    ************************************************************************************************************
 
@@ -57,22 +55,19 @@ public class HomeController {
 //    **************************************************************************************************************
 
     @GetMapping("/register")
-    public String registration(Client client, Model model) {
+    public String registration(MssUsers mssUsers, Model model) {
         // TODO: join the client object to the RegistrationService;
         return "registration";
     }
 
-    @PostMapping("/register/client")
-    public String registrationForm(Client client, Model model) {
-        System.out.println(client);
-        Map<String, String> errorList = registrationService.testClientData(client);
+    @PostMapping("/register/mssUsers")
+    public String registrationForm(MssUsers mssUsers, Model model) {
+        Map<String, String> errorList = registrationService.testMSSUserData(mssUsers);
         if (errorList.isEmpty()) {
-            registrationService.encryptPassword(client);
-            registrationService.save(client);
+            registrationService.save(mssUsers);
             return "index";
         }
         model.addAllAttributes(errorList);
-        System.out.println(errorList);
         return "registration";
     }
 }

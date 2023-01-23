@@ -16,7 +16,7 @@
 <div>
     <img src="/css/registration_1920x600.jpg" class="img-fluid" alt="Regisztráció">
 </div>
-<form th:action="@{/register/client}" method="post" class="row g-3 needs-validation registration-form-frame" th:object="${client}">
+<form th:action="@{/register/mssUsers}" method="post" class="row g-3 needs-validation registration-form-frame" th:object="${mssUsers}">
     <div class="header-1-view">
         <h1>New Patient Registration</h1>
     </div>
@@ -44,7 +44,7 @@
     <div class="col-md-4">
         <label for="validationCustom04" class="form-label">Language</label>
         <!-- <input type="text" class="form-control" id="validationCustom04"> -->
-        <select class="form-select" id="validationCustom04" th:field="*{language}" required>
+        <select class="form-select" id="validationCustom04" th:field="*{preferableLanguage}" required>
             <option selected value="">Choose</option>
             <option value="hungarian">Hungarian</option>
             <option value="english">English</option>
@@ -59,7 +59,7 @@
     <div class="col-md-4">
         <label for="validationCustom06" class="form-label">Gender</label>
         <!-- <select class="form-select" id="validationCustom06"> -->
-        <select class="form-select" id="validationCustom06" th:field="*{gender}" required>
+        <select class="form-select" id="validationCustom06" required>
             <option selected value="">Choose</option>
             <option value="male">Male</option>
             <option value="female">Female</option>
@@ -70,22 +70,22 @@
     </div>
     <div class="col-md-4">
         <label for="validationCustom07" class="form-label">Birthplace</label>
-        <input type="text" class="form-control" id="validationCustom07" th:field="*{birthPlace}" placeholder="e.g.: Budapest" required>
+        <input type="text" class="form-control" id="validationCustom07" th:field="*{placeOfBirth}" placeholder="e.g.: Budapest" required>
         <span class="validatorError" th:text="${birthplaceError} == null ? '' : ${birthplaceError}"></span>
     </div>
      <div class="col-md-4">
         <label for="validationCustom08" class="form-label">Birthday</label>
-        <input type="date" class="form-control" id="validationCustom08" th:field="*{birthday}" required>
+        <input type="date" class="form-control" id="validationCustom08" th:field="*{dateOfBirth}" required>
         <span class="validatorError" th:text="${dateOfBirthError} == null ? '' : ${dateOfBirthError}"></span>
     </div>
     <div class="col-md-4">
         <label for="validationCustom09" class="form-label">Mother Name</label>
-        <input type="text" class="form-control" id="validationCustom09" th:field="*{motherName}" placeholder="e.g.: Kovács Erzsébet" required>
+        <input type="text" class="form-control" id="validationCustom09" th:field="*{mothersName}" placeholder="e.g.: Kovács Erzsébet" required>
         <span class="validatorError" th:text="${motherNameError} == null ? '' : ${motherNameError}"></span>
     </div>
     <div class="col-md-4">
         <label for="validationCustom10" class="form-label">TAJ number</label>
-        <input type="text" class="form-control" id="validationCustom10" th:field="*{TAJNumber}" placeholder="e.g.: 123-456-789" required>
+        <input type="text" class="form-control" id="validationCustom10" th:field="*{tajNumber}" placeholder="e.g.: 123-456-789" required>
         <span class="validatorError" th:text="${tajError} == null ? '' : ${tajError}"></span>
     </div>
     <div class="col-12">

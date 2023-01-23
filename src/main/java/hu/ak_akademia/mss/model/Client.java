@@ -2,15 +2,15 @@ package hu.ak_akademia.mss.model;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
 public class Client {
+
+    @Transient
+    private MssUsers mssUsers;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,6 +36,10 @@ public class Client {
     private int bill;
     private int financialBalance;
     private String phoneNumber;
+
+    public MssUsers getMssUsers() {
+        return mssUsers;
+    }
 
     public int getClientId() {
         return clientId;
