@@ -1,13 +1,13 @@
 package hu.ak_akademia.mss.service.validators;
 
-import hu.ak_akademia.mss.model.MssUsers;
+import hu.ak_akademia.mss.model.MssUser;
 import hu.ak_akademia.mss.service.Validator;
 import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;
 
-class MotherNameValidator implements Validator<MssUsers> {
+class MotherNameValidator implements Validator<MssUser> {
 
     @Override
-    public void validate(MssUsers mssUsers) throws IncorrectEnteredDataException {
+    public void validate(MssUser mssUsers) throws IncorrectEnteredDataException {
         if (mssUsers.getMothersName() == null || !mssUsers.getMothersName().matches("^(\\p{L}" + //must start with a letter
                 "(?=\\S*\\s)" + //must contain at least one space
                 "[\\p{L}\\p{Mn}\\s'-.]{3,248}" +

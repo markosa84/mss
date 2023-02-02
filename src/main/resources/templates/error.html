@@ -5,6 +5,6 @@
     <title>MSS Error Site</title>
 </head>
 <body>
-<span th:if="${exception} != null" th:text="${exception}"></span>
+<p th:text="${exception} == null ? '' : ${exception} "></p>
 </body>
 </html>

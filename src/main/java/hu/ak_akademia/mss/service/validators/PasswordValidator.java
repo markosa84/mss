@@ -1,10 +1,10 @@
 package hu.ak_akademia.mss.service.validators;
 
-import hu.ak_akademia.mss.model.MssUsers;
+import hu.ak_akademia.mss.model.MssUser;
 import hu.ak_akademia.mss.service.Validator;
 import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;
 
-class PasswordValidator implements Validator<MssUsers> {
+class PasswordValidator implements Validator<MssUser> {
 
     private static final String PASSWORD_REGEX = "^(?=.*[0-9])" + //Must contain at least one digit [0-9]
             "(?=.*[a-z])" + // Must contain at least one lowercase  character [a-z]
@@ -14,7 +14,7 @@ class PasswordValidator implements Validator<MssUsers> {
             ".{8,20}$"; // must contain a length of at least 8 characters and a maximum of 20 characters
 
     @Override
-    public void validate(MssUsers mssUsers) throws IncorrectEnteredDataException {
+    public void validate(MssUser mssUsers) throws IncorrectEnteredDataException {
         if (mssUsers.getPassword() == null || !mssUsers.getPassword().matches(PASSWORD_REGEX)) {
             throw new IncorrectEnteredDataException("A megadott jelszó nem megfelelő.");
         }

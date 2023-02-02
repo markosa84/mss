@@ -10,7 +10,7 @@ import java.util.Objects;
 public class Client {
 
     @Transient
-    private MssUsers mssUsers;
+    private MssUser mssUsers;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,7 +37,7 @@ public class Client {
     private int financialBalance;
     private String phoneNumber;
 
-    public MssUsers getMssUsers() {
+    public MssUser getMssUsers() {
         return mssUsers;
     }
 

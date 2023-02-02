@@ -1,11 +1,11 @@
 package hu.ak_akademia.mss.service.validators;
 
-import hu.ak_akademia.mss.model.MssUsers;
+import hu.ak_akademia.mss.model.MssUser;
 import hu.ak_akademia.mss.service.Validator;
 import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;
 
 
-class EmailValidator implements Validator<MssUsers> {
+class EmailValidator implements Validator<MssUser> {
 //
 //    @Override
 //    public void validate(Client client) throws IncorrectEnteredDataException {
@@ -15,7 +15,7 @@ class EmailValidator implements Validator<MssUsers> {
 //    }
 
     @Override
-    public void validate(MssUsers mssUsers) throws IncorrectEnteredDataException {
+    public void validate(MssUser mssUsers) throws IncorrectEnteredDataException {
         if (mssUsers.getEmail() == null || !mssUsers.getEmail().matches(".+@\\w+\\.[a-z]+")) {
             throw new IncorrectEnteredDataException("emailError", "Incorrect email address format!");
         }

@@ -1,6 +1,6 @@
 package hu.ak_akademia.mss.service;
 
-import hu.ak_akademia.mss.model.MssUsers;
+import hu.ak_akademia.mss.model.MssUser;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 public class PasswordEncryption {
 
-    public String encrypt(MssUsers mssUsers) {
+    public String encrypt(MssUser mssUsers) {
         try {
             var md = MessageDigest.getInstance("MD5");
             byte[] digest = md.digest(mssUsers.getPassword().getBytes(StandardCharsets.UTF_8));

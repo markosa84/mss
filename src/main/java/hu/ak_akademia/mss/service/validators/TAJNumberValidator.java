@@ -1,14 +1,14 @@
 package hu.ak_akademia.mss.service.validators;
 
-import hu.ak_akademia.mss.model.MssUsers;
+import hu.ak_akademia.mss.model.MssUser;
 import hu.ak_akademia.mss.service.Validator;
 import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;
 
-class TAJNumberValidator implements Validator<MssUsers> {
+class TAJNumberValidator implements Validator<MssUser> {
 
     @Override
-    public void validate(MssUsers mssUsers) throws IncorrectEnteredDataException {
-        if (mssUsers.getTajNumber() == null || !mssUsers.getTajNumber().matches("^\\d{3}-\\d{3}-\\d{3}$")) { // valid TAJ e.g.: 123-456-789
+    public void validate(MssUser mssUsers) throws IncorrectEnteredDataException {
+        if (mssUsers.getTAJNumber() == null || !mssUsers.getTAJNumber().matches("^\\d{3}-\\d{3}-\\d{3}$")) { // valid TAJ e.g.: 123-456-789
             throw new IncorrectEnteredDataException("tajError", "The specified TAJ does not meet the formal requirements!");
         }
     }

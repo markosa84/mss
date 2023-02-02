@@ -1,13 +1,13 @@
 package hu.ak_akademia.mss.service.validators;
 
-import hu.ak_akademia.mss.model.MssUsers;
+import hu.ak_akademia.mss.model.MssUser;
 import hu.ak_akademia.mss.service.Validator;
 import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;
 
-class FirstNameValidator implements Validator<MssUsers> {
+class FirstNameValidator implements Validator<MssUser> {
 
     @Override
-    public void validate(MssUsers mssUsers) throws IncorrectEnteredDataException {
+    public void validate(MssUser mssUsers) throws IncorrectEnteredDataException {
         if (mssUsers.getFirstName() == null || !mssUsers.getFirstName().matches("^[A-ZÁÉÍÓÖŐÚÜŰ]([a-záéíóöőúüű]+\\s?([A-ZÁÉÍÓÖŐÚÜŰa-záéíóöőúüű]*))$")) {
             throw new IncorrectEnteredDataException("firstNameError", "Incorrect first name format!");
         }

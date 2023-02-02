@@ -2,43 +2,56 @@ package hu.ak_akademia.mss.model;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
-public class MssUsers {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+public class MssUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userId;
-    private boolean active;  // automatically true value
+    private boolean active;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column(updatable = false)
     private LocalDate registrationDate = LocalDate.now(); // automatically LocalDate.now() value
+    @Column(nullable = false)
     private String email;
+    @Column(nullable = false)
     private String password;
-    private int userTypeId;
+    @Column(nullable = false)
+    private String userTypeId;
+    @Column(nullable = false)
     private String firstName;
+    @Column(nullable = false)
     private String lastName;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column(nullable = false)
     private LocalDate dateOfBirth;
     private String placeOfBirth;
+
+    @Column(nullable = false)
     private String mothersName;
-    private String tajNumber;
-    private int genderId;
-    private String nationality;
-    private String preferableLanguage;
+
+    @Column(length = 11)
+    private String TAJNumber;
+    @Column(nullable = false)
+    private String gender;
+    //    private String nationality;
+//    private String preferableLanguage;
+    @Column(nullable = false)
     private String address;
-    private int financialBalanceHuf = 0;  // start with 0 value
-    private String areaOfExpertise;
+    //    private int financialBalanceHuf = 0;  // start with 0 value
+//    private String areaOfExpertise;
+    @Column(nullable = false)
     private String phoneNumber;
 
-    public MssUsers() {
+    public MssUser() {
     }
 
-    public MssUsers(int userId, boolean active, LocalDate registrationDate, String email, String password, int userTypeId, String firstName, String lastName, LocalDate dateOfBirth, String placeOfBirth, String mothersName, String tajNumber, int genderId, String nationality, String preferableLanguage, String address, int financialBalanceHuf, String areaOfExpertise, String phoneNumber) {
+    public MssUser(int userId, boolean active, LocalDate registrationDate, String email, String password, String userTypeId, String firstName, String lastName, LocalDate dateOfBirth, String placeOfBirth, String mothersName, String TAJNumber, String gender, String address, String phoneNumber) {
         this.userId = userId;
         this.active = active;
         this.registrationDate = registrationDate;
@@ -50,37 +63,29 @@ public class MssUsers {
         this.dateOfBirth = dateOfBirth;
         this.placeOfBirth = placeOfBirth;
         this.mothersName = mothersName;
-        this.tajNumber = tajNumber;
-        this.genderId = genderId;
-        this.nationality = nationality;
-        this.preferableLanguage = preferableLanguage;
+        this.TAJNumber = TAJNumber;
+        this.gender = gender;
         this.address = address;
-        this.financialBalanceHuf = financialBalanceHuf;
-        this.areaOfExpertise = areaOfExpertise;
         this.phoneNumber = phoneNumber;
     }
 
     @Override
     public String toString() {
-        return "MssUsers{" +
+        return "MssUser{" +
                 "userId=" + userId +
                 ", active=" + active +
                 ", registrationDate=" + registrationDate +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", userTypeId=" + userTypeId +
+                ", userTypeId='" + userTypeId + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", dateOfBirth=" + dateOfBirth +
                 ", placeOfBirth='" + placeOfBirth + '\'' +
                 ", mothersName='" + mothersName + '\'' +
-                ", tajNumber='" + tajNumber + '\'' +
-                ", genderId=" + genderId +
-                ", nationality='" + nationality + '\'' +
-                ", preferableLanguage='" + preferableLanguage + '\'' +
+                ", TAJNumber='" + TAJNumber + '\'' +
+                ", gender='" + gender + '\'' +
                 ", address='" + address + '\'' +
-                ", financialBalanceHuf=" + financialBalanceHuf +
-                ", areaOfExpertise='" + areaOfExpertise + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 '}';
     }
@@ -89,13 +94,13 @@ public class MssUsers {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        MssUsers mssUsers = (MssUsers) o;
-        return userId == mssUsers.userId && active == mssUsers.active && userTypeId == mssUsers.userTypeId && genderId == mssUsers.genderId && financialBalanceHuf == mssUsers.financialBalanceHuf && Objects.equals(registrationDate, mssUsers.registrationDate) && Objects.equals(email, mssUsers.email) && Objects.equals(password, mssUsers.password) && Objects.equals(firstName, mssUsers.firstName) && Objects.equals(lastName, mssUsers.lastName) && Objects.equals(dateOfBirth, mssUsers.dateOfBirth) && Objects.equals(placeOfBirth, mssUsers.placeOfBirth) && Objects.equals(mothersName, mssUsers.mothersName) && Objects.equals(tajNumber, mssUsers.tajNumber) && Objects.equals(nationality, mssUsers.nationality) && Objects.equals(preferableLanguage, mssUsers.preferableLanguage) && Objects.equals(address, mssUsers.address) && Objects.equals(areaOfExpertise, mssUsers.areaOfExpertise) && Objects.equals(phoneNumber, mssUsers.phoneNumber);
+        MssUser mssUser = (MssUser) o;
+        return userId == mssUser.userId && active == mssUser.active && Objects.equals(registrationDate, mssUser.registrationDate) && Objects.equals(email, mssUser.email) && Objects.equals(password, mssUser.password) && Objects.equals(userTypeId, mssUser.userTypeId) && Objects.equals(firstName, mssUser.firstName) && Objects.equals(lastName, mssUser.lastName) && Objects.equals(dateOfBirth, mssUser.dateOfBirth) && Objects.equals(placeOfBirth, mssUser.placeOfBirth) && Objects.equals(mothersName, mssUser.mothersName) && Objects.equals(TAJNumber, mssUser.TAJNumber) && Objects.equals(gender, mssUser.gender) && Objects.equals(address, mssUser.address) && Objects.equals(phoneNumber, mssUser.phoneNumber);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, active, registrationDate, email, password, userTypeId, firstName, lastName, dateOfBirth, placeOfBirth, mothersName, tajNumber, genderId, nationality, preferableLanguage, address, financialBalanceHuf, areaOfExpertise, phoneNumber);
+        return Objects.hash(userId, active, registrationDate, email, password, userTypeId, firstName, lastName, dateOfBirth, placeOfBirth, mothersName, TAJNumber, gender, address, phoneNumber);
     }
 
     public int getUserId() {
@@ -138,11 +143,11 @@ public class MssUsers {
         this.password = password;
     }
 
-    public int getUserTypeId() {
+    public String getUserTypeId() {
         return userTypeId;
     }
 
-    public void setUserTypeId(int userTypeId) {
+    public void setUserTypeId(String userTypeId) {
         this.userTypeId = userTypeId;
     }
 
@@ -186,36 +191,20 @@ public class MssUsers {
         this.mothersName = mothersName;
     }
 
-    public String getTajNumber() {
-        return tajNumber;
+    public String getTAJNumber() {
+        return TAJNumber;
     }
 
-    public void setTajNumber(String tajNumber) {
-        this.tajNumber = tajNumber;
+    public void setTAJNumber(String TAJNumber) {
+        this.TAJNumber = TAJNumber;
     }
 
-    public int getGenderId() {
-        return genderId;
+    public String getGender() {
+        return gender;
     }
 
-    public void setGenderId(int genderId) {
-        this.genderId = genderId;
-    }
-
-    public String getNationality() {
-        return nationality;
-    }
-
-    public void setNationality(String nationality) {
-        this.nationality = nationality;
-    }
-
-    public String getPreferableLanguage() {
-        return preferableLanguage;
-    }
-
-    public void setPreferableLanguage(String preferableLanguage) {
-        this.preferableLanguage = preferableLanguage;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public String getAddress() {
@@ -224,22 +213,6 @@ public class MssUsers {
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public int getFinancialBalanceHuf() {
-        return financialBalanceHuf;
-    }
-
-    public void setFinancialBalanceHuf(int financialBalanceHuf) {
-        this.financialBalanceHuf = financialBalanceHuf;
-    }
-
-    public String getAreaOfExpertise() {
-        return areaOfExpertise;
-    }
-
-    public void setAreaOfExpertise(String areaOfExpertise) {
-        this.areaOfExpertise = areaOfExpertise;
     }
 
     public String getPhoneNumber() {

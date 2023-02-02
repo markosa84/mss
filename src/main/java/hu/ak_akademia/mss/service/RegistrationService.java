@@ -1,6 +1,6 @@
 package hu.ak_akademia.mss.service;
 
-import hu.ak_akademia.mss.model.MssUsers;
+import hu.ak_akademia.mss.model.MssUser;
 import hu.ak_akademia.mss.repository.MSSUserRepository;
 import hu.ak_akademia.mss.service.validators.CompositeMSSUserValidator;
 import hu.ak_akademia.mss.service.validators.MSSUserValidatorFactory;
@@ -19,19 +19,19 @@ public class RegistrationService {
         this.mssUserRepository = mssUserRepository;
     }
 
-    public void save(MssUsers mssUsers) {
+    public void save(MssUser mssUsers) {
         encryptPassword(mssUsers);
         mssUserRepository.save(mssUsers);
     }
 
-    public Map<String, String> testMSSUserData(MssUsers mssUsers) {
+    public Map<String, String> testMSSUserData(MssUser mssUsers) {
         var mssUserValidator = new CompositeMSSUserValidator();
         mssUserValidator.addValidators(MSSUserValidatorFactory.getInstance().getAllMSSUserValidators());
         mssUserValidator.validate(mssUsers);
         return mssUserValidator.getValidatorErrorList();
     }
 
-    private void encryptPassword(MssUsers mssUsers) {
+    private void encryptPassword(MssUser mssUsers) {
         mssUsers.setPassword(new PasswordEncryption().encrypt(mssUsers));
     }
 }

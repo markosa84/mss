@@ -1,6 +1,6 @@
 package hu.ak_akademia.mss.controller;
 
-import hu.ak_akademia.mss.model.MssUsers;
+import hu.ak_akademia.mss.model.MssUser;
 import hu.ak_akademia.mss.service.LoginService;
 import hu.ak_akademia.mss.service.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,11 +32,11 @@ public class HomeController {
         return "/index";
     }
 
-//    @ExceptionHandler(value = RuntimeException.class)
-//    public String error(RuntimeException e, Model model) {
-//        model.addAttribute("exception", e.getMessage());
-//        return "error";
-//    }
+    @ExceptionHandler(value = RuntimeException.class)
+    public String error(RuntimeException e, Model model) {
+        model.addAttribute("exception", e.getMessage());
+        return "error";
+    }
 
 //    ************************************************************************************************************
 
@@ -55,16 +55,19 @@ public class HomeController {
 //    **************************************************************************************************************
 
     @GetMapping("/register")
-    public String registration(MssUsers mssUsers, Model model) {
+    public String registration(MssUser mssUser, Model model) {
         // TODO: join the client object to the RegistrationService;
         return "registration";
     }
 
-    @PostMapping("/register/mssUsers")
-    public String registrationForm(MssUsers mssUsers, Model model) {
-        Map<String, String> errorList = registrationService.testMSSUserData(mssUsers);
+    @PostMapping("/register/mssUser")
+    public String registrationForm(MssUser mssUser, Model model) {
+        mssUser.setAddress("Debrecen");
+        mssUser.setPhoneNumber("+36301234567");
+        mssUser.setUserTypeId("Client");
+        Map<String, String> errorList = registrationService.testMSSUserData(mssUser);
         if (errorList.isEmpty()) {
-            registrationService.save(mssUsers);
+            registrationService.save(mssUser);
             return "index";
         }
         model.addAllAttributes(errorList);
