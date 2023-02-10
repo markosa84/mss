@@ -1,6 +1,7 @@
 package hu.ak_akademia.mss.controller;
 
-import hu.ak_akademia.mss.model.MssUser;
+import hu.ak_akademia.mss.model.user.Client;
+import hu.ak_akademia.mss.model.user.MssUser;
 import hu.ak_akademia.mss.service.LoginService;
 import hu.ak_akademia.mss.service.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,19 +56,19 @@ public class HomeController {
 //    **************************************************************************************************************
 
     @GetMapping("/register")
-    public String registration(MssUser mssUser, Model model) {
+    public String registration(Client client, Model model) {
         // TODO: join the client object to the RegistrationService;
         return "registration";
     }
 
-    @PostMapping("/register/mssUser")
-    public String registrationForm(MssUser mssUser, Model model) {
-        mssUser.setAddress("Debrecen");
-        mssUser.setPhoneNumber("+36301234567");
-        mssUser.setUserTypeId("Client");
-        Map<String, String> errorList = registrationService.testMSSUserData(mssUser);
+    @PostMapping("/register/client")
+    public String registrationForm(Client client, Model model) {
+        client.setAddress("Debrecen");
+        client.setPhoneNumber("+36301234567");
+        client.setUserTypeId("Client");
+        Map<String, String> errorList = registrationService.testMSSUserData(client);
         if (errorList.isEmpty()) {
-            registrationService.save(mssUser);
+            registrationService.save(client);
             return "index";
         }
         model.addAllAttributes(errorList);

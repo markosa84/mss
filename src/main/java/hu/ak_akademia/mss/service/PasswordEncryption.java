@@ -1,6 +1,6 @@
 package hu.ak_akademia.mss.service;
 
-import hu.ak_akademia.mss.model.MssUser;
+import hu.ak_akademia.mss.model.user.MssUser;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -11,9 +11,11 @@ import java.util.stream.Collectors;
 
 public class PasswordEncryption {
 
+    private static final String ALGORITHM = "MD5";
+
     public String encrypt(MssUser mssUsers) {
         try {
-            var md = MessageDigest.getInstance("MD5");
+            var md = MessageDigest.getInstance(ALGORITHM);
             byte[] digest = md.digest(mssUsers.getPassword().getBytes(StandardCharsets.UTF_8));
             return getReferenceBytes(digest).stream() //
                     .map(b -> Integer.toString((b & 0xff) + 0x100, 16)) //

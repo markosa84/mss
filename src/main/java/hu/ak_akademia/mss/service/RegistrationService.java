@@ -1,12 +1,13 @@
 package hu.ak_akademia.mss.service;
 
-import hu.ak_akademia.mss.model.MssUser;
+import hu.ak_akademia.mss.model.user.MssUser;
 import hu.ak_akademia.mss.repository.MSSUserRepository;
 import hu.ak_akademia.mss.service.validators.CompositeMSSUserValidator;
 import hu.ak_akademia.mss.service.validators.MSSUserValidatorFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -33,5 +34,9 @@ public class RegistrationService {
 
     private void encryptPassword(MssUser mssUsers) {
         mssUsers.setPassword(new PasswordEncryption().encrypt(mssUsers));
+    }
+
+    public List<? extends MssUser> getGivenMssUser(String client) {
+        return mssUserRepository.getAllGivenUserType(client).orElseThrow(null);
     }
 }

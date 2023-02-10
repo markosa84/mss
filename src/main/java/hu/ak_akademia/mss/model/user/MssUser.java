@@ -1,22 +1,23 @@
-package hu.ak_akademia.mss.model;
+package hu.ak_akademia.mss.model.user;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class MssUser {
+public abstract class MssUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userId;
     private boolean active;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(updatable = false)
-    private LocalDate registrationDate = LocalDate.now(); // automatically LocalDate.now() value
+    private LocalDateTime registrationDate = LocalDateTime.now(); // automatically LocalDate.now() value
     @Column(nullable = false)
     private String email;
     @Column(nullable = false)
@@ -31,27 +32,21 @@ public class MssUser {
     @Column(nullable = false)
     private LocalDate dateOfBirth;
     private String placeOfBirth;
-
     @Column(nullable = false)
     private String mothersName;
-
     @Column(length = 11)
     private String TAJNumber;
     @Column(nullable = false)
     private String gender;
-    //    private String nationality;
-//    private String preferableLanguage;
     @Column(nullable = false)
     private String address;
-    //    private int financialBalanceHuf = 0;  // start with 0 value
-//    private String areaOfExpertise;
     @Column(nullable = false)
     private String phoneNumber;
 
     public MssUser() {
     }
 
-    public MssUser(int userId, boolean active, LocalDate registrationDate, String email, String password, String userTypeId, String firstName, String lastName, LocalDate dateOfBirth, String placeOfBirth, String mothersName, String TAJNumber, String gender, String address, String phoneNumber) {
+    public MssUser(int userId, boolean active, LocalDateTime registrationDate, String email, String password, String userTypeId, String firstName, String lastName, LocalDate dateOfBirth, String placeOfBirth, String mothersName, String TAJNumber, String gender, String address, String phoneNumber) {
         this.userId = userId;
         this.active = active;
         this.registrationDate = registrationDate;
@@ -119,11 +114,11 @@ public class MssUser {
         this.active = active;
     }
 
-    public LocalDate getRegistrationDate() {
+    public LocalDateTime getRegistrationDate() {
         return registrationDate;
     }
 
-    public void setRegistrationDate(LocalDate registrationDate) {
+    public void setRegistrationDate(LocalDateTime registrationDate) {
         this.registrationDate = registrationDate;
     }
 

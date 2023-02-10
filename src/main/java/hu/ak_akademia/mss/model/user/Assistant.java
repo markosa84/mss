@@ -1,4 +1,4 @@
-package hu.ak_akademia.mss.model;
+package hu.ak_akademia.mss.model.user;
 
 import java.time.LocalDate;
 

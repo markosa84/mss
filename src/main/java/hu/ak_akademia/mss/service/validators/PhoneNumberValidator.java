@@ -1,6 +1,6 @@
 package hu.ak_akademia.mss.service.validators;
 
-import hu.ak_akademia.mss.model.MssUser;
+import hu.ak_akademia.mss.model.user.MssUser;
 import hu.ak_akademia.mss.service.Validator;
 import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;
 
