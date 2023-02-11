@@ -12,11 +12,16 @@ import java.util.stream.Collectors;
 public class PasswordEncryption {
 
     private static final String ALGORITHM = "MD5";
+    private final String password;
 
-    public String encrypt(MssUser mssUsers) {
+    public PasswordEncryption(String password) {
+        this.password = password;
+    }
+
+    public String encryptWithMD5() {
         try {
             var md = MessageDigest.getInstance(ALGORITHM);
-            byte[] digest = md.digest(mssUsers.getPassword().getBytes(StandardCharsets.UTF_8));
+            byte[] digest = md.digest(password.getBytes(StandardCharsets.UTF_8));
             return getReferenceBytes(digest).stream() //
                     .map(b -> Integer.toString((b & 0xff) + 0x100, 16)) //
                     .collect(Collectors.joining());
@@ -32,4 +37,5 @@ public class PasswordEncryption {
         }
         return bytes;
     }
+
 }

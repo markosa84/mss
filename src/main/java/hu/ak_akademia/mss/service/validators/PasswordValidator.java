@@ -20,9 +20,4 @@ class PasswordValidator implements Validator<MssUser> {
         }
     }
 
-//    public void validatePassword(String password) throws IncorrectEnteredDataException {
-//        if (password == null || !password.matches(PASSWORD_REGEX)) {
-//            throw new IncorrectEnteredDataException("A megadott jelszó nem megfelelő.");
-//        }
-//    }
 }

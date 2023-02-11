@@ -16,20 +16,17 @@ public class MSSUserValidatorFactory {
         return INSTANCE;
     }
 
-    private static List<Validator<MssUser>> LIST = List.of( //
+    private static final List<Validator<MssUser>> LIST = List.of( //
             new DateOfBirthValidator(), //
-//            new AddressValidator(), //
-//            new GenderValidator(), //
+            new AddressValidator(), //
             new EmailValidator(), //
             new FirstNameValidator(), //
             new LastNameValidator(), //
             new MotherNameValidator(), //
-//            new NationalityValidator(), //
             new PasswordValidator(), //
-//            new PhoneNumberValidator(), //
+            new PhoneNumberValidator(), //
             new PlaceOfBirthValidator(), //
-            new TAJNumberValidator()
-    ); //
+            new TAJNumberValidator());
 
     public List<Validator<MssUser>> getAllMSSUserValidators() {
         return LIST;

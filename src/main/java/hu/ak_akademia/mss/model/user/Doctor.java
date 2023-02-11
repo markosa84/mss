@@ -11,9 +11,11 @@ public class Doctor extends MssUser {
     private int appointments;
 
     public Doctor() {
+        super.setUserTypeId("Doctor");
     }
 
     public Doctor(String areaOfExpertise, int reservations, int appointments) {
+        super.setUserTypeId("Doctor");
         this.areaOfExpertise = areaOfExpertise;
         this.reservations = reservations;
         this.appointments = appointments;

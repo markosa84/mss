@@ -3,7 +3,9 @@ package hu.ak_akademia.mss.controller;
 import hu.ak_akademia.mss.model.user.Client;
 import hu.ak_akademia.mss.model.user.MssUser;
 import hu.ak_akademia.mss.service.LoginService;
+import hu.ak_akademia.mss.service.PasswordEncryption;
 import hu.ak_akademia.mss.service.RegistrationService;
+import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,9 +49,14 @@ public class HomeController {
     }
 
     @PostMapping("/login")
-    public String loginRequest(Model model, @RequestParam String email, @RequestParam String password) {
-        System.out.println("email: " + email + ", password: " + password);
-        // TODO: join the data to the LoginService class.
+    public String loginProcess(Model model, @RequestParam String email, @RequestParam String password) {
+        var currentPassword = new PasswordEncryption(password).encryptWithMD5();
+        try {
+            MssUser user = registrationService.authentication(email, currentPassword);
+        } catch (IncorrectEnteredDataException e) {
+            model.addAttribute(e.getMessage(), e.getErrorMessage());
+            return "login";
+        }
         return "redirect:/";
     }
 
@@ -63,9 +70,6 @@ public class HomeController {
 
     @PostMapping("/register/client")
     public String registrationForm(Client client, Model model) {
-        client.setAddress("Debrecen");
-        client.setPhoneNumber("+36301234567");
-        client.setUserTypeId("Client");
         Map<String, String> errorList = registrationService.testMSSUserData(client);
         if (errorList.isEmpty()) {
             registrationService.save(client);

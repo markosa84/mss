@@ -7,34 +7,22 @@ import java.util.Objects;
 public class Client extends MssUser {
 
     private String job;
-    private String address;
     private int reservations;
     private int medicalRecords;
     private int bill;
     private int financialBalance;
 
     public Client() {
+        super.setUserTypeId("Client");
     }
 
-    public Client(String job, String address, int reservations, int medicalRecords, int bill, int financialBalance) {
+    public Client(String job, int reservations, int medicalRecords, int bill, int financialBalance) {
+        super.setUserTypeId("Client");
         this.job = job;
-        this.address = address;
         this.reservations = reservations;
         this.medicalRecords = medicalRecords;
         this.bill = bill;
         this.financialBalance = financialBalance;
-    }
-
-    @Override
-    public String toString() {
-        return "Client{" +
-                "job='" + job + '\'' +
-                ", address='" + address + '\'' +
-                ", reservations=" + reservations +
-                ", medicalRecords=" + medicalRecords +
-                ", bill=" + bill +
-                ", financialBalance=" + financialBalance +
-                "} " + super.toString();
     }
 
     @Override
@@ -43,12 +31,12 @@ public class Client extends MssUser {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Client client = (Client) o;
-        return reservations == client.reservations && medicalRecords == client.medicalRecords && bill == client.bill && financialBalance == client.financialBalance && Objects.equals(job, client.job) && Objects.equals(address, client.address);
+        return reservations == client.reservations && medicalRecords == client.medicalRecords && bill == client.bill && financialBalance == client.financialBalance && Objects.equals(job, client.job);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), job, address, reservations, medicalRecords, bill, financialBalance);
+        return Objects.hash(super.hashCode(), job, reservations, medicalRecords, bill, financialBalance);
     }
 
     public String getJob() {
@@ -57,16 +45,6 @@ public class Client extends MssUser {
 
     public void setJob(String job) {
         this.job = job;
-    }
-
-    @Override
-    public String getAddress() {
-        return address;
-    }
-
-    @Override
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     public int getReservations() {

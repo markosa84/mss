@@ -17,12 +17,7 @@ class PhoneNumberValidator implements Validator<MssUser> {
     @Override
     public void validate(MssUser mssUsers) throws IncorrectEnteredDataException {
         if (mssUsers.getPhoneNumber() == null || !mssUsers.getPhoneNumber().matches(PHONE_NUMBER_REGEX)) {
-            throw new IncorrectEnteredDataException("A megadott telefonszám érvénytelen.");
+            throw new IncorrectEnteredDataException("phoneError","Phone number is invalid!");
         }
     }
 }
-//    public void validatePhoneNumber(String phoneNumber) throws IncorrectEnteredDataException {
-//        if (phoneNumber == null || !phoneNumber.matches(PHONE_NUMBER_REGEX)) {
-//            throw new IncorrectEnteredDataException("A megadott telefonszám érvénytelen.");
-//        }
-//    }
