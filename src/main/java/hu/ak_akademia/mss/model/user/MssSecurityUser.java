@@ -30,6 +30,7 @@ public class MssSecurityUser implements UserDetails, Serializable {
 
     private final boolean enabled;
 
+
     public MssSecurityUser(MssUser user) {
         this.user = user;
         this.password = user.getPassword();

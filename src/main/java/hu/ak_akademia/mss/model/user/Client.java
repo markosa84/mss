@@ -87,16 +87,6 @@ public class Client extends MssUser {
         return getFinancial_balanse_huf() == client.getFinancial_balanse_huf() && Objects.equals(getLanguage(), client.getLanguage()) && Objects.equals(getTajNumber(), client.getTajNumber()) && Objects.equals(getMothersName(), client.getMothersName()) && Objects.equals(getDateOfBirth(), client.getDateOfBirth()) && Objects.equals(getPlaceOfBirth(), client.getPlaceOfBirth());
     }
 
-    @Override
-    public String toString() {
-        return "Client{" +
-                "job='" + job + '\'' +
-                ", reservations=" + reservations +
-                ", medicalRecords=" + medicalRecords +
-                ", bill=" + bill +
-                ", financialBalance=" + financialBalance +
-                "} " + super.toString();
-    }
 
     @Override
     public int hashCode() {
