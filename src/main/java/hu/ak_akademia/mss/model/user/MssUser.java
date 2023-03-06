@@ -43,10 +43,13 @@ public abstract class MssUser {
     @Column(nullable = false)
     private String phoneNumber;
 
+    @Column(nullable = false)
+    private String roles;
+
     public MssUser() {
     }
 
-    public MssUser(int userId, boolean active, LocalDateTime registrationDate, String email, String password, String userTypeId, String firstName, String lastName, LocalDate dateOfBirth, String placeOfBirth, String mothersName, String TAJNumber, String gender, String address, String phoneNumber) {
+    public MssUser(int userId, boolean active, LocalDateTime registrationDate, String email, String password, String userTypeId, String firstName, String lastName, LocalDate dateOfBirth, String placeOfBirth, String mothersName, String TAJNumber, String gender, String address, String phoneNumber, String roles) {
         this.userId = userId;
         this.active = active;
         this.registrationDate = registrationDate;
@@ -62,6 +65,7 @@ public abstract class MssUser {
         this.gender = gender;
         this.address = address;
         this.phoneNumber = phoneNumber;
+        this.roles = roles;
     }
 
     @Override
@@ -82,6 +86,7 @@ public abstract class MssUser {
                 ", gender='" + gender + '\'' +
                 ", address='" + address + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
+                ", roles='" + roles + '\'' +
                 '}';
     }
 
@@ -90,12 +95,12 @@ public abstract class MssUser {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MssUser mssUser = (MssUser) o;
-        return userId == mssUser.userId && active == mssUser.active && Objects.equals(registrationDate, mssUser.registrationDate) && Objects.equals(email, mssUser.email) && Objects.equals(password, mssUser.password) && Objects.equals(userTypeId, mssUser.userTypeId) && Objects.equals(firstName, mssUser.firstName) && Objects.equals(lastName, mssUser.lastName) && Objects.equals(dateOfBirth, mssUser.dateOfBirth) && Objects.equals(placeOfBirth, mssUser.placeOfBirth) && Objects.equals(mothersName, mssUser.mothersName) && Objects.equals(TAJNumber, mssUser.TAJNumber) && Objects.equals(gender, mssUser.gender) && Objects.equals(address, mssUser.address) && Objects.equals(phoneNumber, mssUser.phoneNumber);
+        return userId == mssUser.userId && active == mssUser.active && Objects.equals(registrationDate, mssUser.registrationDate) && Objects.equals(email, mssUser.email) && Objects.equals(password, mssUser.password) && Objects.equals(userTypeId, mssUser.userTypeId) && Objects.equals(firstName, mssUser.firstName) && Objects.equals(lastName, mssUser.lastName) && Objects.equals(dateOfBirth, mssUser.dateOfBirth) && Objects.equals(placeOfBirth, mssUser.placeOfBirth) && Objects.equals(mothersName, mssUser.mothersName) && Objects.equals(TAJNumber, mssUser.TAJNumber) && Objects.equals(gender, mssUser.gender) && Objects.equals(address, mssUser.address) && Objects.equals(phoneNumber, mssUser.phoneNumber) && Objects.equals(roles, mssUser.roles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, active, registrationDate, email, password, userTypeId, firstName, lastName, dateOfBirth, placeOfBirth, mothersName, TAJNumber, gender, address, phoneNumber);
+        return Objects.hash(userId, active, registrationDate, email, password, userTypeId, firstName, lastName, dateOfBirth, placeOfBirth, mothersName, TAJNumber, gender, address, phoneNumber, roles);
     }
 
     public int getUserId() {
@@ -216,6 +221,14 @@ public abstract class MssUser {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getRoles() {
+        return roles;
+    }
+
+    public void setRoles(String roles) {
+        this.roles = roles;
     }
 }
 

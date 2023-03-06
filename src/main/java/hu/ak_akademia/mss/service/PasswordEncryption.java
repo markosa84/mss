@@ -1,6 +1,6 @@
 package hu.ak_akademia.mss.service;
 
-import hu.ak_akademia.mss.model.user.MssUser;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -9,10 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class PasswordEncryption {
+public class PasswordEncryption implements PasswordEncoder {
 
     private static final String ALGORITHM = "MD5";
-    private final String password;
+    private String password;
+
+    public PasswordEncryption() {
+    }
 
     public PasswordEncryption(String password) {
         this.password = password;
@@ -38,4 +41,14 @@ public class PasswordEncryption {
         return bytes;
     }
 
+    @Override
+    public String encode(CharSequence rawPassword) {
+        this.password = String.valueOf(rawPassword);
+        return encryptWithMD5();
+    }
+
+    @Override
+    public boolean matches(CharSequence rawPassword, String encodedPassword) {
+        return encode(rawPassword).equals(encodedPassword);
+    }
 }

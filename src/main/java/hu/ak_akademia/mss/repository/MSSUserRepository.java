@@ -11,11 +11,14 @@ import java.util.Optional;
 @Repository
 public interface MSSUserRepository extends JpaRepository<MssUser, Integer> {
 
-    @Query(nativeQuery = true, value = "SELECT * FROM mssdatabase where userTypeId = ?1")
+    @Query(nativeQuery = true, value = "SELECT * FROM mssdatabase WHERE userTypeId = ?1")
     Optional<List<? extends MssUser>> getAllGivenUserType(String userTypeId);
 
-
-    @Query(nativeQuery = true, value = "SELECT * FROM MSS_USER where email  = ?1 and password = ?2")
+    @Query(nativeQuery = true, value = "SELECT * FROM mss_user WHERE email = ?1 AND password = ?2")
     Optional<? extends MssUser> getMSSUserByEmail(String email, String password);
+
+    @Query(nativeQuery = true, value = "SELECT * FROM mss_user WHERE email = ?1")
+    Optional<? extends MssUser> findByEmail(String email);
+
 
 }

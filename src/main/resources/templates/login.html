@@ -8,28 +8,28 @@
             integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
             crossorigin="anonymous"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/style.css}">
 </head>
 <body>
 <div class="frame">
     <div class="center-screen">
-        <form action="#" th:action="@{/login}" method="post">
-            <span class="validatorError" th:text="${loginError} == null ? '' : ${loginError}"></span>
+        <form name="f" th:action="@{/login}" action="/login" method="post">
+            <h4 class="validatorError" th:text="${errorMsg} == null ? '': ${errorMsg}"></h4>
+            <h4 class="validatorError" th:text="${msg} == null ? '': ${errorMsg}"></h4>
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Email address</label>
-                <input name="email" th:value="${email}" type="email" class="form-control" id="exampleInputEmail1"
-                aria-describedby="emailHelp">
+                <input name="username" type="text" class="form-control" id="exampleInputEmail1"
+                       aria-describedby="emailHelp">
                 <div id="emailHelp" class="form-text">Enter your e-mail address!</div>
             </div>
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Password</label>
-                <input name="password" th:value="${password}" type="password" class="form-control"
-                       id="exampleInputPassword1">
+                <input name="password" type="password" class="form-control" id="exampleInputPassword1">
                 <div id="emailHel" class="form-text">Enter your password or
                     <a href="#" th:href="@{/register}">register!</a>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">Login</button>
+            <input name="submit" type="submit" value="Login" class="btn btn-primary">
         </form>
     </div>
 </div>

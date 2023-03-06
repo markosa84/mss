@@ -35,6 +35,17 @@ public class Client extends MssUser {
     }
 
     @Override
+    public String toString() {
+        return "Client{" +
+                "job='" + job + '\'' +
+                ", reservations=" + reservations +
+                ", medicalRecords=" + medicalRecords +
+                ", bill=" + bill +
+                ", financialBalance=" + financialBalance +
+                "} " + super.toString();
+    }
+
+    @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), job, reservations, medicalRecords, bill, financialBalance);
     }
