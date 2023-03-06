@@ -1,23 +1,26 @@
 package hu.ak_akademia.mss.model;
 
+
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Objects;
+import java.util.StringJoiner;
 
 @Entity
-public class Gender {
+public class Language {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String name;
 
-    public Gender() {
+    public Language() {
     }
 
-    public Gender(int id, String name) {
+    public Language(int id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -41,8 +44,8 @@ public class Gender {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Gender gender)) return false;
-        return getId() == gender.getId() && Objects.equals(getName(), gender.getName());
+        if (!(o instanceof Language language)) return false;
+        return getId() == language.getId() && Objects.equals(getName(), language.getName());
     }
 
     @Override
@@ -52,9 +55,9 @@ public class Gender {
 
     @Override
     public String toString() {
-        return "Gender{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+        return new StringJoiner(", ", Language.class.getSimpleName() + "[", "]")
+                .add("id=" + id)
+                .add("name='" + name + "'")
+                .toString();
     }
 }

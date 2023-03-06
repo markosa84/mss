@@ -7,13 +7,16 @@ import hu.ak_akademia.mss.service.PasswordEncryption;
 import hu.ak_akademia.mss.service.RegistrationService;
 import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.init.ScriptUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
+import java.sql.SQLException;
 import java.util.Map;
 
 @Controller
@@ -27,11 +30,15 @@ public class HomeController {
     private DataSource dataSource;
 
     @PostConstruct
-    public void createTableGender(){
+    public void createTableGender() throws SQLException {
         // indulás előtt létrehozzuk a Gender táblát majd fel is töltjük adatokkal
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS Gender (Id INT PRIMARY KEY, name VARCHAR(255))");
-        jdbcTemplate.execute("INSERT INTO Gender(id,name) VALUES (1,'male'), (2, 'female'), (3,'cannot_be_determined'),(4,'not_public')");
+        ScriptUtils.executeSqlScript(dataSource.getConnection(), new ClassPathResource("gender_schema.sql"));
+        ScriptUtils.executeSqlScript(dataSource.getConnection(), new ClassPathResource("language.sql"));
+        //                                                                          
+        ScriptUtils.executeSqlScript(dataSource.getConnection(), new ClassPathResource("doctor.sql"));
+        ScriptUtils.executeSqlScript(dataSource.getConnection(), new ClassPathResource("client.sql"));
+        ScriptUtils.executeSqlScript(dataSource.getConnection(), new ClassPathResource("admin.sql"));
+        ScriptUtils.executeSqlScript(dataSource.getConnection(), new ClassPathResource("assistant.sql"));
     }
 
     @Autowired
@@ -46,6 +53,8 @@ public class HomeController {
 
     @GetMapping
     public String index() {
+        // na ide kéne nekem létrehozni a felhasználokat vagy mégse ?
+
         return "/index";
     }
 

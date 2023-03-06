@@ -8,7 +8,7 @@ class TAJNumberValidator implements Validator<MssUser> {
 
     @Override
     public void validate(MssUser mssUsers) throws IncorrectEnteredDataException {
-        if (mssUsers.getTAJNumber() == null || !mssUsers.getTAJNumber().matches("^\\d{3}-\\d{3}-\\d{3}$")) { // valid TAJ e.g.: 123-456-789
+        if (mssUsers.getTajNumber() == null || !mssUsers.getTajNumber().matches("^\\d{3}-\\d{3}-\\d{3}$")) { // valid TAJ e.g.: 123-456-789
             throw new IncorrectEnteredDataException("tajError", "The specified TAJ does not meet the formal requirements!");
         }
     }
