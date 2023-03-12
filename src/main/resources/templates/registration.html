@@ -45,15 +45,16 @@
         <label for="validationCustom05" class="form-label">Password</label>
         <input type="text" class="form-control" id="validationCustom05" th:field="*{password}"
                placeholder="Minimum 6 characters, contain at least 2 numbers and 2 letters" required>
+        <span class="validatorError" th:text="${passwordError} == null ? '' : ${passwordError}"></span>
     </div>
     <div class="col-md-4">
         <label for="validationCustom06" class="form-label">Gender</label>
         <select class="form-select" th:field="*{gender}" id="validationCustom06" required>
             <option selected value="">Choose</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="other">Other</option>
-            <option value="unknown">Unknown</option>
+            <option th:each="g : ${genderList}" th:value="${g.gender}" th:text="${g.gender}">Male</option>
+            <!--            <option value="female">Female</option>-->
+            <!--            <option value="other">Other</option>-->
+            <!--            <option value="unknown">Unknown</option>-->
         </select>
     </div>
     <div class="col-md-4">
@@ -86,10 +87,10 @@
         <span class="validatorError" th:text="${phoneError} == null ? '' : ${phoneError}"></span>
     </div>
     <div class="col-md-4">
-        <label for="validationCustom12" class="form-label">Address</label>
-        <input type="text" class="form-control" id="validationCustom12" th:field="*{address}"
-               placeholder="e.g.: 1000 Budapest Fő út 11/b " required>
-        <span class="validatorError" th:text="${addressError} == null ? '' : ${addressError}"></span>
+        <label for="validationCustom06" class="form-label">Languages</label>
+        <select class="form-select" th:field="*{languages}" id="validationCustom12" required>
+            <option th:each="l : ${languageList}" th:value="${l.id}" th:text="${l.lang}">Male</option>
+        </select>
     </div>
     <div class="col-12">
         <div class="form-check">

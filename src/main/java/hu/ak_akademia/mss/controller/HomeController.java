@@ -6,19 +6,23 @@ import hu.ak_akademia.mss.model.user.Client;
 import hu.ak_akademia.mss.model.user.Doctor;
 import hu.ak_akademia.mss.model.user.MssUser;
 import hu.ak_akademia.mss.service.LoginService;
-import hu.ak_akademia.mss.service.PasswordEncryption;
 import hu.ak_akademia.mss.service.RegistrationService;
-import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.datasource.init.ScriptUtils;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.init.ScriptUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
+import java.security.Principal;
 import java.sql.SQLException;
 import java.util.Map;
 
@@ -36,12 +40,11 @@ public class HomeController {
     public void createTableGender() throws SQLException {
         // indulás előtt létrehozzuk a Gender táblát majd fel is töltjük adatokkal
         ScriptUtils.executeSqlScript(dataSource.getConnection(), new ClassPathResource("gender_schema.sql"));
-        ScriptUtils.executeSqlScript(dataSource.getConnection(), new ClassPathResource("language.sql"));
-        //                                                                          
-        ScriptUtils.executeSqlScript(dataSource.getConnection(), new ClassPathResource("doctor.sql"));
+        ScriptUtils.executeSqlScript(dataSource.getConnection(), new ClassPathResource("languages.sql"));
         ScriptUtils.executeSqlScript(dataSource.getConnection(), new ClassPathResource("client.sql"));
-        ScriptUtils.executeSqlScript(dataSource.getConnection(), new ClassPathResource("admin.sql"));
-        ScriptUtils.executeSqlScript(dataSource.getConnection(), new ClassPathResource("assistant.sql"));
+//        ScriptUtils.executeSqlScript(dataSource.getConnection(), new ClassPathResource("doctor.sql"));
+//        ScriptUtils.executeSqlScript(dataSource.getConnection(), new ClassPathResource("admin.sql"));
+//        ScriptUtils.executeSqlScript(dataSource.getConnection(), new ClassPathResource("assistant.sql"));
     }
 
     @Autowired
@@ -56,9 +59,14 @@ public class HomeController {
 
     @GetMapping
     public String index() {
-        // na ide kéne nekem létrehozni a felhasználokat vagy mégse ?
-
         return "/index";
+    }
+
+    @GetMapping("/home")
+    public String home(Model model, Principal principal) {
+        var currentUser = registrationService.getLoggedInUser(principal.getName());
+        model.addAttribute("currentUser", currentUser.getFirstName() + " " + currentUser.getLastName());
+        return "home";
     }
 
     @ExceptionHandler(value = RuntimeException.class)
@@ -74,22 +82,25 @@ public class HomeController {
         return "/login";
     }
 
-    @PostMapping("/login")
-    public String loginProcess(Model model, @RequestParam String email, @RequestParam String password) {
-        var currentPassword = new PasswordEncryption(password).encryptWithMD5();
-        try {
-            MssUser user = registrationService.authentication(email, currentPassword);
-        } catch (IncorrectEnteredDataException e) {
-            model.addAttribute(e.getMessage(), e.getErrorMessage());
-            return "login";
-        }
-        return "redirect:/";
-    }
+//    @PostMapping("/login")
+//    public String loginProcess(Model model, @RequestParam String email, @RequestParam String password) {
+//        var currentPassword = new PasswordEncryption(password).encryptWithMD5();
+//        try {
+//            MssUser user = registrationService.getUser(email, currentPassword);
+//        } catch (IncorrectEnteredDataException e) {
+//            System.out.println(e.getErrorMessage());
+//            model.addAttribute("loginError", e.getErrorMessage());
+//            return "login";
+//        }
+//        return "home";
+//    }
 
 //    **************************************************************************************************************
 
-   @GetMapping("/register")
+    @GetMapping("/register")
     public String registration(Client client, Model model) {
+        model.addAttribute("genderList", registrationService.getAllGender());
+        model.addAttribute("languageList", registrationService.getLanguages());
         // TODO: join the client object to the RegistrationService;
         return "registration";
     }
@@ -101,6 +112,8 @@ public class HomeController {
             registrationService.save(client);
             return "index";
         }
+        model.addAttribute("genderList", registrationService.getAllGender());
+        model.addAttribute("languageList", registrationService.getLanguages());
         model.addAllAttributes(errorList);
         return "registration";
     }

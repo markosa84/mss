@@ -8,14 +8,14 @@
             integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
             crossorigin="anonymous"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link rel="stylesheet" th:href="@{/style.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 <div class="frame">
     <div class="center-screen">
         <form name="f" th:action="@{/login}" action="/login" method="post">
-            <h4 class="validatorError" th:text="${errorMsg} == null ? '': ${errorMsg}"></h4>
-            <h4 class="validatorError" th:text="${msg} == null ? '': ${errorMsg}"></h4>
+            <h4 class="validatorError" th:text="${loginError} == null ? '': ${loginError}"></h4>
+<!--            <h4 class="validatorError" th:text="${msg} == null ? '': ${errorMsg}"></h4>-->
             <div class="mb-3">
 3                <label for="exampleInputEmail1" class="form-label">Email address</label>
                 <input name="username" type="text" class="form-control" id="exampleInputEmail1"

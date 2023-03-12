@@ -1,10 +1,10 @@
 package hu.ak_akademia.mss.service.validators;
 
-import hu.ak_akademia.mss.model.user.MssUser;
+import hu.ak_akademia.mss.model.user.Client;
 import hu.ak_akademia.mss.service.Validator;
 import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;
 
-class PhoneNumberValidator implements Validator<MssUser> {
+class PhoneNumberValidator implements Validator<Client> {
     private static final String PHONE_NUMBER_REGEX = "^(06|\\+36)?" + //country code -> currently optional, delete ? to make it mandatory
             "[\\s\\-]?" + //delimiter (optional)
             "(([2,3,7]0" + //HU mobile codes
@@ -15,9 +15,9 @@ class PhoneNumberValidator implements Validator<MssUser> {
             "\\d{3}[\\s\\-]?\\d{3}))$"; //HU landline format
 
     @Override
-    public void validate(MssUser mssUsers) throws IncorrectEnteredDataException {
-        if (mssUsers.getPhoneNumber() == null || !mssUsers.getPhoneNumber().matches(PHONE_NUMBER_REGEX)) {
-            throw new IncorrectEnteredDataException("phoneError","Phone number is invalid!");
+    public void validate(Client client) throws IncorrectEnteredDataException {
+        if (client.getPhoneNumber() == null || !client.getPhoneNumber().matches(PHONE_NUMBER_REGEX)) {
+            throw new IncorrectEnteredDataException("phoneError", "Phone number is invalid!");
         }
     }
 }

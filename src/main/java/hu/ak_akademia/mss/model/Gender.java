@@ -12,14 +12,35 @@ public class Gender {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String name;
+    private String gender;
 
     public Gender() {
     }
 
-    public Gender(int id, String name) {
+    public Gender(int id, String gender) {
         this.id = id;
-        this.name = name;
+        this.gender = gender;
+    }
+
+    @Override
+    public String toString() {
+        return "Gender{" +
+                "id=" + id +
+                ", gender='" + gender + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Gender gender1 = (Gender) o;
+        return id == gender1.id && Objects.equals(gender, gender1.gender);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, gender);
     }
 
     public int getId() {
@@ -30,31 +51,11 @@ public class Gender {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getGender() {
+        return gender;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Gender gender)) return false;
-        return getId() == gender.getId() && Objects.equals(getName(), gender.getName());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getName());
-    }
-
-    @Override
-    public String toString() {
-        return "Gender{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 }

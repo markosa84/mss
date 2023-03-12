@@ -1,6 +1,6 @@
 package hu.ak_akademia.mss.service.validators;
 
-import hu.ak_akademia.mss.model.user.MssUser;
+import hu.ak_akademia.mss.model.user.Client;
 import hu.ak_akademia.mss.service.Validator;
 
 import java.util.List;
@@ -16,19 +16,19 @@ public class MSSUserValidatorFactory {
         return INSTANCE;
     }
 
-    private static final List<Validator<MssUser>> LIST = List.of( //
-          //  new DateOfBirthValidator(), //
-          //  new AddressValidator(), //
+    private static final List<Validator<Client>> LIST = List.of( //
             new EmailValidator(), //
             new FirstNameValidator(), //
             new LastNameValidator(), //
-        //    new MotherNameValidator(), //
             new PasswordValidator(), //
             new PhoneNumberValidator(), //
-         //   new PlaceOfBirthValidator(), //
+            new MotherNameValidator(), //
+            new PlaceOfBirthValidator(), //
+            new DateOfBirthValidator(), //
             new TAJNumberValidator());
 
-    public List<Validator<MssUser>> getAllMSSUserValidators() {
+    public List<Validator<Client>> getAllClientValidators() {
         return LIST;
     }
+
 }

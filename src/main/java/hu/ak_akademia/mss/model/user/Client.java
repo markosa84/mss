@@ -1,68 +1,48 @@
 package hu.ak_akademia.mss.model.user;
 
+import hu.ak_akademia.mss.model.Languages;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
-import java.util.StringJoiner;
 
 @Entity
 public class Client extends MssUser {
 
-   private String language;
-   private int financial_balanse_huf;
-   private String tajNumber;
-   private String mothersName;
+    @ManyToMany
+    private List<Languages> languages;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(nullable = false)
     private LocalDate dateOfBirth;
     private String placeOfBirth;
-   public Client(){}
-    public Client(String preferable_language,int financial_balanse_huf, String tajNumber,String mothersName, LocalDate dateOfBirth, String placeOfBirth){
-       this.language = preferable_language;
-       this.financial_balanse_huf = financial_balanse_huf;
-       this.tajNumber = tajNumber;
-       this.mothersName = mothersName;
-       this.dateOfBirth = dateOfBirth;
-       this.placeOfBirth = placeOfBirth;
-    }
-
-    public String getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
-    }
-
-    public int getFinancial_balanse_huf() {
-        return financial_balanse_huf;
-    }
-
-    public void setFinancial_balanse_huf(int financial_balanse_huf) {
-        this.financial_balanse_huf = financial_balanse_huf;
-    }
-
-    public String getTajNumber() {
-        return tajNumber;
-    }
-
-    public void setTajNumber(String tajNumber) {
-        this.tajNumber = tajNumber;
-    }
-
-    public String getMothersName() {
-        return mothersName;
-    }
-
-    public void setMothersName(String mothersName) {
-        this.mothersName = mothersName;
-    }
-
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(nullable = false)
+    private String mothersName;
+    @Column(length = 11)
+    private String TAJNumber;
+
+    public Client() {
+    }
+
+    public Client(List<Languages> languages, LocalDate dateOfBirth, String placeOfBirth, String mothersName, String TAJNumber) {
+        this.languages = languages;
+        this.dateOfBirth = dateOfBirth;
+        this.placeOfBirth = placeOfBirth;
+        this.mothersName = mothersName;
+        this.TAJNumber = TAJNumber;
+    }
+
+    public List<Languages> getLanguages() {
+        return languages;
+    }
+
+    public void setLanguages(List<Languages> languages) {
+        this.languages = languages;
+    }
+
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
@@ -79,29 +59,44 @@ public class Client extends MssUser {
         this.placeOfBirth = placeOfBirth;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Client client)) return false;
-        if (!super.equals(o)) return false;
-        return getFinancial_balanse_huf() == client.getFinancial_balanse_huf() && Objects.equals(getLanguage(), client.getLanguage()) && Objects.equals(getTajNumber(), client.getTajNumber()) && Objects.equals(getMothersName(), client.getMothersName()) && Objects.equals(getDateOfBirth(), client.getDateOfBirth()) && Objects.equals(getPlaceOfBirth(), client.getPlaceOfBirth());
+    public String getMothersName() {
+        return mothersName;
     }
 
+    public void setMothersName(String mothersName) {
+        this.mothersName = mothersName;
+    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), getLanguage(), getFinancial_balanse_huf(), getTajNumber(), getMothersName(), getDateOfBirth(), getPlaceOfBirth());
+    public String getTAJNumber() {
+        return TAJNumber;
+    }
+
+    public void setTAJNumber(String TAJNumber) {
+        this.TAJNumber = TAJNumber;
     }
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", Client.class.getSimpleName() + "[", "]")
-                .add("language='" + language + "'")
-                .add("financial_balanse_huf=" + financial_balanse_huf)
-                .add("tajNumber='" + tajNumber + "'")
-                .add("mothersName='" + mothersName + "'")
-                .add("dateOfBirth=" + dateOfBirth)
-                .add("placeOfBirth='" + placeOfBirth + "'")
-                .toString();
+        return "Client{" +
+                "languages=" + languages +
+                ", dateOfBirth=" + dateOfBirth +
+                ", placeOfBirth='" + placeOfBirth + '\'' +
+                ", mothersName='" + mothersName + '\'' +
+                ", TAJNumber='" + TAJNumber + '\'' +
+                "} " + super.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Client client = (Client) o;
+        return Objects.equals(languages, client.languages) && Objects.equals(dateOfBirth, client.dateOfBirth) && Objects.equals(placeOfBirth, client.placeOfBirth) && Objects.equals(mothersName, client.mothersName) && Objects.equals(TAJNumber, client.TAJNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), languages, dateOfBirth, placeOfBirth, mothersName, TAJNumber);
     }
 }
