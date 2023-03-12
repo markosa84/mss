@@ -1,6 +1,9 @@
 package hu.ak_akademia.mss.controller;
 
+import hu.ak_akademia.mss.model.user.FinancialColleague;
+import hu.ak_akademia.mss.model.user.Assistant;
 import hu.ak_akademia.mss.model.user.Client;
+import hu.ak_akademia.mss.model.user.Doctor;
 import hu.ak_akademia.mss.model.user.MssUser;
 import hu.ak_akademia.mss.service.LoginService;
 import hu.ak_akademia.mss.service.PasswordEncryption;
@@ -85,7 +88,7 @@ public class HomeController {
 
 //    **************************************************************************************************************
 
-    @GetMapping("/register")
+   @GetMapping("/register")
     public String registration(Client client, Model model) {
         // TODO: join the client object to the RegistrationService;
         return "registration";
@@ -101,4 +104,56 @@ public class HomeController {
         model.addAllAttributes(errorList);
         return "registration";
     }
+//**********************************************************************************************************
+    @GetMapping("/register/assistant")
+    public String assistant_registration(Assistant assistant, Model model) {
+        return "assistant_registration";
+    }
+
+    @PostMapping("/register/assistant")
+    public String assistantRegistrationForm(Assistant assistant, Model model) {
+        Map<String, String> errorList = registrationService.testMSSUserData(assistant);
+        if (errorList.isEmpty()) {
+            registrationService.save(assistant);
+            return "index";
+        }
+        model.addAllAttributes(errorList);
+        return "assistant_registration";
+    }
+
+    //**********************************************************************************************************
+    @GetMapping("/register/doctor")
+    public String doctor_registration(Doctor doctor, Model model) {
+        return "doctor_registration";
+    }
+
+    @PostMapping("/register/doctor")
+    public String doctorRegistrationForm(Doctor doctor, Model model) {
+        Map<String, String> errorList = registrationService.testMSSUserData(doctor);
+        if (errorList.isEmpty()) {
+            registrationService.save(doctor);
+            return "index";
+        }
+        model.addAllAttributes(errorList);
+        return "doctor_registration";
+    }
+
+
+    //**********************************************************************************************************
+    @GetMapping("/register/financialColleague")
+    public String financialColleague_registration(FinancialColleague financialColleague, Model model) {
+        return "financialColleague_registration";
+    }
+
+    @PostMapping("/register/financialColleague")
+    public String financialColleagueRegistrationForm(FinancialColleague financialColleague, Model model) {
+        Map<String, String> errorList = registrationService.testMSSUserData(financialColleague);
+        if (errorList.isEmpty()) {
+            registrationService.save(financialColleague);
+            return "index";
+        }
+        model.addAllAttributes(errorList);
+        return "financialColleague_registration";
+    }
+
 }

@@ -9,27 +9,27 @@
             crossorigin="anonymous"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" th:href="@{/css/style.css}">
-    <title>Registration</title>
+    <title>Doctor Registration</title>
 </head>
 <body>
 <div>
-    <img src="/css/registration_1920x600.jpg" class="img-fluid" alt="Regisztráció">
+    <img src="/css/doctor.registration.png" class="img-fluid" alt="Regisztráció">
 </div>
-<form th:action="@{/register/client}" method="post" class="row g-3 needs-validation registration-form-frame"
-      th:object="${client}">
+<form th:action="@{/register/doctor}" method="post" class="row g-3 needs-validation registration-form-frame"
+      th:object="${doctor}">
     <div class="header-1-view">
-        <h1>New Patient Registration</h1>
+        <h1>New Doctor Registration</h1>
     </div>
     <div class="col-md-4">
         <label for="validationCustom01" class="form-label">First name</label>
         <input type="text" class="form-control" id="validationCustom01" th:field="*{firstName}"
-               placeholder="e.g.: Gábor" required>
+               placeholder=required>
         <span class="validatorError" th:text="${firstNameError} == null ? '' : ${firstNameError}"></span>
     </div>
     <div class="col-md-4">
         <label for="validationCustom02" class="form-label">Last name</label>
         <input type="text" class="form-control" id="validationCustom02" th:field="*{lastName}"
-               placeholder="e.g.: Kovács" required>
+               placeholder= required>
         <span class="validatorError" th:text="${lastNameError} == null ? '' : ${lastNameError}"></span>
     </div>
     <div class="col-md-4">
@@ -37,7 +37,7 @@
         <div class="input-group has-validation">
             <span class="input-group-text" id="inputGroupPrepend">@</span>
             <input type="text" class="form-control" id="validationCustom03" aria-describedby="inputGroupPrepend"
-                   th:field="*{email}" placeholder="e.g.: gaborkovacs@gmail.com" required>
+                   th:field="*{email}" placeholder= required>
         </div>
         <span class="validatorError" th:text="${emailError} == null ? '' : ${emailError}"></span>
     </div>
@@ -59,7 +59,7 @@
     <div class="col-md-4">
         <label for="validationCustom07" class="form-label">Birthplace</label>
         <input type="text" class="form-control" id="validationCustom07" th:field="*{placeOfBirth}"
-               placeholder="e.g.: Budapest" required>
+               placeholder= required>
         <span class="validatorError" th:text="${birthplaceError} == null ? '' : ${birthplaceError}"></span>
     </div>
     <div class="col-md-4">
@@ -70,25 +70,25 @@
     <div class="col-md-4">
         <label for="validationCustom09" class="form-label">Mother Name</label>
         <input type="text" class="form-control" id="validationCustom09" th:field="*{mothersName}"
-               placeholder="e.g.: Kovács Erzsébet" required>
+               placeholder= required>
         <span class="validatorError" th:text="${motherNameError} == null ? '' : ${motherNameError}"></span>
     </div>
     <div class="col-md-4">
         <label for="validationCustom10" class="form-label">TAJ number</label>
         <input type="text" class="form-control" id="validationCustom10" th:field="*{TAJNumber}"
-               placeholder="e.g.: 123-456-789" required>
+               placeholder=required>
         <span class="validatorError" th:text="${tajError} == null ? '' : ${tajError}"></span>
     </div>
     <div class="col-md-4">
         <label for="validationCustom11" class="form-label">Phone number</label>
         <input type="text" class="form-control" id="validationCustom11" th:field="*{phoneNumber}"
-               placeholder="e.g.: +36 301 123456" required>
+               placeholder=required>
         <span class="validatorError" th:text="${phoneError} == null ? '' : ${phoneError}"></span>
     </div>
     <div class="col-md-4">
         <label for="validationCustom12" class="form-label">Address</label>
         <input type="text" class="form-control" id="validationCustom12" th:field="*{address}"
-               placeholder="e.g.: 1000 Budapest Fő út 11/b " required>
+               placeholder= required>
         <span class="validatorError" th:text="${addressError} == null ? '' : ${addressError}"></span>
     </div>
     <div class="col-12">

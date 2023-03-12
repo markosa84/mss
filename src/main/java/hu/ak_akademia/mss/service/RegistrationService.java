@@ -1,5 +1,6 @@
 package hu.ak_akademia.mss.service;
 
+import hu.ak_akademia.mss.model.user.Assistant;
 import hu.ak_akademia.mss.model.user.MssUser;
 import hu.ak_akademia.mss.repository.MSSUserRepository;
 import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;

@@ -27,7 +27,7 @@ public abstract class MssUser {
     private String lastName;
     @Column(nullable = false)
     private String gender;
-    @Column(nullable = false)
+   // @Column(nullable = false)
     private String phoneNumber;
 
     public MssUser() {

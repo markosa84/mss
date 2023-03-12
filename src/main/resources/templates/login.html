@@ -17,7 +17,7 @@
             <h4 class="validatorError" th:text="${errorMsg} == null ? '': ${errorMsg}"></h4>
             <h4 class="validatorError" th:text="${msg} == null ? '': ${errorMsg}"></h4>
             <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Email address</label>
+3                <label for="exampleInputEmail1" class="form-label">Email address</label>
                 <input name="username" type="text" class="form-control" id="exampleInputEmail1"
                        aria-describedby="emailHelp">
                 <div id="emailHelp" class="form-text">Enter your e-mail address!</div>
@@ -26,8 +26,13 @@
                 <label for="exampleInputPassword1" class="form-label">Password</label>
                 <input name="password" type="password" class="form-control" id="exampleInputPassword1">
                 <div id="emailHel" class="form-text">Enter your password or
-                    <a href="#" th:href="@{/register}">register!</a>
+                    <a href="#" th:href="@{/register}">register!</a> or
+                    <a href="#" th:href="@{/register/doctor}">Doctor register!</a> or
+                    <a href="#" th:href="@{/register/assistant}">Assistant register!</a> or
+                    <a href="#" th:href="@{/register/financialColleague}">Financial Colleague register!</a>
+
                 </div>
+
             </div>
             <input name="submit" type="submit" value="Login" class="btn btn-primary">
         </form>
