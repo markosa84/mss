@@ -25,7 +25,7 @@ public abstract class MssUser {
     @Column(nullable = false)
     private String lastName;
     @Column(nullable = false)
-    private String gender;
+    private int gender;
     @Column(nullable = false)
     private String phoneNumber;
     @Column(nullable = false)
@@ -34,7 +34,7 @@ public abstract class MssUser {
     public MssUser() {
     }
 
-    public MssUser(int userId, boolean active, LocalDateTime registrationDate, String email, String password, String firstName, String lastName, String gender, String phoneNumber, String roles) {
+    public MssUser(int userId, boolean active, LocalDateTime registrationDate, String email, String password, String firstName, String lastName, int gender, String phoneNumber, String roles) {
         this.userId = userId;
         this.active = active;
         this.registrationDate = registrationDate;
@@ -132,11 +132,11 @@ public abstract class MssUser {
         this.lastName = lastName;
     }
 
-    public String getGender() {
+    public int getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(int gender) {
         this.gender = gender;
     }
 

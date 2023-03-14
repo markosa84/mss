@@ -33,19 +33,7 @@ public class HomeController {
     private LoginService loginService;
     private RegistrationService registrationService;
 
-    @Autowired
-    private DataSource dataSource;
 
-    @PostConstruct
-    public void createTableGender() throws SQLException {
-        // indulás előtt létrehozzuk a Gender táblát majd fel is töltjük adatokkal
-        ScriptUtils.executeSqlScript(dataSource.getConnection(), new ClassPathResource("gender_schema.sql"));
-        ScriptUtils.executeSqlScript(dataSource.getConnection(), new ClassPathResource("languages.sql"));
-        ScriptUtils.executeSqlScript(dataSource.getConnection(), new ClassPathResource("client.sql"));
-//        ScriptUtils.executeSqlScript(dataSource.getConnection(), new ClassPathResource("doctor.sql"));
-//        ScriptUtils.executeSqlScript(dataSource.getConnection(), new ClassPathResource("admin.sql"));
-//        ScriptUtils.executeSqlScript(dataSource.getConnection(), new ClassPathResource("assistant.sql"));
-    }
 
     @Autowired
     public void setLoginService(LoginService loginService) {
