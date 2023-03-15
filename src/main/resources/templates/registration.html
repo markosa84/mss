@@ -50,8 +50,7 @@
     <div class="col-md-4">
         <label for="validationCustom06" class="form-label">Gender</label>
         <select class="form-select" th:field="*{gender}" id="validationCustom06" required>
-            <option selected value="">Choose</option>
-            <option th:each="g : ${genderList}" th:value="${g.gender}" th:text="${g.gender}">Male</option>
+            <option th:each="g : ${genderList}" th:value="${g.id}" th:text="${g.gender}">Male</option>
             <!--            <option value="female">Female</option>-->
             <!--            <option value="other">Other</option>-->
             <!--            <option value="unknown">Unknown</option>-->

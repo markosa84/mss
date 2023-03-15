@@ -1,29 +1,16 @@
 package hu.ak_akademia.mss.controller;
 
-import hu.ak_akademia.mss.model.user.FinancialColleague;
-import hu.ak_akademia.mss.model.user.Assistant;
-import hu.ak_akademia.mss.model.user.Client;
-import hu.ak_akademia.mss.model.user.Doctor;
-import hu.ak_akademia.mss.model.user.MssUser;
+import hu.ak_akademia.mss.model.user.*;
 import hu.ak_akademia.mss.service.LoginService;
+import hu.ak_akademia.mss.service.PasswordEncryption;
 import hu.ak_akademia.mss.service.RegistrationService;
+import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.jdbc.datasource.init.ScriptUtils;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.init.ScriptUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.PostConstruct;
-import javax.sql.DataSource;
 import java.security.Principal;
-import java.sql.SQLException;
 import java.util.Map;
 
 @Controller
@@ -32,7 +19,6 @@ public class HomeController {
 
     private LoginService loginService;
     private RegistrationService registrationService;
-
 
 
     @Autowired
@@ -66,22 +52,22 @@ public class HomeController {
 //    ************************************************************************************************************
 
     @GetMapping("/login")
-    public String login() {
+    public String login(Model model) {
         return "/login";
     }
 
-//    @PostMapping("/login")
-//    public String loginProcess(Model model, @RequestParam String email, @RequestParam String password) {
-//        var currentPassword = new PasswordEncryption(password).encryptWithMD5();
-//        try {
-//            MssUser user = registrationService.getUser(email, currentPassword);
-//        } catch (IncorrectEnteredDataException e) {
-//            System.out.println(e.getErrorMessage());
-//            model.addAttribute("loginError", e.getErrorMessage());
-//            return "login";
-//        }
-//        return "home";
-//    }
+    @PostMapping("/login")
+    public String loginProcess(Model model, @RequestParam String email, @RequestParam String password) {
+        var currentPassword = new PasswordEncryption(password).encryptWithMD5();
+        try {
+            MssUser user = registrationService.getUser(email, currentPassword);
+        } catch (IncorrectEnteredDataException e) {
+            System.out.println(e.getErrorMessage());
+            model.addAttribute("loginError", e.getErrorMessage());
+            return "login";
+        }
+        return "home";
+    }
 
 //    **************************************************************************************************************
 
@@ -105,7 +91,8 @@ public class HomeController {
         model.addAllAttributes(errorList);
         return "registration";
     }
-//**********************************************************************************************************
+
+    //**********************************************************************************************************
     @GetMapping("/register/assistant")
     public String assistant_registration(Assistant assistant, Model model) {
         return "assistant_registration";

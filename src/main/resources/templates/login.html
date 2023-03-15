@@ -14,10 +14,10 @@
 <div class="frame">
     <div class="center-screen">
         <form name="f" th:action="@{/login}" action="/login" method="post">
-            <h4 class="validatorError" th:text="${loginError} == null ? '': ${loginError}"></h4>
-<!--            <h4 class="validatorError" th:text="${msg} == null ? '': ${errorMsg}"></h4>-->
+            <h4 class="validatorError" th:text="${errorLogin} == null ? '': ${errorLogin}"></h4>
+            <!--            <h4 class="validatorError" th:text="${msg} == null ? '': ${errorMsg}"></h4>-->
             <div class="mb-3">
-3                <label for="exampleInputEmail1" class="form-label">Email address</label>
+                3 <label for="exampleInputEmail1" class="form-label">Email address</label>
                 <input name="username" type="text" class="form-control" id="exampleInputEmail1"
                        aria-describedby="emailHelp">
                 <div id="emailHelp" class="form-text">Enter your e-mail address!</div>
