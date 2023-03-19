@@ -15,7 +15,7 @@ public class Languages {
 
     private String lang;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "languages")
     private List<MssUser> users;
 
     public Languages() {
