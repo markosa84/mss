@@ -7,7 +7,7 @@ VALUES (1,'hungarian'), (2,'deutsch'),(3, 'english'),(4, 'chinese');
 --gender data
 ---------------
 INSERT INTO Gender(id,gender)
- VALUES (1,'male'), (2,'female'),(3, 'cannot_be_determinate'),(4, 'not_public'),(5, 'like_Lajos');
+ VALUES (1,'male'), (2,'female'),(3, 'cannot_be_determinate'),(4, 'not_public');
 
 -- doktor data
 ---------------
@@ -35,7 +35,7 @@ INSERT INTO MSS_USER (DTYPE, ACTIVE, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME,
  DATE_OF_BIRTH, PLACE_OF_BIRTH, MOTHERS_NAME, TAJNUMBER, GENDER,
   PHONE_NUMBER,REGISTRATION_DATE, ROLES)
   VALUES ('Client','false', 'aleeeai@gmail.com', '1151371fe13913e1f31121181f51a311819311e1721881ea', 'Árpi', 'Balasa',
-  '1970-02-18', 'Budapest', 'Pátrik Izolda', '12345118911', (SELECT id FROM GENDER WHERE gender='like_Lajos'),
+  '1970-02-18', 'Budapest', 'Pátrik Izolda', '12345118911', (SELECT id FROM GENDER WHERE gender='male'),
    '+36706389858','2023-02-20 10:10:14','ROLE_CLIENT');
 
    INSERT INTO MSS_USER (DTYPE, ACTIVE, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME,
@@ -45,8 +45,7 @@ INSERT INTO MSS_USER (DTYPE, ACTIVE, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME,
         '1967-01-18', 'Győr', 'Andula Erika', '11881256789', (SELECT id FROM GENDER WHERE gender='female'),
          '+36306410058',CURRENT_TIME,'ROLE_CLIENT');
 
- --mssUser-languages (client_user_id languages_id)
----------------------------------------------------
+
 
  --asssistant data
 ------------------
@@ -70,9 +69,12 @@ INSERT INTO MSS_USER (DTYPE, ACTIVE,
   PHONE_NUMBER, ROLES)
   VALUES ('Admin', 'false'
   ,'admin111@gmail.com', '1151371fe13913e1f31121181f51a311819311e1721881ea', 'Csaba'
-  , 'f0ldi','1970-02-18', 'Csantavér',
+  , 'Földi','1970-02-18', 'Csantavér',
   'Horváth Ilona', (SELECT id FROM GENDER WHERE gender='male'),
    '+36706110258','ROLE_ADMIN' );
+
+    --mssUser-languages (client_user_id languages_id)
+   ---------------------------------------------------
 
    --lang (languages_id mss_user_id)
     -----------------------------------

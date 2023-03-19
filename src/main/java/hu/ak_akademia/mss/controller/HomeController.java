@@ -21,6 +21,7 @@ public class HomeController {
     private RegistrationService registrationService;
 
 
+
     @Autowired
     public void setLoginService(LoginService loginService) {
         this.loginService = loginService;
