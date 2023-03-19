@@ -5,16 +5,16 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.StringJoiner;
 
 @Entity
 public class Client extends MssUser {
 
-    @ManyToMany
-    private List<Languages> languages;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(nullable = false)
     private LocalDate dateOfBirth;
@@ -27,20 +27,12 @@ public class Client extends MssUser {
     public Client() {
     }
 
-    public Client(List<Languages> languages, LocalDate dateOfBirth, String placeOfBirth, String mothersName, String TAJNumber) {
-        this.languages = languages;
+    public Client(int userId, boolean active, LocalDateTime registrationDate, String email, String password, String firstName, String lastName, int gender, String phoneNumber, String roles, List<Languages> languages, LocalDate dateOfBirth, String placeOfBirth, String mothersName, String TAJNumber) {
+        super(userId, active, registrationDate, email, password, firstName, lastName, gender, phoneNumber, roles, languages);
         this.dateOfBirth = dateOfBirth;
         this.placeOfBirth = placeOfBirth;
         this.mothersName = mothersName;
         this.TAJNumber = TAJNumber;
-    }
-
-    public List<Languages> getLanguages() {
-        return languages;
-    }
-
-    public void setLanguages(List<Languages> languages) {
-        this.languages = languages;
     }
 
     public LocalDate getDateOfBirth() {
@@ -76,27 +68,25 @@ public class Client extends MssUser {
     }
 
     @Override
-    public String toString() {
-        return "Client{" +
-                "languages=" + languages +
-                ", dateOfBirth=" + dateOfBirth +
-                ", placeOfBirth='" + placeOfBirth + '\'' +
-                ", mothersName='" + mothersName + '\'' +
-                ", TAJNumber='" + TAJNumber + '\'' +
-                "} " + super.toString();
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Client client)) return false;
         if (!super.equals(o)) return false;
-        Client client = (Client) o;
-        return Objects.equals(languages, client.languages) && Objects.equals(dateOfBirth, client.dateOfBirth) && Objects.equals(placeOfBirth, client.placeOfBirth) && Objects.equals(mothersName, client.mothersName) && Objects.equals(TAJNumber, client.TAJNumber);
+        return Objects.equals(getDateOfBirth(), client.getDateOfBirth()) && Objects.equals(getPlaceOfBirth(), client.getPlaceOfBirth()) && Objects.equals(getMothersName(), client.getMothersName()) && Objects.equals(getTAJNumber(), client.getTAJNumber());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), languages, dateOfBirth, placeOfBirth, mothersName, TAJNumber);
+        return Objects.hash(super.hashCode(), getDateOfBirth(), getPlaceOfBirth(), getMothersName(), getTAJNumber());
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", Client.class.getSimpleName() + "[", "]")
+                .add("dateOfBirth=" + dateOfBirth)
+                .add("placeOfBirth='" + placeOfBirth + "'")
+                .add("mothersName='" + mothersName + "'")
+                .add("TAJNumber='" + TAJNumber + "'")
+                .toString();
     }
 }

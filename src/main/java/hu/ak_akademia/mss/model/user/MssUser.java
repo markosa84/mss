@@ -1,9 +1,13 @@
 package hu.ak_akademia.mss.model.user;
 
+import hu.ak_akademia.mss.model.Languages;
 import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
+import java.util.StringJoiner;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -30,11 +34,16 @@ public abstract class MssUser {
     private String phoneNumber;
     @Column(nullable = false)
     private String roles;
+    @ManyToMany
+    @JoinTable(name = "lang",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "languages_id"))
+    private List<Languages> languages;
 
     public MssUser() {
     }
 
-    public MssUser(int userId, boolean active, LocalDateTime registrationDate, String email, String password, String firstName, String lastName, int gender, String phoneNumber, String roles) {
+    public MssUser(int userId, boolean active, LocalDateTime registrationDate, String email, String password, String firstName, String lastName, int gender, String phoneNumber, String roles, List<Languages> languages) {
         this.userId = userId;
         this.active = active;
         this.registrationDate = registrationDate;
@@ -45,35 +54,7 @@ public abstract class MssUser {
         this.gender = gender;
         this.phoneNumber = phoneNumber;
         this.roles = roles;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        MssUser mssUser = (MssUser) o;
-        return userId == mssUser.userId && active == mssUser.active && Objects.equals(registrationDate, mssUser.registrationDate) && Objects.equals(email, mssUser.email) && Objects.equals(password, mssUser.password) && Objects.equals(firstName, mssUser.firstName) && Objects.equals(lastName, mssUser.lastName) && Objects.equals(gender, mssUser.gender) && Objects.equals(phoneNumber, mssUser.phoneNumber) && Objects.equals(roles, mssUser.roles);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(userId, active, registrationDate, email, password, firstName, lastName, gender, phoneNumber, roles);
-    }
-
-    @Override
-    public String toString() {
-        return "MssUser{" +
-                "userId=" + userId +
-                ", active=" + active +
-                ", registrationDate=" + registrationDate +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", gender='" + gender + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", roles='" + roles + '\'' +
-                '}';
+        this.languages = languages;
     }
 
     public int getUserId() {
@@ -154,6 +135,43 @@ public abstract class MssUser {
 
     public void setRoles(String roles) {
         this.roles = roles;
+    }
+
+    public List<Languages> getLanguages() {
+        return languages;
+    }
+
+    public void setLanguages(List<Languages> languages) {
+        this.languages = languages;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof MssUser mssUser)) return false;
+        return getUserId() == mssUser.getUserId() && isActive() == mssUser.isActive() && getGender() == mssUser.getGender() && Objects.equals(getRegistrationDate(), mssUser.getRegistrationDate()) && Objects.equals(getEmail(), mssUser.getEmail()) && Objects.equals(getPassword(), mssUser.getPassword()) && Objects.equals(getFirstName(), mssUser.getFirstName()) && Objects.equals(getLastName(), mssUser.getLastName()) && Objects.equals(getPhoneNumber(), mssUser.getPhoneNumber()) && Objects.equals(getRoles(), mssUser.getRoles()) && Objects.equals(getLanguages(), mssUser.getLanguages());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getUserId(), isActive(), getRegistrationDate(), getEmail(), getPassword(), getFirstName(), getLastName(), getGender(), getPhoneNumber(), getRoles(), getLanguages());
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", MssUser.class.getSimpleName() + "[", "]")
+                .add("userId=" + userId)
+                .add("active=" + active)
+                .add("registrationDate=" + registrationDate)
+                .add("email='" + email + "'")
+                .add("password='" + password + "'")
+                .add("firstName='" + firstName + "'")
+                .add("lastName='" + lastName + "'")
+                .add("gender=" + gender)
+                .add("phoneNumber='" + phoneNumber + "'")
+                .add("roles='" + roles + "'")
+                .add("languages=" + languages)
+                .toString();
     }
 }
 

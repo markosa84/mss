@@ -16,9 +16,6 @@ public class Languages {
     private String lang;
 
     @ManyToMany
-    @JoinTable(name = "lang",
-            joinColumns = @JoinColumn(name = "languages_id"),
-            inverseJoinColumns = @JoinColumn(name = "mssUser_id"))
     private List<MssUser> users;
 
     public Languages() {
