@@ -96,5 +96,5 @@ INSERT INTO MSS_USER (DTYPE, ACTIVE,
    INSERT INTO LANG (user_id ,languages_id) VALUES (3,4);
    INSERT INTO LANG (user_id ,languages_id) VALUES (4,1);
    INSERT INTO LANG (user_id ,languages_id) VALUES (4,2);
-   INSERT INTO LANG (user_id ,languages_id) VALUES (4,3);
+   INSERT INTO LANG (user_id ,languages_id) VALUES (4,4);
 
