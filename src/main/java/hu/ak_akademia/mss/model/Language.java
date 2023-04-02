@@ -7,23 +7,24 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Languages {
+public class Language {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "language_id")
     private int id;
 
-    private String lang;
+    private String name;
 
     @ManyToMany(mappedBy = "languages")
     private List<MssUser> users;
 
-    public Languages() {
+    public Language() {
     }
 
-    public Languages(int id, String lang, List<MssUser> users) {
+    public Language(int id, String name, List<MssUser> users) {
         this.id = id;
-        this.lang = lang;
+        this.name = name;
         this.users = users;
     }
 
@@ -31,7 +32,7 @@ public class Languages {
     public String toString() {
         return "Languages{" +
                 "id=" + id +
-                ", language='" + lang + '\'' +
+                ", language='" + name + '\'' +
                 ", users=" + users +
                 '}';
     }
@@ -40,13 +41,13 @@ public class Languages {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Languages languages = (Languages) o;
-        return id == languages.id && Objects.equals(lang, languages.lang) && Objects.equals(users, languages.users);
+        Language language = (Language) o;
+        return id == language.id && Objects.equals(name, language.name) && Objects.equals(users, language.users);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, lang, users);
+        return Objects.hash(id, name, users);
     }
 
     public int getId() {
@@ -57,12 +58,12 @@ public class Languages {
         this.id = id;
     }
 
-    public String getLang() {
-        return lang;
+    public String getName() {
+        return name;
     }
 
-    public void setLang(String lang) {
-        this.lang = lang;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<MssUser> getUsers() {

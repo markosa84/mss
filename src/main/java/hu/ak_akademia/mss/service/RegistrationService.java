@@ -1,7 +1,7 @@
 package hu.ak_akademia.mss.service;
 
 import hu.ak_akademia.mss.model.Gender;
-import hu.ak_akademia.mss.model.Languages;
+import hu.ak_akademia.mss.model.Language;
 import hu.ak_akademia.mss.model.user.*;
 import hu.ak_akademia.mss.repository.GenderTableRepository;
 import hu.ak_akademia.mss.repository.LanguageTableRepository;
@@ -74,7 +74,7 @@ public class RegistrationService {
         return genderRepository.findAll();
     }
 
-    public List<Languages> getLanguages() {
+    public List<Language> getLanguages() {
         return languageRepository.findAll();
     }
 

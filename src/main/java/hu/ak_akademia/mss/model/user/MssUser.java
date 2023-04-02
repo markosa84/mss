@@ -1,6 +1,7 @@
 package hu.ak_akademia.mss.model.user;
 
-import hu.ak_akademia.mss.model.Languages;
+import hu.ak_akademia.mss.model.Discipline;
+import hu.ak_akademia.mss.model.Language;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -35,15 +36,20 @@ public abstract class MssUser {
     @Column(nullable = false)
     private String roles;
     @ManyToMany
-    @JoinTable(name = "lang",
+    @JoinTable(name = "mss_user_to_language",
             joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "languages_id"))
-    private List<Languages> languages;
+            inverseJoinColumns = @JoinColumn(name = "language_id"))
+    private List<Language> languages;
 
+    @ManyToMany
+    @JoinTable(name = "mss_user_to_discipline",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "discipline_id"))
+    private List<Discipline> discipline;
     public MssUser() {
     }
 
-    public MssUser(int userId, boolean active, LocalDateTime registrationDate, String email, String password, String firstName, String lastName, int gender, String phoneNumber, String roles, List<Languages> languages) {
+    public MssUser(int userId, boolean active, LocalDateTime registrationDate, String email, String password, String firstName, String lastName, int gender, String phoneNumber, String roles, List<Language> languages, List<Discipline> discipline) {
         this.userId = userId;
         this.active = active;
         this.registrationDate = registrationDate;
@@ -55,6 +61,7 @@ public abstract class MssUser {
         this.phoneNumber = phoneNumber;
         this.roles = roles;
         this.languages = languages;
+        this.discipline = discipline;
     }
 
     public int getUserId() {
@@ -137,24 +144,32 @@ public abstract class MssUser {
         this.roles = roles;
     }
 
-    public List<Languages> getLanguages() {
+    public List<Language> getLanguages() {
         return languages;
     }
 
-    public void setLanguages(List<Languages> languages) {
+    public void setLanguages(List<Language> languages) {
         this.languages = languages;
+    }
+
+    public List<Discipline> getDiscipline() {
+        return discipline;
+    }
+
+    public void setDiscipline(List<Discipline> discipline) {
+        this.discipline = discipline;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof MssUser mssUser)) return false;
-        return getUserId() == mssUser.getUserId() && isActive() == mssUser.isActive() && getGender() == mssUser.getGender() && Objects.equals(getRegistrationDate(), mssUser.getRegistrationDate()) && Objects.equals(getEmail(), mssUser.getEmail()) && Objects.equals(getPassword(), mssUser.getPassword()) && Objects.equals(getFirstName(), mssUser.getFirstName()) && Objects.equals(getLastName(), mssUser.getLastName()) && Objects.equals(getPhoneNumber(), mssUser.getPhoneNumber()) && Objects.equals(getRoles(), mssUser.getRoles()) && Objects.equals(getLanguages(), mssUser.getLanguages());
+        return getUserId() == mssUser.getUserId() && isActive() == mssUser.isActive() && getGender() == mssUser.getGender() && Objects.equals(getRegistrationDate(), mssUser.getRegistrationDate()) && Objects.equals(getEmail(), mssUser.getEmail()) && Objects.equals(getPassword(), mssUser.getPassword()) && Objects.equals(getFirstName(), mssUser.getFirstName()) && Objects.equals(getLastName(), mssUser.getLastName()) && Objects.equals(getPhoneNumber(), mssUser.getPhoneNumber()) && Objects.equals(getRoles(), mssUser.getRoles()) && Objects.equals(getLanguages(), mssUser.getLanguages()) && Objects.equals(getDiscipline(), mssUser.getDiscipline());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getUserId(), isActive(), getRegistrationDate(), getEmail(), getPassword(), getFirstName(), getLastName(), getGender(), getPhoneNumber(), getRoles(), getLanguages());
+        return Objects.hash(getUserId(), isActive(), getRegistrationDate(), getEmail(), getPassword(), getFirstName(), getLastName(), getGender(), getPhoneNumber(), getRoles(), getLanguages(), getDiscipline());
     }
 
     @Override
@@ -171,6 +186,7 @@ public abstract class MssUser {
                 .add("phoneNumber='" + phoneNumber + "'")
                 .add("roles='" + roles + "'")
                 .add("languages=" + languages)
+                .add("discipline=" + discipline)
                 .toString();
     }
 }

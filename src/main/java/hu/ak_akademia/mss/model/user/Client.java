@@ -1,12 +1,13 @@
 package hu.ak_akademia.mss.model.user;
 
-import hu.ak_akademia.mss.model.Languages;
+import hu.ak_akademia.mss.model.Language;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
@@ -27,8 +28,8 @@ public class Client extends MssUser {
     public Client() {
     }
 
-    public Client(int userId, boolean active, LocalDateTime registrationDate, String email, String password, String firstName, String lastName, int gender, String phoneNumber, String roles, List<Languages> languages, LocalDate dateOfBirth, String placeOfBirth, String mothersName, String TAJNumber) {
-        super(userId, active, registrationDate, email, password, firstName, lastName, gender, phoneNumber, roles, languages);
+    public Client(int userId, boolean active, LocalDateTime registrationDate, String email, String password, String firstName, String lastName, int gender, String phoneNumber, String roles, List<Language> languages, LocalDate dateOfBirth, String placeOfBirth, String mothersName, String TAJNumber) {
+        super(userId, active, registrationDate, email, password, firstName, lastName, gender, phoneNumber, roles, languages, Collections.emptyList());
         this.dateOfBirth = dateOfBirth;
         this.placeOfBirth = placeOfBirth;
         this.mothersName = mothersName;

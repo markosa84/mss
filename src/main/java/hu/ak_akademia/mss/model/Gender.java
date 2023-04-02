@@ -1,15 +1,13 @@
 package hu.ak_akademia.mss.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 public class Gender {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "gender_id")
     private int id;
 
     private String gender;
