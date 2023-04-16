@@ -104,3 +104,11 @@ INSERT INTO discipline (discipline_id ,qualification) VALUES (2,'psychologist');
 INSERT INTO discipline (discipline_id ,qualification) VALUES (3,'surgeon');
 INSERT INTO discipline (discipline_id ,qualification) VALUES (4,'dentist');
 INSERT INTO discipline (discipline_id ,qualification) VALUES (5,'gynecologist');
+
+
+-- mss_user_to_discipline( user_id,discipline_id)
+INSERT INTO mss_user_to_discipline ( user_id , discipline_id) VALUES (1 ,1);
+INSERT INTO mss_user_to_discipline ( user_id , discipline_id) VALUES (1 ,3);
+INSERT INTO mss_user_to_discipline ( user_id , discipline_id) VALUES (2 ,2);
+INSERT INTO mss_user_to_discipline ( user_id , discipline_id) VALUES (5 ,1);
+INSERT INTO mss_user_to_discipline ( user_id , discipline_id) VALUES (5 ,2);
