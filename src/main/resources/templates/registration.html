@@ -21,75 +21,69 @@
         <h1>New Patient Registration</h1>
     </div>
     <div class="col-md-4">
-        <label for="validationCustom01" class="form-label">First name</label>
-        <input type="text" class="form-control" id="validationCustom01" th:field="*{firstName}"
+        <label for="firstName" class="form-label">First name</label>
+        <input type="text" class="form-control" id="firstName" th:field="*{firstName}"
                placeholder="e.g.: Gábor" required>
         <span class="validatorError" th:text="${firstNameError} == null ? '' : ${firstNameError}"></span>
     </div>
     <div class="col-md-4">
-        <label for="validationCustom02" class="form-label">Last name</label>
-        <input type="text" class="form-control" id="validationCustom02" th:field="*{lastName}"
+        <label for="lastName" class="form-label">Last name</label>
+        <input type="text" class="form-control" id="lastName" th:field="*{lastName}"
                placeholder="e.g.: Kovács" required>
         <span class="validatorError" th:text="${lastNameError} == null ? '' : ${lastNameError}"></span>
     </div>
     <div class="col-md-4">
-        <label for="validationCustom03" class="form-label">Email address</label>
+        <label for="emailAddress" class="form-label">Email address</label>
         <div class="input-group has-validation">
             <span class="input-group-text" id="inputGroupPrepend">@</span>
-            <input type="text" class="form-control" id="validationCustom03" aria-describedby="inputGroupPrepend"
+            <input type="text" class="form-control" id="emailAddress" aria-describedby="inputGroupPrepend"
                    th:field="*{email}" placeholder="e.g.: gaborkovacs@gmail.com" required>
         </div>
         <span class="validatorError" th:text="${emailError} == null ? '' : ${emailError}"></span>
     </div>
     <div class="col-md-4">
-        <label for="validationCustom05" class="form-label">Password</label>
-        <input type="text" class="form-control" id="validationCustom05" th:field="*{password}"
+        <label for="password" class="form-label">Password</label>
+        <input type="text" class="form-control" id="password" th:field="*{password}"
                placeholder="Minimum 6 characters, contain at least 2 numbers and 2 letters" required>
         <span class="validatorError" th:text="${passwordError} == null ? '' : ${passwordError}"></span>
     </div>
+
     <div class="col-md-4">
-        <label for="validationCustom06" class="form-label">Gender</label>
-        <select class="form-select" th:field="*{gender}" id="validationCustom06" required>
+        <label for="gender" class="form-label">Gender</label>
+        <select class="form-select" th:field="*{gender}" id="gender" required>
             <option th:each="g : ${genderList}" th:value="${g.id}" th:text="${g.gender}">Male</option>
-            <!--            <option value="female">Female</option>-->
-            <!--            <option value="other">Other</option>-->
-            <!--            <option value="unknown">Unknown</option>-->
         </select>
     </div>
+
+
     <div class="col-md-4">
-        <label for="validationCustom07" class="form-label">Birthplace</label>
-        <input type="text" class="form-control" id="validationCustom07" th:field="*{placeOfBirth}"
+        <label for="placeOfBirth" class="form-label">Birthplace</label>
+        <input type="text" class="form-control" id="placeOfBirth" th:field="*{placeOfBirth}"
                placeholder="e.g.: Budapest" required>
         <span class="validatorError" th:text="${birthplaceError} == null ? '' : ${birthplaceError}"></span>
     </div>
     <div class="col-md-4">
-        <label for="validationCustom08" class="form-label">Birthday</label>
-        <input type="date" class="form-control" id="validationCustom08" th:field="*{dateOfBirth}" required>
+        <label for="dateOfBirth" class="form-label">Birthday</label>
+        <input type="date" class="form-control" id="dateOfBirth" th:field="*{dateOfBirth}" required>
         <span class="validatorError" th:text="${dateOfBirthError} == null ? '' : ${dateOfBirthError}"></span>
     </div>
     <div class="col-md-4">
-        <label for="validationCustom09" class="form-label">Mother Name</label>
-        <input type="text" class="form-control" id="validationCustom09" th:field="*{mothersName}"
+        <label for="mothersName" class="form-label">Mother Name</label>
+        <input type="text" class="form-control" id="mothersName" th:field="*{mothersName}"
                placeholder="e.g.: Kovács Erzsébet" required>
         <span class="validatorError" th:text="${motherNameError} == null ? '' : ${motherNameError}"></span>
     </div>
     <div class="col-md-4">
-        <label for="validationCustom10" class="form-label">TAJ number</label>
-        <input type="text" class="form-control" id="validationCustom10" th:field="*{TAJNumber}"
+        <label for="TAJNumber" class="form-label">TAJ number</label>
+        <input type="text" class="form-control" id="TAJNumber" th:field="*{TAJNumber}"
                placeholder="e.g.: 123-456-789" required>
         <span class="validatorError" th:text="${tajError} == null ? '' : ${tajError}"></span>
     </div>
     <div class="col-md-4">
-        <label for="validationCustom11" class="form-label">Phone number</label>
-        <input type="text" class="form-control" id="validationCustom11" th:field="*{phoneNumber}"
+        <label for="phoneNumber" class="form-label">Phone number</label>
+        <input type="text" class="form-control" id="phoneNumber" th:field="*{phoneNumber}"
                placeholder="e.g.: +36 301 123456" required>
         <span class="validatorError" th:text="${phoneError} == null ? '' : ${phoneError}"></span>
-    </div>
-    <div class="col-md-4">
-        <label for="validationCustom06" class="form-label">Languages</label>
-        <select class="form-select" th:field="*{languages}" id="validationCustom12" required>
-            <option th:each="l : ${languageList}" th:value="${l.id}" th:text="${l.lang}">Male</option>
-        </select>
     </div>
     <div class="col-12">
         <div class="form-check">
