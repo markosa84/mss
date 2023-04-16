@@ -2,12 +2,12 @@
 ---- language data
 -------------------
 INSERT INTO Language (language_id,name)
-VALUES (1,'hungarian'), (2,'deutsch'),(3, 'english'),(4, 'chinese');
+VALUES (1,'Hungarian'), (2,'Deutsch'),(3, 'English'),(4, 'Chinese');
 
 ----gender data
 -----------------
 INSERT INTO Gender(gender_id,gender)
- VALUES (1,'male'), (2,'female'),(3, 'cannot_be_determinate'),(4, 'not_public');
+ VALUES (1,'Male'), (2,'Female'),(3, 'Other');
 
 ---- doktor data
 -----------------
@@ -79,7 +79,7 @@ INSERT INTO MSS_USER (DTYPE, ACTIVE,
    MOTHERS_NAME, GENDER,
   PHONE_NUMBER, ROLES)
   VALUES ('FinancialColleague', 'false'
-  ,'admin111@gmail.com', '1151371fe13913e1f31121181f51a311819311e1721881ea', 'Árpád'
+  ,'financ131@gmail.com', '1151371fe13913e1f31121181f51a311819311e1721881ea', 'Árpád'
   , 'Gyurita','1980-06-28', 'Nagyfény',
   'Kovács Gyöngyi', (SELECT gender_id FROM GENDER WHERE gender='male'),
    '+36306110228','ROLE_FINANCIALCOLLEAGUE' );
