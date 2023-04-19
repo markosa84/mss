@@ -96,6 +96,7 @@ public class HomeController {
     //**********************************************************************************************************
     @GetMapping("/register/assistant")
     public String assistant_registration(Assistant assistant, Model model) {
+        model.addAttribute("genderList", registrationService.getAllGender());
         return "assistant_registration";
     }
 
@@ -106,6 +107,7 @@ public class HomeController {
             registrationService.save(assistant);
             return "index";
         }
+        model.addAttribute("genderList", registrationService.getAllGender());
         model.addAllAttributes(errorList);
         return "assistant_registration";
     }
@@ -113,6 +115,7 @@ public class HomeController {
     //**********************************************************************************************************
     @GetMapping("/register/doctor")
     public String doctor_registration(Doctor doctor, Model model) {
+        model.addAttribute("genderList", registrationService.getAllGender());
         return "doctor_registration";
     }
 
@@ -123,6 +126,7 @@ public class HomeController {
             registrationService.save(doctor);
             return "index";
         }
+        model.addAttribute("genderList", registrationService.getAllGender());
         model.addAllAttributes(errorList);
         return "doctor_registration";
     }
@@ -131,6 +135,7 @@ public class HomeController {
     //**********************************************************************************************************
     @GetMapping("/register/financialColleague")
     public String financialColleague_registration(FinancialColleague financialColleague, Model model) {
+        model.addAttribute("genderList", registrationService.getAllGender());
         return "financialColleague_registration";
     }
 
@@ -141,6 +146,7 @@ public class HomeController {
             registrationService.save(financialColleague);
             return "index";
         }
+        model.addAttribute("genderList", registrationService.getAllGender());
         model.addAllAttributes(errorList);
         return "financialColleague_registration";
     }
