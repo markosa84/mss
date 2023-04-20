@@ -23,13 +23,13 @@
     <div class="col-md-4">
         <label for="firstName" class="form-label">First name</label>
         <input type="text" class="form-control" id="firstName" th:field="*{firstName}"
-               placeholder=required>
+               placeholder="e.g.: Gábor" required>
         <span class="validatorError" th:text="${firstNameError} == null ? '' : ${firstNameError}"></span>
     </div>
     <div class="col-md-4">
         <label for="lastName" class="form-label">Last name</label>
         <input type="text" class="form-control" id="lastName" th:field="*{lastName}"
-               placeholder= required>
+               placeholder="e.g.: Kovács" required>
         <span class="validatorError" th:text="${lastNameError} == null ? '' : ${lastNameError}"></span>
     </div>
     <div class="col-md-4">
@@ -37,7 +37,7 @@
         <div class="input-group has-validation">
             <span class="input-group-text" id="inputGroupPrepend">@</span>
             <input type="text" class="form-control" id="emailAddress" aria-describedby="inputGroupPrepend"
-                   th:field="*{email}" placeholder= required>
+                   th:field="*{email}" placeholder="e.g.: gaborkovacs@gmail.com" required>
         </div>
         <span class="validatorError" th:text="${emailError} == null ? '' : ${emailError}"></span>
     </div>
@@ -57,9 +57,27 @@
     <div class="col-md-4">
         <label for="phoneNumber" class="form-label">Phone number</label>
         <input type="text" class="form-control" id="phoneNumber" th:field="*{phoneNumber}"
-               placeholder=required>
+               placeholder="e.g.: +36 301 123456" required>
         <span class="validatorError" th:text="${phoneError} == null ? '' : ${phoneError}"></span>
     </div>
+
+    <div class="col-md-4">
+        <label class="form-label">Qualification</label>
+
+<!--        FIELD hiányában hibára fut (?), ha így akarjuk megnyitni a Doctor regisztrációs lapot - Dexter-->
+
+<!--        <label for="qualification" class="form-label">Qualification</label>-->
+<!--        <select class="form-select" multiple th:field="*{qualification}" id="qualification" required>-->
+        <select class="form-select" multiple aria-label="multiple select example">
+            <option selected disabled>Multiple selection menu</option>
+            <option value="1">urologist</option>
+            <option value="2">psychologist</option>
+            <option value="3">surgeon</option>
+            <option value="3">dentist</option>
+            <option value="3">gynecologist</option>
+        </select>
+    </div>
+
     <div class="col-12">
         <div class="form-check">
             <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>

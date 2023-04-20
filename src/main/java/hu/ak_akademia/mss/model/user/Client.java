@@ -36,6 +36,15 @@ public class Client extends MssUser {
         this.TAJNumber = TAJNumber;
     }
 
+    //  ACTIVE FIELD NÉLKÜLI KONSTRUKTOR - Dexter
+//    public Client(int userId, LocalDateTime registrationDate, String email, String password, String firstName, String lastName, int gender, String phoneNumber, String roles, List<Language> languages, LocalDate dateOfBirth, String placeOfBirth, String mothersName, String TAJNumber) {
+//        super(userId, registrationDate, email, password, firstName, lastName, gender, phoneNumber, roles, languages, Collections.emptyList());
+//        this.dateOfBirth = dateOfBirth;
+//        this.placeOfBirth = placeOfBirth;
+//        this.mothersName = mothersName;
+//        this.TAJNumber = TAJNumber;
+//    }
+
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
