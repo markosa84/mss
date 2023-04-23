@@ -64,6 +64,21 @@ public abstract class MssUser {
         this.discipline = discipline;
     }
 
+    //  ACTIVE FIELD NÉLKÜLI KONSTRUKTOR - Dexter
+//    public MssUser(int userId, LocalDateTime registrationDate, String email, String password, String firstName, String lastName, int gender, String phoneNumber, String roles, List<Language> languages, List<Discipline> discipline) {
+//        this.userId = userId;
+//        this.registrationDate = registrationDate;
+//        this.email = email;
+//        this.password = password;
+//        this.firstName = firstName;
+//        this.lastName = lastName;
+//        this.gender = gender;
+//        this.phoneNumber = phoneNumber;
+//        this.roles = roles;
+//        this.languages = languages;
+//        this.discipline = discipline;
+//    }
+
     public int getUserId() {
         return userId;
     }
