@@ -82,7 +82,7 @@
     <div class="col-md-4">
         <label for="phoneNumber" class="form-label">Phone number</label>
         <input type="text" class="form-control" id="phoneNumber" th:field="*{phoneNumber}"
-               placeholder="e.g.: +36 301 123456" required>
+               placeholder="e.g.: 06 301 123456" required>
         <span class="validatorError" th:text="${phoneError} == null ? '' : ${phoneError}"></span>
     </div>
     <div class="col-12">
@@ -94,7 +94,7 @@
         </div>
     </div>
     <div class="col-12">
-        <button class="btn btn-primary" type="submit">Registration</button>
+        <button class="btn btn-primary" type="submit">Register</button>
     </div>
 </form>
 </body>

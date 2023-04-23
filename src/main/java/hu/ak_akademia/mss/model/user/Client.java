@@ -17,10 +17,9 @@ public class Client extends MssUser {
 
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Column(nullable = false)
     private LocalDate dateOfBirth;
     private String placeOfBirth;
-    @Column(nullable = false)
+
     private String mothersName;
     @Column(length = 11)
     private String TAJNumber;

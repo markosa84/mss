@@ -1,8 +1,10 @@
 package hu.ak_akademia.mss.service;
 
+import hu.ak_akademia.mss.model.Discipline;
 import hu.ak_akademia.mss.model.Gender;
 import hu.ak_akademia.mss.model.Language;
 import hu.ak_akademia.mss.model.user.*;
+import hu.ak_akademia.mss.repository.DisciplineTableRepository;
 import hu.ak_akademia.mss.repository.GenderTableRepository;
 import hu.ak_akademia.mss.repository.LanguageTableRepository;
 import hu.ak_akademia.mss.repository.MSSUserRepository;
@@ -24,6 +26,8 @@ public class RegistrationService {
 
     @Autowired
     private GenderTableRepository genderRepository;
+    @Autowired
+    private DisciplineTableRepository disciplineTableRepository;
 
     @Autowired
     private LanguageTableRepository languageRepository;
@@ -72,6 +76,10 @@ public class RegistrationService {
 
     public List<Gender> getAllGender() {
         return genderRepository.findAll();
+    }
+
+    public List<Discipline> getAllDiscipline() {
+        return disciplineTableRepository.findAll();
     }
 
     public List<Language> getLanguages() {
