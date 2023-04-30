@@ -104,7 +104,7 @@ INSERT INTO areaOfExpertise (areaOfExpertise_id ,qualification) VALUES (2,'psych
 INSERT INTO areaOfExpertise (areaOfExpertise_id ,qualification) VALUES (3,'surgeon');
 INSERT INTO areaOfExpertise (areaOfExpertise_id ,qualification) VALUES (4,'dentist');
 INSERT INTO areaOfExpertise (areaOfExpertise_id ,qualification) VALUES (5,'gynecologist');
-
+INSERT INTO areaOfExpertise (areaOfExpertise_id ,qualification) VALUES (6,'gynecologist2');
 
 -- mss_user_to_areaOfExpertise( user_id,areaOfExpertise_id)
 INSERT INTO mss_user_to_areaOfExpertise ( user_id , areaOfExpertise_id) VALUES (1 ,1);
