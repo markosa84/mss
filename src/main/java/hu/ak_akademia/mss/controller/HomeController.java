@@ -21,7 +21,6 @@ public class HomeController {
     private RegistrationService registrationService;
 
 
-
     @Autowired
     public void setLoginService(LoginService loginService) {
         this.loginService = loginService;
@@ -53,22 +52,25 @@ public class HomeController {
 //    ************************************************************************************************************
 
     @GetMapping("/login")
-    public String login(Model model) {
+    public String login(Model model, String error) {
+        if (error != null) {
+            model.addAttribute("errorMsg", "Incorrect username or password!");
+        }
         return "/login";
     }
 
-    @PostMapping("/login")
-    public String loginProcess(Model model, @RequestParam String email, @RequestParam String password) {
-        var currentPassword = new PasswordEncryption(password).encryptWithMD5();
-        try {
-            MssUser user = registrationService.getUser(email, currentPassword);
-        } catch (IncorrectEnteredDataException e) {
-            System.out.println(e.getErrorMessage());
-            model.addAttribute("loginError", e.getErrorMessage());
-            return "login";
-        }
-        return "home";
-    }
+//    @PostMapping("/login")
+//    public String loginProcess(Model model, @RequestParam String email, @RequestParam String password) {
+//        var currentPassword = new PasswordEncryption(password).encryptWithMD5();
+//        try {
+//            MssUser user = registrationService.getUser(email, currentPassword);
+//        } catch (IncorrectEnteredDataException e) {
+//            System.out.println(e.getErrorMessage());
+//            model.addAttribute("loginError", e.getErrorMessage());
+//            return "login";
+//        }
+//        return "home";
+//    }
 
 //    **************************************************************************************************************
 
@@ -76,7 +78,6 @@ public class HomeController {
     public String registration(Client client, Model model) {
         model.addAttribute("genderList", registrationService.getAllGender());
         model.addAttribute("languageList", registrationService.getLanguages());
-        // TODO: join the client object to the RegistrationService;
         return "registration";
     }
 
@@ -84,6 +85,7 @@ public class HomeController {
     public String registrationForm(Client client, Model model) {
         Map<String, String> errorList = registrationService.testMSSUserData(client);
         if (errorList.isEmpty()) {
+            client.setRoles("ROLE_CLIENT");
             registrationService.save(client);
             return "index";
         }
@@ -124,6 +126,7 @@ public class HomeController {
     public String doctorRegistrationForm(Doctor doctor, Model model) {
         Map<String, String> errorList = registrationService.testMSSUserData(doctor);
         if (errorList.isEmpty()) {
+            doctor.setRoles("ROLE_DOCTOR");
             registrationService.save(doctor);
             return "index";
         }

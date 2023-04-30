@@ -16,7 +16,7 @@ public class MssSecurityUser implements UserDetails, Serializable {
 
     private final MssUser user;
 
-    private String password;
+    private final String password;
 
     private final String username;
 

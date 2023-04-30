@@ -1,6 +1,6 @@
 package hu.ak_akademia.mss.service.validators;
 
-import hu.ak_akademia.mss.model.user.Client;
+import hu.ak_akademia.mss.model.user.Doctor;
 import hu.ak_akademia.mss.service.Validator;
 import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;
 
@@ -9,22 +9,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CompositeClientValidator implements Validator<Client> {
+public class CompositeDoctorValidator implements Validator<Doctor> {
 
-    private final List<Validator<Client>> validators = new ArrayList<>();
+    private final boolean uniqueEmail;
+    private final List<Validator<Doctor>> validators = new ArrayList<>();
     private final Map<String, String> validatorErrorList = new HashMap<>();
 
-    private final boolean isUnique;
-
-    public CompositeClientValidator(boolean uniqueEmail) {
-        this.isUnique = uniqueEmail;
+    public CompositeDoctorValidator(boolean uniqueEmail) {
+        this.uniqueEmail = uniqueEmail;
     }
 
     @Override
-    public void validate(Client client) {
+    public void validate(Doctor doctor) {
         for (var v : validators) {
             try {
-                v.validate(client);
+                v.validate(doctor);
             } catch (IncorrectEnteredDataException e) {
                 validatorErrorList.put(e.getMessage(), e.getErrorMessage());
             }
@@ -33,8 +32,9 @@ public class CompositeClientValidator implements Validator<Client> {
     }
 
     private void checkUnique() {
-        if (isUnique) {
-            validatorErrorList.put("emailError", "This email already exists! Please choose another one");
+        if (uniqueEmail) {
+            validatorErrorList.put("emailError", "This email already exists! Please choose another one!");
+            System.out.println(validatorErrorList);
         }
     }
 
@@ -42,8 +42,7 @@ public class CompositeClientValidator implements Validator<Client> {
         return validatorErrorList;
     }
 
-    public void addValidators(List<Validator<Client>> validator) {
+    public void addValidators(List<Validator<Doctor>> validator) {
         validators.addAll(validator);
     }
-
 }

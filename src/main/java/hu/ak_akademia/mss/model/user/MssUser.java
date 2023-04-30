@@ -20,8 +20,8 @@ public abstract class MssUser {
     private boolean active;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(updatable = false)
-    private LocalDateTime registrationDate = LocalDateTime.now(); // automatically LocalDate.now() value
-    @Column(nullable = false)
+    private LocalDateTime registrationDate = LocalDateTime.now(); // automatically LocalDateTime.now() value
+    @Column(nullable = false, unique = true)
     private String email;
     @Column(nullable = false)
     private String password;
