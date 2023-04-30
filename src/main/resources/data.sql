@@ -99,16 +99,16 @@ INSERT INTO MSS_USER (DTYPE, ACTIVE,
    INSERT INTO mss_user_to_language (user_id ,language_id) VALUES (4,4);
 
 -- areaOfExpertise (areaOfExpertise_id, qualification)
-INSERT INTO areaOfExpertise (areaOfExpertise_id ,qualification) VALUES (1,'urologist');
-INSERT INTO areaOfExpertise (areaOfExpertise_id ,qualification) VALUES (2,'psychologist');
-INSERT INTO areaOfExpertise (areaOfExpertise_id ,qualification) VALUES (3,'surgeon');
-INSERT INTO areaOfExpertise (areaOfExpertise_id ,qualification) VALUES (4,'dentist');
-INSERT INTO areaOfExpertise (areaOfExpertise_id ,qualification) VALUES (5,'gynecologist');
-INSERT INTO areaOfExpertise (areaOfExpertise_id ,qualification) VALUES (6,'gynecologist2');
+INSERT INTO area_of_expertise (area_of_expertise_id ,qualification) VALUES (1,'urologist');
+INSERT INTO area_of_expertise (area_of_expertise_id ,qualification) VALUES (2,'psychologist');
+INSERT INTO area_of_expertise (area_of_expertise_id ,qualification) VALUES (3,'surgeon');
+INSERT INTO area_of_expertise (area_of_expertise_id ,qualification) VALUES (4,'dentist');
+INSERT INTO area_of_expertise (area_of_expertise_id ,qualification) VALUES (5,'gynecologist');
+INSERT INTO area_of_expertise (area_of_expertise_id ,qualification) VALUES (6,'gynecologist2');
 
 -- mss_user_to_areaOfExpertise( user_id,areaOfExpertise_id)
-INSERT INTO mss_user_to_areaOfExpertise ( user_id , areaOfExpertise_id) VALUES (1 ,1);
-INSERT INTO mss_user_to_areaOfExpertise ( user_id , areaOfExpertise_id) VALUES (1 ,3);
-INSERT INTO mss_user_to_areaOfExpertise ( user_id , areaOfExpertise_id) VALUES (2 ,2);
-INSERT INTO mss_user_to_areaOfExpertise ( user_id , areaOfExpertise_id) VALUES (5 ,1);
-INSERT INTO mss_user_to_areaOfExpertise ( user_id , areaOfExpertise_id) VALUES (5 ,2);
+INSERT INTO mss_user_to_area_of_expertise ( user_id , area_of_expertise_id) VALUES (1 ,1);
+INSERT INTO mss_user_to_area_of_expertise ( user_id , area_of_expertise_id) VALUES (1 ,3);
+INSERT INTO mss_user_to_area_of_expertise ( user_id , area_of_expertise_id) VALUES (2 ,2);
+INSERT INTO mss_user_to_area_of_expertise ( user_id , area_of_expertise_id) VALUES (5 ,1);
+INSERT INTO mss_user_to_area_of_expertise ( user_id , area_of_expertise_id) VALUES (5 ,2);
