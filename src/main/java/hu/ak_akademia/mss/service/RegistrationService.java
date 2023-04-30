@@ -10,6 +10,7 @@ import hu.ak_akademia.mss.repository.LanguageTableRepository;
 import hu.ak_akademia.mss.repository.MSSUserRepository;
 import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;
 import hu.ak_akademia.mss.service.validators.CompositeClientValidator;
+import hu.ak_akademia.mss.service.validators.CompositeDoctorValidator;
 import hu.ak_akademia.mss.service.validators.MSSUserValidatorFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -48,7 +49,11 @@ public class RegistrationService {
     }
 
     public Map<String, String> testMSSUserData(Doctor doctor) {
-        return Collections.emptyMap();
+        var doctorValidator = new CompositeDoctorValidator(isEmailUnique(doctor.getEmail()));
+        List<Validator<Doctor>> allDoctorValidators = MSSUserValidatorFactory.getInstance().getAllDoctorValidators();
+        doctorValidator.addValidators(allDoctorValidators);
+        doctorValidator.validate(doctor);
+        return doctorValidator.getValidatorErrorList();
     }
 
     public Map<String, String> testMSSUserData(FinancialColleague colleague) {
@@ -56,7 +61,8 @@ public class RegistrationService {
     }
 
     public Map<String, String> testMSSUserData(Client client) {
-        var clientValidator = new CompositeClientValidator();
+        boolean uniqueEmail = isEmailUnique(client.getEmail());
+        var clientValidator = new CompositeClientValidator(uniqueEmail);
         clientValidator.addValidators(MSSUserValidatorFactory.getInstance().getAllClientValidators());
         clientValidator.validate(client);
         return clientValidator.getValidatorErrorList();
@@ -84,6 +90,10 @@ public class RegistrationService {
 
     public List<Language> getLanguages() {
         return languageRepository.findAll();
+    }
+
+    public boolean isEmailUnique(String email) {
+        return mssUserRepository.isEmailExist(email).isPresent();
     }
 
     private void encryptPassword(MssUser mssUsers) {

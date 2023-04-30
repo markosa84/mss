@@ -1,6 +1,7 @@
 package hu.ak_akademia.mss.service.validators;
 
 import hu.ak_akademia.mss.model.user.Client;
+import hu.ak_akademia.mss.model.user.Doctor;
 import hu.ak_akademia.mss.service.Validator;
 
 import java.util.List;
@@ -29,6 +30,16 @@ public class MSSUserValidatorFactory {
 
     public List<Validator<Client>> getAllClientValidators() {
         return LIST;
+    }
+
+    public List<Validator<Doctor>> getAllDoctorValidators() {
+        return List.of( //
+                new DoctorEmailValidator(), //
+                new DoctorFirstNameValidator(), //
+                new DoctorLastNameValidator(), //
+                new DoctorPasswordValidator(), //
+                new DoctorPhoneNumberValidator() //
+        );
     }
 
 }

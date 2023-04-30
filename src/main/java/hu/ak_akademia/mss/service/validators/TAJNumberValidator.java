@@ -9,7 +9,7 @@ class TAJNumberValidator implements Validator<Client> {
     @Override
     public void validate(Client client) throws IncorrectEnteredDataException {
         if (client.getTAJNumber() == null || !client.getTAJNumber().matches("^\\d{3}-\\d{3}-\\d{3}$")) { // valid TAJ e.g.: 123-456-789
-            throw new IncorrectEnteredDataException("tajError", "The specified TAJ does not meet the formal requirements!");
+            throw new IncorrectEnteredDataException("tajError", "It is Wrong! Correct form is 123-456-789");
         }
     }
 }

@@ -10,7 +10,7 @@ class PlaceOfBirthValidator implements Validator<Client> {
         if (client.getPlaceOfBirth() == null || !client.getPlaceOfBirth().matches("^(\\p{L}" + //must start with a letter
                 "[\\p{L}\\p{Mn}\\s'-.]{0,98}" +
                 "[\\p{L}.])$")) { //must end with a letter or a dot(for cities like Washington D.C.)
-            throw new IncorrectEnteredDataException("birthplaceError", "The given place of birth is invalid!");
+            throw new IncorrectEnteredDataException("birthplaceError", "Invalid! Correct form is e.g.: Budapest");
         }
     }
 

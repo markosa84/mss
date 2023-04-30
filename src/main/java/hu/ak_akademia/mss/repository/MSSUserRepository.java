@@ -20,5 +20,8 @@ public interface MSSUserRepository extends JpaRepository<MssUser, Integer> {
     @Query(nativeQuery = true, value = "SELECT * FROM mss_user WHERE email = ?1")
     Optional<? extends MssUser> findByEmail(String email);
 
+    @Query(nativeQuery = true, value = "SELECT * FROM mss_user WHERE email = ?1")
+    Optional<? extends MssUser> isEmailExist(String email);
+
 
 }

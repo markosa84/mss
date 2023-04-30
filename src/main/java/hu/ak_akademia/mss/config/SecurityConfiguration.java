@@ -29,7 +29,7 @@ public class SecurityConfiguration {
 //                        .antMatchers("/home/**").hasAnyRole("CLIENT"))
                         /*
                          * use the above and don't add the string "ROLE_" in front of the text because Spring Security does it implicitly
-                         * or use below and add yourself the String "ROLE_".
+                         * or use below and add the String "ROLE_".
                          * */
                         .antMatchers("/home/**").hasAnyAuthority("ROLE_CLIENT","ROLE_DOCTOR"))
                 .formLogin().loginPage("/login").permitAll()
