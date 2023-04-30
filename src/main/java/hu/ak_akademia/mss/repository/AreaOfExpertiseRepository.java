@@ -1,11 +1,11 @@
 package hu.ak_akademia.mss.repository;
 
-import hu.ak_akademia.mss.model.Discipline;
+import hu.ak_akademia.mss.model.AreaOfExpertise;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 
     @Repository
-    public interface DisciplineTableRepository extends JpaRepository<Discipline, Integer> {
+    public interface AreaOfExpertiseRepository extends JpaRepository<AreaOfExpertise, Integer> {
     }
 

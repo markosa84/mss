@@ -5,6 +5,7 @@ import hu.ak_akademia.mss.model.user.MssUser;
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
+import java.util.StringJoiner;
 
 @Entity
 public class Language {
@@ -26,28 +27,6 @@ public class Language {
         this.id = id;
         this.name = name;
         this.users = users;
-    }
-
-    @Override
-    public String toString() {
-        return "Languages{" +
-                "id=" + id +
-                ", language='" + name + '\'' +
-                ", users=" + users +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Language language = (Language) o;
-        return id == language.id && Objects.equals(name, language.name) && Objects.equals(users, language.users);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, users);
     }
 
     public int getId() {
@@ -72,5 +51,33 @@ public class Language {
 
     public void setUsers(List<MssUser> users) {
         this.users = users;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Language language = (Language) o;
+
+        if (id != language.id) return false;
+        if (!Objects.equals(name, language.name)) return false;
+        return Objects.equals(users, language.users);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (users != null ? users.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", Language.class.getSimpleName() + "[", "]")
+                .add("id=" + id)
+                .add("name='" + name + "'")
+                .toString();
     }
 }

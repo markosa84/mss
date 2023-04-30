@@ -1,6 +1,6 @@
 package hu.ak_akademia.mss.model;
 
-public class AreaOfExperties {
+public class Treatment {
     private int areaOfExpertisesId;
     private String expertiesName;
     private int treatmentLength;
@@ -9,10 +9,10 @@ public class AreaOfExperties {
     private int roomId;
     private int price;
 
-    public AreaOfExperties() {
+    public Treatment() {
     }
 
-    public AreaOfExperties(int areaOfExpertisesId, String expertiesName, int treatmentLength, int administrationLength, int centerId, int roomId, int price) {
+    public Treatment(int areaOfExpertisesId, String expertiesName, int treatmentLength, int administrationLength, int centerId, int roomId, int price) {
         this.areaOfExpertisesId = areaOfExpertisesId;
         this.expertiesName = expertiesName;
         this.treatmentLength = treatmentLength;
@@ -24,10 +24,10 @@ public class AreaOfExperties {
 
     public boolean equals(Object object) {
         if (this == object) return true;
-        if (!(object instanceof AreaOfExperties)) return false;
+        if (!(object instanceof Treatment)) return false;
         if (!super.equals(object)) return false;
 
-        AreaOfExperties that = (AreaOfExperties) object;
+        Treatment that = (Treatment) object;
 
         if (areaOfExpertisesId != that.areaOfExpertisesId) return false;
         if (treatmentLength != that.treatmentLength) return false;

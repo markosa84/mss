@@ -116,7 +116,7 @@ public class HomeController {
     @GetMapping("/register/doctor")
     public String doctor_registration(Doctor doctor, Model model) {
         model.addAttribute("genderList", registrationService.getAllGender());
-        model.addAttribute("disciplineList", registrationService.getAllDiscipline());
+        model.addAttribute("areaOfExpertiseList", registrationService.getAllAreaOfExpertises());
         return "doctor_registration";
     }
 
@@ -128,7 +128,7 @@ public class HomeController {
             return "index";
         }
         model.addAttribute("genderList", registrationService.getAllGender());
-        model.addAttribute("disciplineList", registrationService.getAllDiscipline());
+        model.addAttribute("areaOfExpertiseList", registrationService.getAllAreaOfExpertises());
         model.addAllAttributes(errorList);
         return "doctor_registration";
     }
