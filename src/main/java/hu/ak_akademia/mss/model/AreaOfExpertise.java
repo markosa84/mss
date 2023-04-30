@@ -8,23 +8,23 @@ import java.util.Objects;
 import java.util.StringJoiner;
 
 @Entity
-public class Discipline {
+public class AreaOfExpertise {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "discipline_id")
+    @Column(name = "area_of_expertise_id")
     private int id;
 
     private String qualification;
 
-    @ManyToMany(mappedBy = "discipline")
+    @ManyToMany(mappedBy = "areaOfExpertise")
     private List<MssUser> users;
 
-    public Discipline() {
+    public AreaOfExpertise() {
 
     }
 
-    public Discipline(int id, String qualification, List<MssUser> users) {
+    public AreaOfExpertise(int id, String qualification, List<MssUser> users) {
         this.id = id;
         this.qualification = qualification;
         this.users = users;
@@ -57,7 +57,7 @@ public class Discipline {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Discipline that)) return false;
+        if (!(o instanceof AreaOfExpertise that)) return false;
         return getId() == that.getId() && Objects.equals(getQualification(), that.getQualification()) && Objects.equals(getUsers(), that.getUsers());
     }
 
@@ -68,7 +68,7 @@ public class Discipline {
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", Discipline.class.getSimpleName() + "[", "]")
+        return new StringJoiner(", ", AreaOfExpertise.class.getSimpleName() + "[", "]")
                 .add("id=" + id)
                 .add("qualification='" + qualification + "'")
                 .add("users=" + users)

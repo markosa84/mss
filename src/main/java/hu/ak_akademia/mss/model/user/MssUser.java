@@ -1,6 +1,6 @@
 package hu.ak_akademia.mss.model.user;
 
-import hu.ak_akademia.mss.model.Discipline;
+import hu.ak_akademia.mss.model.AreaOfExpertise;
 import hu.ak_akademia.mss.model.Language;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -42,14 +42,14 @@ public abstract class MssUser {
     private List<Language> languages;
 
     @ManyToMany
-    @JoinTable(name = "mss_user_to_discipline",
+    @JoinTable(name = "mss_user_to_area_of_expertise",
             joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "discipline_id"))
-    private List<Discipline> discipline;
+            inverseJoinColumns = @JoinColumn(name = "area_of_expertise_id"))
+    private List<AreaOfExpertise> areaOfExpertise;
     public MssUser() {
     }
 
-    public MssUser(int userId, boolean active, LocalDateTime registrationDate, String email, String password, String firstName, String lastName, int gender, String phoneNumber, String roles, List<Language> languages, List<Discipline> discipline) {
+    public MssUser(int userId, boolean active, LocalDateTime registrationDate, String email, String password, String firstName, String lastName, int gender, String phoneNumber, String roles, List<Language> languages, List<AreaOfExpertise> areaOfExpertise) {
         this.userId = userId;
         this.active = active;
         this.registrationDate = registrationDate;
@@ -61,24 +61,8 @@ public abstract class MssUser {
         this.phoneNumber = phoneNumber;
         this.roles = roles;
         this.languages = languages;
-        this.discipline = discipline;
+        this.areaOfExpertise = areaOfExpertise;
     }
-
-    //  ACTIVE FIELD NÉLKÜLI KONSTRUKTOR - Dexter
-//    public MssUser(int userId, LocalDateTime registrationDate, String email, String password, String firstName, String lastName, int gender, String phoneNumber, String roles, List<Language> languages, List<Discipline> discipline) {
-//        this.userId = userId;
-//        this.registrationDate = registrationDate;
-//        this.email = email;
-//        this.password = password;
-//        this.firstName = firstName;
-//        this.lastName = lastName;
-//        this.gender = gender;
-//        this.phoneNumber = phoneNumber;
-//        this.roles = roles;
-//        this.languages = languages;
-//        this.discipline = discipline;
-//    }
-
     public int getUserId() {
         return userId;
     }
@@ -167,12 +151,12 @@ public abstract class MssUser {
         this.languages = languages;
     }
 
-    public List<Discipline> getDiscipline() {
-        return discipline;
+    public List<AreaOfExpertise> getDiscipline() {
+        return areaOfExpertise;
     }
 
-    public void setDiscipline(List<Discipline> discipline) {
-        this.discipline = discipline;
+    public void setDiscipline(List<AreaOfExpertise> areaOfExpertise) {
+        this.areaOfExpertise = areaOfExpertise;
     }
 
     @Override
@@ -201,7 +185,7 @@ public abstract class MssUser {
                 .add("phoneNumber='" + phoneNumber + "'")
                 .add("roles='" + roles + "'")
                 .add("languages=" + languages)
-                .add("discipline=" + discipline)
+                .add("discipline=" + areaOfExpertise)
                 .toString();
     }
 }
