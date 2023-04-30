@@ -17,7 +17,7 @@ public class AreaOfExpertise {
 
     private String qualification;
 
-    @ManyToMany(mappedBy = "area_of_expertise")
+    @ManyToMany(mappedBy = "areaOfExpertise")
     private List<MssUser> users;
 
     public AreaOfExpertise() {
