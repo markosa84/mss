@@ -17,7 +17,7 @@ public abstract class MssUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userId;
-    private boolean active;
+    private boolean active = true;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(updatable = false)
     private LocalDateTime registrationDate = LocalDateTime.now(); // automatically LocalDateTime.now() value
