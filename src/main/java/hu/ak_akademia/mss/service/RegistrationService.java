@@ -5,8 +5,8 @@ import hu.ak_akademia.mss.model.Gender;
 import hu.ak_akademia.mss.model.Language;
 import hu.ak_akademia.mss.model.user.*;
 import hu.ak_akademia.mss.repository.AreaOfExpertiseRepository;
-import hu.ak_akademia.mss.repository.GenderTableRepository;
-import hu.ak_akademia.mss.repository.LanguageTableRepository;
+import hu.ak_akademia.mss.repository.GenderRepository;
+import hu.ak_akademia.mss.repository.LanguageRepository;
 import hu.ak_akademia.mss.repository.MSSUserRepository;
 import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;
 import hu.ak_akademia.mss.service.validators.CompositeClientValidator;
@@ -26,12 +26,12 @@ public class RegistrationService {
     private MSSUserRepository mssUserRepository;
 
     @Autowired
-    private GenderTableRepository genderRepository;
+    private GenderRepository genderRepository;
     @Autowired
     private AreaOfExpertiseRepository areaOfExpertiseRepository;
 
     @Autowired
-    private LanguageTableRepository languageRepository;
+    private LanguageRepository languageRepository;
 
     @Autowired
     public void setMssUserRepository(MSSUserRepository mssUserRepository) {

@@ -1,7 +1,7 @@
 package hu.ak_akademia.mss.model.user;
 
-import java.time.LocalDate;
-
+import javax.persistence.Entity;
+@Entity
 public class FinancialColleague extends MssUser {
 
     public FinancialColleague() {

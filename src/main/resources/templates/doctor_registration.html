@@ -31,13 +31,13 @@
     <div class="col-md-4">
         <label for="firstName" class="form-label">First name</label>
         <input type="text" class="form-control" id="firstName" th:field="*{firstName}"
-               placeholder="e.g.: Gábor" required>
+               placeholder="Gábor" required>
         <span class="validatorError" th:text="${firstNameError} == null ? '' : ${firstNameError}"></span>
     </div>
     <div class="col-md-4">
         <label for="lastName" class="form-label">Last name</label>
         <input type="text" class="form-control" id="lastName" th:field="*{lastName}"
-               placeholder="e.g.: Kovács" required>
+               placeholder="Kovács" required>
         <span class="validatorError" th:text="${lastNameError} == null ? '' : ${lastNameError}"></span>
     </div>
     <div class="col-md-4">
@@ -45,7 +45,7 @@
         <div class="input-group has-validation">
             <span class="input-group-text" id="inputGroupPrepend">@</span>
             <input type="text" class="form-control" id="emailAddress" aria-describedby="inputGroupPrepend"
-                   th:field="*{email}" placeholder="e.g.: gaborkovacs@gmail.com" required>
+                   th:field="*{email}" placeholder="gaborkovacs@gmail.com" required>
         </div>
         <span class="validatorError" th:text="${emailError} == null ? '' : ${emailError}"></span>
     </div>
@@ -72,7 +72,7 @@
     <div class="col-md-4">
         <label for="phoneNumber" class="form-label">Phone number</label>
         <input type="text" class="form-control" id="phoneNumber" th:field="*{phoneNumber}"
-               placeholder="e.g.: 06 301 123456" required>
+               placeholder="06 301 123456" required>
         <span class="validatorError" th:text="${phoneError} == null ? '' : ${phoneError}"></span>
     </div>
     <div class="col-12">
