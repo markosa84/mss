@@ -27,6 +27,7 @@ public class RegistrationService {
 
     @Autowired
     private GenderRepository genderRepository;
+
     @Autowired
     private AreaOfExpertiseRepository areaOfExpertiseRepository;
 
@@ -38,8 +39,11 @@ public class RegistrationService {
         this.mssUserRepository = mssUserRepository;
     }
 
+    public void setLanguageRepository(LanguageRepository languageRepository) {
+        this.languageRepository = languageRepository;
+    }
+
     public void save(MssUser mssUsers) {
-        mssUsers.setRoles("ROLE_CLIENT");
         encryptPassword(mssUsers);
         mssUserRepository.save(mssUsers);
     }
@@ -99,4 +103,5 @@ public class RegistrationService {
     private void encryptPassword(MssUser mssUsers) {
         mssUsers.setPassword(new PasswordEncryption(mssUsers.getPassword()).encryptWithMD5());
     }
+
 }

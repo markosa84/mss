@@ -37,12 +37,13 @@ public class SecurityConfiguration {
                 .defaultSuccessUrl("/home", true).permitAll()
 //                .and().logout().logoutUrl("/login?logout").logoutSuccessUrl("/").clearAuthentication(true).permitAll()
                 .and()
-//                .logout(logout -> logout
-//                        .logoutUrl("/logout")
-//                        .deleteCookies()
-//                        .invalidateHttpSession(true)
-//                        .permitAll()
-//                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .deleteCookies()
+                        .invalidateHttpSession(true)
+                        .permitAll()
+                        .logoutSuccessUrl("/")
+                )
                 .headers(h -> h.frameOptions().sameOrigin())
                 .userDetailsService(mssUserDetailService)
                 .build();

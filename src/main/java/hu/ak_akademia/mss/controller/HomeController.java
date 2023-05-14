@@ -1,14 +1,18 @@
 package hu.ak_akademia.mss.controller;
 
-import hu.ak_akademia.mss.model.user.*;
+import hu.ak_akademia.mss.model.user.Assistant;
+import hu.ak_akademia.mss.model.user.Client;
+import hu.ak_akademia.mss.model.user.Doctor;
+import hu.ak_akademia.mss.model.user.FinancialColleague;
 import hu.ak_akademia.mss.service.LoginService;
-import hu.ak_akademia.mss.service.PasswordEncryption;
 import hu.ak_akademia.mss.service.RegistrationService;
-import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
 import java.util.Map;
@@ -59,18 +63,11 @@ public class HomeController {
         return "/login";
     }
 
-//    @PostMapping("/login")
-//    public String loginProcess(Model model, @RequestParam String email, @RequestParam String password) {
-//        var currentPassword = new PasswordEncryption(password).encryptWithMD5();
-//        try {
-//            MssUser user = registrationService.getUser(email, currentPassword);
-//        } catch (IncorrectEnteredDataException e) {
-//            System.out.println(e.getErrorMessage());
-//            model.addAttribute("loginError", e.getErrorMessage());
-//            return "login";
-//        }
-//        return "home";
-//    }
+    @PostMapping("/logout")
+    public String logout() {
+
+        return "login";
+    }
 
 //    **************************************************************************************************************
 
@@ -106,6 +103,7 @@ public class HomeController {
     public String assistantRegistrationForm(Assistant assistant, Model model) {
         Map<String, String> errorList = registrationService.testMSSUserData(assistant);
         if (errorList.isEmpty()) {
+            assistant.setRoles("ROLE_ASSISTANT");
             registrationService.save(assistant);
             return "index";
         }
@@ -148,6 +146,7 @@ public class HomeController {
     public String financialColleagueRegistrationForm(FinancialColleague financialColleague, Model model) {
         Map<String, String> errorList = registrationService.testMSSUserData(financialColleague);
         if (errorList.isEmpty()) {
+            financialColleague.setRoles("ROLE_FINANCIAL");
             registrationService.save(financialColleague);
             return "index";
         }
