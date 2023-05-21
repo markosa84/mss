@@ -57,13 +57,13 @@
 
 
     <div class="col-md-4">
-        <label for="placeOfBirth" class="form-label">Birthplace</label>
+        <label for="placeOfBirth" class="form-label">Place of Birth</label>
         <input type="text" class="form-control" id="placeOfBirth" th:field="*{placeOfBirth}"
                placeholder="Budapest" required>
         <span class="validatorError" th:text="${birthplaceError} == null ? '' : ${birthplaceError}"></span>
     </div>
     <div class="col-md-4">
-        <label for="dateOfBirth" class="form-label">Birthday</label>
+        <label for="dateOfBirth" class="form-label">Date of Birth</label>
         <input type="date" class="form-control" id="dateOfBirth" th:field="*{dateOfBirth}" required>
         <span class="validatorError" th:text="${dateOfBirthError} == null ? '' : ${dateOfBirthError}"></span>
     </div>
