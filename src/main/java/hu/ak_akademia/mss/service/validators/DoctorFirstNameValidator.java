@@ -11,6 +11,7 @@ class DoctorFirstNameValidator implements Validator<Doctor> {
         if (doctor.getFirstName() == null || !doctor.getFirstName().matches("^[A-ZÁÉÍÓÖŐÚÜŰ]([a-záéíóöőúüű]+\\s?([A-ZÁÉÍÓÖŐÚÜŰa-záéíóöőúüű]*))$")) {
             throw new IncorrectEnteredDataException("firstNameError", "Incorrect! Correct form is e.g.: Elek");
         }
+        MSSUserValidatorFactory.lengthValidation(doctor.getFirstName());
     }
 
 }

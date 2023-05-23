@@ -1,8 +1,10 @@
 package hu.ak_akademia.mss.service.validators;
 
+import hu.ak_akademia.mss.model.user.Assistant;
 import hu.ak_akademia.mss.model.user.Client;
 import hu.ak_akademia.mss.model.user.Doctor;
 import hu.ak_akademia.mss.service.Validator;
+import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;
 
 import java.util.List;
 
@@ -40,6 +42,22 @@ public class MSSUserValidatorFactory {
                 new DoctorPasswordValidator(), //
                 new DoctorPhoneNumberValidator() //
         );
+    }
+
+    public List<Validator<Assistant>> getAllAssistantValidators() {
+        return List.of( //
+                new AssistantFirstNameValidator(), //
+                new AssistantLastNameValidator(), //
+                new AssistantEmailValidator(), //
+                new AssistantPasswordValidator(), //
+                new AssistantPhoneNumberValidator()
+        );
+    }
+
+    public static void lengthValidation(String text) throws IncorrectEnteredDataException {
+        if (text.length() > 100) {
+            throw new IncorrectEnteredDataException("firstNameError", "Too much character!");
+        }
     }
 
 }

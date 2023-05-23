@@ -1,6 +1,6 @@
 package hu.ak_akademia.mss.service.validators;
 
-import hu.ak_akademia.mss.model.user.Doctor;
+import hu.ak_akademia.mss.model.user.Assistant;
 import hu.ak_akademia.mss.service.Validator;
 import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;
 
@@ -9,21 +9,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CompositeDoctorValidator implements Validator<Doctor> {
+public class CompositeAssistantValidator implements Validator<Assistant> {
 
     private final boolean uniqueEmail;
-    private final List<Validator<Doctor>> validators = new ArrayList<>();
+    private final List<Validator<Assistant>> validators = new ArrayList<>();
     private final Map<String, String> validatorErrorList = new HashMap<>();
 
-    public CompositeDoctorValidator(boolean uniqueEmail) {
+    public CompositeAssistantValidator(boolean uniqueEmail) {
         this.uniqueEmail = uniqueEmail;
     }
 
     @Override
-    public void validate(Doctor doctor) {
+    public void validate(Assistant assistant) {
         for (var v : validators) {
             try {
-                v.validate(doctor);
+                v.validate(assistant);
             } catch (IncorrectEnteredDataException e) {
                 validatorErrorList.put(e.getMessage(), e.getErrorMessage());
             }
@@ -41,7 +41,7 @@ public class CompositeDoctorValidator implements Validator<Doctor> {
         return validatorErrorList;
     }
 
-    public void addValidators(List<Validator<Doctor>> validator) {
+    public void addValidators(List<Validator<Assistant>> validator) {
         validators.addAll(validator);
     }
 }

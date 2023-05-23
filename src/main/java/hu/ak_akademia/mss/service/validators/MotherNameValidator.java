@@ -14,6 +14,7 @@ class MotherNameValidator implements Validator<Client> {
                 "[\\p{L}.])$")) { //must end with a letter or a dot(for rare occasions when a suffix/abbrev. is used in a foreign maiden name like Jr.)
             throw new IncorrectEnteredDataException("motherNameError", "The given name does not meet the formal requirements!");
         }
+        MSSUserValidatorFactory.lengthValidation(client.getMothersName());
     }
 
 }

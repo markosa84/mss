@@ -9,6 +9,7 @@ import hu.ak_akademia.mss.repository.GenderRepository;
 import hu.ak_akademia.mss.repository.LanguageRepository;
 import hu.ak_akademia.mss.repository.MSSUserRepository;
 import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;
+import hu.ak_akademia.mss.service.validators.CompositeAssistantValidator;
 import hu.ak_akademia.mss.service.validators.CompositeClientValidator;
 import hu.ak_akademia.mss.service.validators.CompositeDoctorValidator;
 import hu.ak_akademia.mss.service.validators.MSSUserValidatorFactory;
@@ -49,7 +50,11 @@ public class RegistrationService {
     }
 
     public Map<String, String> testMSSUserData(Assistant assistant) {
-        return Collections.emptyMap();
+        var assistantValidator = new CompositeAssistantValidator(isEmailUnique(assistant.getEmail()));
+        List<Validator<Assistant>> allAssistantValidator = MSSUserValidatorFactory.getInstance().getAllAssistantValidators();
+        assistantValidator.addValidators(allAssistantValidator);
+        assistantValidator.validate(assistant);
+        return assistantValidator.getValidatorErrorList();
     }
 
     public Map<String, String> testMSSUserData(Doctor doctor) {

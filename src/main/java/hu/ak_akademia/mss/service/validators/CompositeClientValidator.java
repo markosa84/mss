@@ -13,7 +13,6 @@ public class CompositeClientValidator implements Validator<Client> {
 
     private final List<Validator<Client>> validators = new ArrayList<>();
     private final Map<String, String> validatorErrorList = new HashMap<>();
-
     private final boolean isUnique;
 
     public CompositeClientValidator(boolean uniqueEmail) {
@@ -34,7 +33,7 @@ public class CompositeClientValidator implements Validator<Client> {
 
     private void checkUnique() {
         if (isUnique) {
-            validatorErrorList.put("emailError", "This email already exists! Please choose another one");
+            validatorErrorList.put("emailError", "This email already exists! Please choose another one.");
         }
     }
 

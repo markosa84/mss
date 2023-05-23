@@ -11,6 +11,7 @@ class FirstNameValidator implements Validator<Client> {
         if (client.getFirstName() == null || !client.getFirstName().matches("^[A-ZÁÉÍÓÖŐÚÜŰ]([a-záéíóöőúüű]+\\s?([A-ZÁÉÍÓÖŐÚÜŰa-záéíóöőúüű]*))$")) {
             throw new IncorrectEnteredDataException("firstNameError", "Incorrect! Correct form is e.g.: Elek");
         }
+        MSSUserValidatorFactory.lengthValidation(client.getFirstName());
     }
 
 }
