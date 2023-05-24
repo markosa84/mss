@@ -9,10 +9,7 @@ import hu.ak_akademia.mss.repository.GenderRepository;
 import hu.ak_akademia.mss.repository.LanguageRepository;
 import hu.ak_akademia.mss.repository.MSSUserRepository;
 import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;
-import hu.ak_akademia.mss.service.validators.CompositeAssistantValidator;
-import hu.ak_akademia.mss.service.validators.CompositeClientValidator;
-import hu.ak_akademia.mss.service.validators.CompositeDoctorValidator;
-import hu.ak_akademia.mss.service.validators.MSSUserValidatorFactory;
+import hu.ak_akademia.mss.service.validators.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -66,7 +63,11 @@ public class RegistrationService {
     }
 
     public Map<String, String> testMSSUserData(FinancialColleague colleague) {
-        return Collections.emptyMap();
+        var colleaugeValidator = new CompositeColleagueValidator(isEmailUnique(colleague.getEmail()));
+        List<Validator<FinancialColleague>> allDoctorValidators = MSSUserValidatorFactory.getInstance().getAllColleagueValidators();
+        colleaugeValidator.addValidators(allDoctorValidators);
+        colleaugeValidator.validate(colleague);
+        return colleaugeValidator.getValidatorErrorList();
     }
 
     public Map<String, String> testMSSUserData(Client client) {

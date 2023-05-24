@@ -1,10 +1,5 @@
 package hu.ak_akademia.mss.controller;
 
-import hu.ak_akademia.mss.model.user.Assistant;
-import hu.ak_akademia.mss.model.user.Client;
-import hu.ak_akademia.mss.model.user.Doctor;
-import hu.ak_akademia.mss.model.user.FinancialColleague;
-import hu.ak_akademia.mss.service.LoginService;
 import hu.ak_akademia.mss.service.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,20 +10,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/")
 public class HomeController {
 
-    private LoginService loginService;
     private RegistrationService registrationService;
-
-
-    @Autowired
-    public void setLoginService(LoginService loginService) {
-        this.loginService = loginService;
-    }
 
     @Autowired
     public void setRegistrationService(RegistrationService registrationService) {
@@ -65,94 +52,7 @@ public class HomeController {
 
     @PostMapping("/logout")
     public String logout() {
-
         return "login";
-    }
-
-//    **************************************************************************************************************
-
-    @GetMapping("/register")
-    public String registration(Client client, Model model) {
-        model.addAttribute("genderList", registrationService.getAllGender());
-        model.addAttribute("languageList", registrationService.getLanguages());
-        return "registration";
-    }
-
-    @PostMapping("/register/client")
-    public String registrationForm(Client client, Model model) {
-        Map<String, String> errorList = registrationService.testMSSUserData(client);
-        if (errorList.isEmpty()) {
-            client.setRoles("ROLE_CLIENT");
-            registrationService.save(client);
-            return "index";
-        }
-        model.addAttribute("genderList", registrationService.getAllGender());
-        model.addAttribute("languageList", registrationService.getLanguages());
-        model.addAllAttributes(errorList);
-        return "registration";
-    }
-
-    //**********************************************************************************************************
-    @GetMapping("/register/assistant")
-    public String assistant_registration(Assistant assistant, Model model) {
-        model.addAttribute("genderList", registrationService.getAllGender());
-        return "assistant_registration";
-    }
-
-    @PostMapping("/register/assistant")
-    public String assistantRegistrationForm(Assistant assistant, Model model) {
-        Map<String, String> errorList = registrationService.testMSSUserData(assistant);
-        if (errorList.isEmpty()) {
-            assistant.setRoles("ROLE_ASSISTANT");
-            registrationService.save(assistant);
-            return "index";
-        }
-        model.addAttribute("genderList", registrationService.getAllGender());
-        model.addAllAttributes(errorList);
-        return "assistant_registration";
-    }
-
-    //**********************************************************************************************************
-    @GetMapping("/register/doctor")
-    public String doctor_registration(Doctor doctor, Model model) {
-        model.addAttribute("genderList", registrationService.getAllGender());
-        model.addAttribute("areaOfExpertiseList", registrationService.getAllAreaOfExpertises());
-        return "doctor_registration";
-    }
-
-    @PostMapping("/register/doctor")
-    public String doctorRegistrationForm(Doctor doctor, Model model) {
-        Map<String, String> errorList = registrationService.testMSSUserData(doctor);
-        if (errorList.isEmpty()) {
-            doctor.setRoles("ROLE_DOCTOR");
-            registrationService.save(doctor);
-            return "index";
-        }
-        model.addAttribute("genderList", registrationService.getAllGender());
-        model.addAttribute("areaOfExpertiseList", registrationService.getAllAreaOfExpertises());
-        model.addAllAttributes(errorList);
-        return "doctor_registration";
-    }
-
-
-    //**********************************************************************************************************
-    @GetMapping("/register/financialColleague")
-    public String financialColleague_registration(FinancialColleague financialColleague, Model model) {
-        model.addAttribute("genderList", registrationService.getAllGender());
-        return "financialColleague_registration";
-    }
-
-    @PostMapping("/register/financialColleague")
-    public String financialColleagueRegistrationForm(FinancialColleague financialColleague, Model model) {
-        Map<String, String> errorList = registrationService.testMSSUserData(financialColleague);
-        if (errorList.isEmpty()) {
-            financialColleague.setRoles("ROLE_FINANCIAL");
-            registrationService.save(financialColleague);
-            return "index";
-        }
-        model.addAttribute("genderList", registrationService.getAllGender());
-        model.addAllAttributes(errorList);
-        return "financialColleague_registration";
     }
 
 }
