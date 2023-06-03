@@ -5,6 +5,7 @@ import org.springframework.security.core.SpringSecurityCoreVersion;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Objects;
@@ -12,6 +13,7 @@ import java.util.Set;
 
 public class MssSecurityUser implements UserDetails, Serializable {
 
+    @Serial
     private static final long serialVersionUID = SpringSecurityCoreVersion.SERIAL_VERSION_UID;
 
     private final MssUser user;

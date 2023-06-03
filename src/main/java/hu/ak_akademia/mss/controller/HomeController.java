@@ -30,6 +30,10 @@ public class HomeController {
     @GetMapping("/home")
     public String home(Model model, Principal principal) {
         var currentUser = registrationService.getLoggedInUser(principal.getName());
+        if (!currentUser.isActive()) {
+            model.addAttribute("errorMsg", "Your account is exist but not active!");
+            return "/login";
+        }
         model.addAttribute("currentUser", currentUser.getFirstName() + " " + currentUser.getLastName());
         return "home";
     }

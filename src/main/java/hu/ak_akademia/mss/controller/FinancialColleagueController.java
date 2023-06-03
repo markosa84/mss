@@ -34,7 +34,7 @@ public class FinancialColleagueController {
         if (errorList.isEmpty()) {
             financialColleague.setRoles("ROLE_FINANCIALCOLLEAGUE");
             registrationService.save(financialColleague);
-            return "index";
+            return "redirect:/";
         }
         model.addAttribute("genderList", registrationService.getAllGender());
         model.addAllAttributes(errorList);

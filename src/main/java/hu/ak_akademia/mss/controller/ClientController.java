@@ -24,8 +24,7 @@ public class ClientController {
 
     @GetMapping()
     public String registration(Client client, Model model) {
-        model.addAttribute("genderList", registrationService.getAllGender());
-        model.addAttribute("languageList", registrationService.getLanguages());
+        registrationService.loadAttributes(model);
         return "registration";
     }
 
@@ -35,11 +34,11 @@ public class ClientController {
         if (errorList.isEmpty()) {
             client.setRoles("ROLE_CLIENT");
             registrationService.save(client);
-            return "index";
+            return "redirect:/";
         }
-        model.addAttribute("genderList", registrationService.getAllGender());
-        model.addAttribute("languageList", registrationService.getLanguages());
+        registrationService.loadAttributes(model);
         model.addAllAttributes(errorList);
         return "registration";
     }
+
 }

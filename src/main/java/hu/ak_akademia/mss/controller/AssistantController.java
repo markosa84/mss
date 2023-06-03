@@ -34,7 +34,7 @@ public class AssistantController {
         if (errorList.isEmpty()) {
             assistant.setRoles("ROLE_ASSISTANT");
             registrationService.save(assistant);
-            return "index";
+            return "redirect:/";
         }
         model.addAttribute("genderList", registrationService.getAllGender());
         model.addAllAttributes(errorList);
