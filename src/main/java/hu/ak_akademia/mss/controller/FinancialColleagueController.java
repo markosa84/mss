@@ -15,12 +15,8 @@ import java.util.Map;
 @RequestMapping("/register")
 public class FinancialColleagueController {
 
-    private RegistrationService registrationService;
-
     @Autowired
-    public void setRegistrationService(RegistrationService registrationService) {
-        this.registrationService = registrationService;
-    }
+    RegistrationService registrationService;
 
     @GetMapping("/financialColleague")
     public String financialColleague_registration(FinancialColleague financialColleague, Model model) {

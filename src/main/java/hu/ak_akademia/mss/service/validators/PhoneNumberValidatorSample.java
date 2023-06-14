@@ -1,11 +1,9 @@
 package hu.ak_akademia.mss.service.validators;
 
-import hu.ak_akademia.mss.model.user.Client;
-import hu.ak_akademia.mss.model.user.Doctor;
-import hu.ak_akademia.mss.service.Validator;
+import hu.ak_akademia.mss.service.ValidatorSample;
 import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;
 
-class PhoneNumberValidator implements Validator<String> {
+class PhoneNumberValidatorSample implements ValidatorSample<Object> {
     private static final String PHONE_NUMBER_REGEX = "^(06|\\+36)?" + //country code -> currently optional, delete ? to make it mandatory
             "[\\s\\-]?" + //delimiter (optional)
             "(([2,3,7]0" + //HU mobile codes
@@ -16,8 +14,9 @@ class PhoneNumberValidator implements Validator<String> {
             "\\d{3}[\\s\\-]?\\d{3}))$"; //HU landline format
 
     @Override
-    public void validate(String phoneNumber) throws IncorrectEnteredDataException {
-        if (phoneNumber == null || !phoneNumber.matches(PHONE_NUMBER_REGEX)) {
+    public void validate(Object phoneNumber) throws IncorrectEnteredDataException {
+        var phone = (String) phoneNumber;
+        if (phone == null || !phone.matches(PHONE_NUMBER_REGEX)) {
             throw new IncorrectEnteredDataException("phoneError", "Invalid! Correct form is +36301234567");
         }
     }

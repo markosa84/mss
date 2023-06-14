@@ -1,20 +1,20 @@
 package hu.ak_akademia.mss.service.validators;
 
-import hu.ak_akademia.mss.model.user.Client;
-import hu.ak_akademia.mss.service.Validator;
+import hu.ak_akademia.mss.service.ValidatorSample;
 import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;
 
-class MotherNameValidator implements Validator<String> {
+class MotherNameValidatorSample implements ValidatorSample<Object> {
 
     @Override
-    public void validate(String mothersName) throws IncorrectEnteredDataException {
-        if (mothersName == null || !mothersName.matches("^(\\p{L}" + //must start with a letter
+    public void validate(Object mothersName) throws IncorrectEnteredDataException {
+        var mother = (String) mothersName;
+        if (mother == null || !mother.matches("^(\\p{L}" + //must start with a letter
                 "(?=\\S*\\s)" + //must contain at least one space
                 "[\\p{L}\\p{Mn}\\s'-.]{3,248}" +
                 "[\\p{L}.])$")) { //must end with a letter or a dot(for rare occasions when a suffix/abbrev. is used in a foreign maiden name like Jr.)
             throw new IncorrectEnteredDataException("motherNameError", "The given name does not meet the formal requirements!");
         }
-        MSSUserValidatorFactory.lengthValidation(mothersName);
+        MSSUserValidatorFactory.lengthValidation(mother);
     }
 
 }
