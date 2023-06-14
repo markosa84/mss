@@ -1,11 +1,9 @@
 package hu.ak_akademia.mss.service.validators;
 
-import hu.ak_akademia.mss.model.user.Client;
-import hu.ak_akademia.mss.model.user.Doctor;
-import hu.ak_akademia.mss.service.Validator;
+import hu.ak_akademia.mss.service.ValidatorSample;
 import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;
 
-class PasswordValidator implements Validator<String> {
+class PasswordValidatorSample implements ValidatorSample<Object> {
 
     private static final String PASSWORD_REGEX = "^(?=.*[0-9])" + //Must contain at least one digit [0-9]
             "(?=.*[a-z])" + // Must contain at least one lowercase  character [a-z]
@@ -15,8 +13,9 @@ class PasswordValidator implements Validator<String> {
             ".{8,20}$"; // must contain a length of at least 8 characters and a maximum of 20 characters
 
     @Override
-    public void validate(String password) throws IncorrectEnteredDataException {
-        if (password == null || !password.matches(PASSWORD_REGEX)) {
+    public void validate(Object password) throws IncorrectEnteredDataException {
+        var pass = (String) password;
+        if (pass == null || !pass.matches(PASSWORD_REGEX)) {
             throw new IncorrectEnteredDataException("passwordError", "Incorrect! Must contain" +
                     " 'a' , 'A', and special character and least 8 long");
         }

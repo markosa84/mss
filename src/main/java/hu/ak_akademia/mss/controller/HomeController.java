@@ -15,12 +15,8 @@ import java.security.Principal;
 @RequestMapping("/")
 public class HomeController {
 
-    private RegistrationService registrationService;
-
     @Autowired
-    public void setRegistrationService(RegistrationService registrationService) {
-        this.registrationService = registrationService;
-    }
+    RegistrationService registrationService;
 
     @GetMapping
     public String index() {
@@ -31,7 +27,7 @@ public class HomeController {
     public String home(Model model, Principal principal) {
         var currentUser = registrationService.getLoggedInUser(principal.getName());
         if (!currentUser.isActive()) {
-            model.addAttribute("errorMsg", "Your account is exist but not active!");
+            model.addAttribute("errorMsg", "Your account exists but is not active yet!");
             return "/login";
         }
         model.addAttribute("currentUser", currentUser.getFirstName() + " " + currentUser.getLastName());

@@ -2,9 +2,10 @@ package hu.ak_akademia.mss;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-public class  MssApplication {
+public class MssApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(MssApplication.class, args);

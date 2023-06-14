@@ -15,12 +15,8 @@ import java.util.Map;
 @RequestMapping("/register")
 public class AssistantController {
 
-    private RegistrationService registrationService;
-
     @Autowired
-    public void setRegistrationService(RegistrationService registrationService) {
-        this.registrationService = registrationService;
-    }
+    RegistrationService registrationService;
 
     @GetMapping("/assistant")
     public String assistant_registration(Assistant assistant, Model model) {

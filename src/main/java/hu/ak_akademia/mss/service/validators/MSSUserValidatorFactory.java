@@ -1,13 +1,13 @@
 package hu.ak_akademia.mss.service.validators;
 
 import hu.ak_akademia.mss.model.user.Assistant;
-import hu.ak_akademia.mss.model.user.Client;
 import hu.ak_akademia.mss.model.user.Doctor;
 import hu.ak_akademia.mss.model.user.FinancialColleague;
 import hu.ak_akademia.mss.service.Validator;
 import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;
 
 import java.util.List;
+import java.util.Map;
 
 public class MSSUserValidatorFactory {
 
@@ -18,21 +18,6 @@ public class MSSUserValidatorFactory {
 
     public static MSSUserValidatorFactory getInstance() {
         return INSTANCE;
-    }
-
-    private static final List<Validator<Client>> LIST = List.of( //
-            new EmailValidator(), //
-            new FirstNameValidator(), //
-            new LastNameValidator(), //
-            new PasswordValidator(), //
-            new PhoneNumberValidator(), //
-            new MotherNameValidator(), //
-            new PlaceOfBirthValidator(), //
-            new DateOfBirthValidator(), //
-            new TAJNumberValidator());
-
-    public List<Validator<Client>> getAllClientValidators() {
-        return LIST;
     }
 
     public List<Validator<Doctor>> getAllDoctorValidators() {
@@ -69,5 +54,13 @@ public class MSSUserValidatorFactory {
                 new ColleaguePasswordValidator(), //
                 new ColleaguePhoneNumberValidator()
         );
+    }
+
+    public <T> void collectValidationError(Validator<T> validator, T mssUser, Map<String, String> errorList) {
+        try {
+            validator.validate(mssUser);
+        } catch (IncorrectEnteredDataException e) {
+            errorList.put(e.getMessage(), e.getErrorMessage());
+        }
     }
 }

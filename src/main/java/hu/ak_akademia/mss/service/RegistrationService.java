@@ -15,14 +15,17 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 @Service
 public class RegistrationService {
 
+    @Autowired
     private MSSUserRepository mssUserRepository;
+
+    @Autowired
+    private LanguageRepository languageRepository;
 
     @Autowired
     private GenderRepository genderRepository;
@@ -30,25 +33,13 @@ public class RegistrationService {
     @Autowired
     private AreaOfExpertiseRepository areaOfExpertiseRepository;
 
-    @Autowired
-    private LanguageRepository languageRepository;
-
-    @Autowired
-    public void setMssUserRepository(MSSUserRepository mssUserRepository) {
-        this.mssUserRepository = mssUserRepository;
-    }
-
-    public void setLanguageRepository(LanguageRepository languageRepository) {
-        this.languageRepository = languageRepository;
-    }
-
     public void save(MssUser mssUsers) {
         encryptPassword(mssUsers);
         mssUserRepository.save(mssUsers);
     }
 
     public Map<String, String> testMSSUserData(Assistant assistant) {
-        var assistantValidator = new CompositeAssistantValidator(isEmailUnique(assistant.getEmail()));
+        var assistantValidator = new CompositeAssistantValidator(checkUniqueEmail(assistant.getEmail()));
         List<Validator<Assistant>> allAssistantValidator = MSSUserValidatorFactory.getInstance().getAllAssistantValidators();
         assistantValidator.addValidators(allAssistantValidator);
         assistantValidator.validate(assistant);
@@ -56,7 +47,7 @@ public class RegistrationService {
     }
 
     public Map<String, String> testMSSUserData(Doctor doctor) {
-        var doctorValidator = new CompositeDoctorValidator(isEmailUnique(doctor.getEmail()));
+        var doctorValidator = new CompositeDoctorValidator(checkUniqueEmail(doctor.getEmail()));
         List<Validator<Doctor>> allDoctorValidators = MSSUserValidatorFactory.getInstance().getAllDoctorValidators();
         doctorValidator.addValidators(allDoctorValidators);
         doctorValidator.validate(doctor);
@@ -64,7 +55,7 @@ public class RegistrationService {
     }
 
     public Map<String, String> testMSSUserData(FinancialColleague colleague) {
-        var colleaugeValidator = new CompositeColleagueValidator(isEmailUnique(colleague.getEmail()));
+        var colleaugeValidator = new CompositeColleagueValidator(checkUniqueEmail(colleague.getEmail()));
         List<Validator<FinancialColleague>> allDoctorValidators = MSSUserValidatorFactory.getInstance().getAllColleagueValidators();
         colleaugeValidator.addValidators(allDoctorValidators);
         colleaugeValidator.validate(colleague);
@@ -72,9 +63,7 @@ public class RegistrationService {
     }
 
     public Map<String, String> testMSSUserData(Client client) {
-        boolean uniqueEmail = isEmailUnique(client.getEmail());
-        var clientValidator = new CompositeClientValidator(uniqueEmail);
-        clientValidator.addValidators(MSSUserValidatorFactory.getInstance().getAllClientValidators());
+        var clientValidator = new CompositeClientValidator();
         clientValidator.validate(client);
         return clientValidator.getValidatorErrorList();
     }
@@ -103,8 +92,8 @@ public class RegistrationService {
         return languageRepository.findAll();
     }
 
-    public boolean isEmailUnique(String email) {
-        return mssUserRepository.isEmailExist(email).isPresent();
+    public boolean checkUniqueEmail(String email) {
+        return mssUserRepository.findByEmail(email).isPresent();
     }
 
     private void encryptPassword(MssUser mssUsers) {

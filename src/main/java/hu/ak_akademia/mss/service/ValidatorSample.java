@@ -2,8 +2,8 @@ package hu.ak_akademia.mss.service;
 
 import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;
 
-public interface Validator<T> {
+public interface ValidatorSample<T> {
 
-    void validate(T t) throws IncorrectEnteredDataException;
+    void validate(Object t) throws IncorrectEnteredDataException;
 
 }

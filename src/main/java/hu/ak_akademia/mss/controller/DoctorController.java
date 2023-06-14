@@ -15,16 +15,13 @@ import java.util.Map;
 @RequestMapping("/register")
 public class DoctorController {
 
-    private RegistrationService registrationService;
-
     @Autowired
-    public void setRegistrationService(RegistrationService registrationService) {
-        this.registrationService = registrationService;
-    }
+    RegistrationService registrationService;
 
     @GetMapping("/doctor")
     public String doctor_registration(Doctor doctor, Model model) {
         registrationService.loadAttributes(model);
+        model.addAttribute("areaOfExpertiseList", registrationService.getAllAreaOfExpertises());
         return "doctor_registration";
     }
 
@@ -37,6 +34,7 @@ public class DoctorController {
             return "redirect:/";
         }
         registrationService.loadAttributes(model);
+        model.addAttribute("areaOfExpertiseList", registrationService.getAllAreaOfExpertises());
         model.addAllAttributes(errorList);
         return "doctor_registration";
     }
