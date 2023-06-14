@@ -24,7 +24,8 @@ public class DoctorController {
 
     @GetMapping("/doctor")
     public String doctor_registration(Doctor doctor, Model model) {
-        registrationService.loadAttributes(model);
+        model.addAttribute("genderList", registrationService.getAllGender());
+        model.addAttribute("areaOfExpertiseList", registrationService.getAllAreaOfExpertises());
         return "doctor_registration";
     }
 
@@ -34,9 +35,10 @@ public class DoctorController {
         if (errorList.isEmpty()) {
             doctor.setRoles("ROLE_DOCTOR");
             registrationService.save(doctor);
-            return "redirect:/";
+            return "index";
         }
-        registrationService.loadAttributes(model);
+        model.addAttribute("genderList", registrationService.getAllGender());
+        model.addAttribute("areaOfExpertiseList", registrationService.getAllAreaOfExpertises());
         model.addAllAttributes(errorList);
         return "doctor_registration";
     }

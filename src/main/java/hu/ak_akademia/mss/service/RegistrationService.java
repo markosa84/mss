@@ -13,9 +13,7 @@ import hu.ak_akademia.mss.service.validators.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -109,11 +107,6 @@ public class RegistrationService {
 
     private void encryptPassword(MssUser mssUsers) {
         mssUsers.setPassword(new PasswordEncryption(mssUsers.getPassword()).encryptWithMD5());
-    }
-
-    public void loadAttributes(Model model) {
-        model.addAttribute("genderList", getAllGender());
-        model.addAttribute("languageList", getLanguages());
     }
 
 }
