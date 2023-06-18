@@ -2,6 +2,7 @@ package hu.ak_akademia.mss.controller;
 
 import hu.ak_akademia.mss.model.user.FinancialColleague;
 import hu.ak_akademia.mss.service.RegistrationService;
+import hu.ak_akademia.mss.service.RegistrationVerificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.mail.MessagingException;
 import java.util.Map;
 
 @Controller
@@ -17,7 +19,8 @@ public class FinancialColleagueController {
 
     @Autowired
     RegistrationService registrationService;
-
+    @Autowired
+    private RegistrationVerificationService registrationVerificationService;
     @GetMapping("/financialColleague")
     public String financialColleague_registration(FinancialColleague financialColleague, Model model) {
         model.addAttribute("genderList", registrationService.getAllGender());
@@ -25,12 +28,12 @@ public class FinancialColleagueController {
     }
 
     @PostMapping("/financialColleague")
-    public String financialColleagueRegistrationForm(FinancialColleague financialColleague, Model model) {
+    public String financialColleagueRegistrationForm(FinancialColleague financialColleague, Model model) throws MessagingException {
         Map<String, String> errorList = registrationService.testMSSUserData(financialColleague);
         if (errorList.isEmpty()) {
             financialColleague.setRoles("ROLE_FINANCIALCOLLEAGUE");
             registrationService.save(financialColleague);
-            return "redirect:/";
+            return registrationVerificationService.performRegistrationVerification(financialColleague, model);
         }
         model.addAttribute("genderList", registrationService.getAllGender());
         model.addAllAttributes(errorList);
