@@ -10,7 +10,7 @@ import java.time.LocalDate;
 
 @Service
     public class RegistrationVerificationCodeService {
-        private RegistrationVerificationRepository registrationVerificationRepository;
+        private final RegistrationVerificationRepository registrationVerificationRepository;
         @Autowired
         public RegistrationVerificationCodeService(RegistrationVerificationRepository registrationVerificationRepository) {
             this.registrationVerificationRepository = registrationVerificationRepository;

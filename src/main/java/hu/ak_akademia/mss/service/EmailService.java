@@ -1,7 +1,6 @@
 package hu.ak_akademia.mss.service;
 
 import hu.ak_akademia.mss.model.RegistrationVerificationCode;
-import hu.ak_akademia.mss.model.user.Client;
 import hu.ak_akademia.mss.model.user.MssUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -18,11 +17,12 @@ import java.util.UUID;
 @Service
 public class EmailService {
     private String uniqueCode;
+    private final JavaMailSender emailSender;
+    private final TemplateEngine templateEngine;
 
-    private  JavaMailSender emailSender;
-    private TemplateEngine templateEngine;
     @Autowired
     private RegistrationVerificationCodeService registrationVerificationCodeService;
+
     @Autowired
     public EmailService(JavaMailSender emailSender, TemplateEngine templateEngine) {
         this.emailSender = emailSender;
@@ -33,13 +33,14 @@ public class EmailService {
         UUID uuid = UUID.randomUUID();
         uniqueCode = uuid.toString();
     }
+
     public void sendRegistrationEmail(String email) throws MessagingException {
         generateUniqueCode();
         MimeMessage message = emailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
 
-        helper.setFrom("inkeko@gmail.com");
+        helper.setFrom("akmss.project@gmail.com");
         helper.setTo(email);
         helper.setSubject("Regisztráció megerősítése");
         Context context = new Context();
@@ -48,6 +49,7 @@ public class EmailService {
         helper.setText(processedHtmlContent, true);
         emailSender.send(message);
     }
+
     public void saveRegistrationVerificationCode(MssUser user) {
         RegistrationVerificationCode verificationCode = new RegistrationVerificationCode();
         verificationCode.setVerificationCode(uniqueCode);

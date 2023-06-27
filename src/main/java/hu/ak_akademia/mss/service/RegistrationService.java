@@ -9,7 +9,10 @@ import hu.ak_akademia.mss.repository.GenderRepository;
 import hu.ak_akademia.mss.repository.LanguageRepository;
 import hu.ak_akademia.mss.repository.MSSUserRepository;
 import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;
-import hu.ak_akademia.mss.service.validators.*;
+import hu.ak_akademia.mss.service.validators.CompositeAssistantValidator;
+import hu.ak_akademia.mss.service.validators.CompositeClientValidator;
+import hu.ak_akademia.mss.service.validators.CompositeColleagueValidator;
+import hu.ak_akademia.mss.service.validators.CompositeDoctorValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -33,42 +36,31 @@ public class RegistrationService {
     private AreaOfExpertiseRepository areaOfExpertiseRepository;
 
     public void save(MssUser mssUsers) {
-        encryptPassword(mssUsers);
         mssUserRepository.save(mssUsers);
     }
 
     public Map<String, String> testMSSUserData(Assistant assistant) {
-        var assistantValidator = new CompositeAssistantValidator(checkUniqueEmail(assistant.getEmail()));
-        List<Validator<Assistant>> allAssistantValidator = MSSUserValidatorFactory.getInstance().getAllAssistantValidators();
-        assistantValidator.addValidators(allAssistantValidator);
+        var assistantValidator = new CompositeAssistantValidator(this);
         assistantValidator.validate(assistant);
         return assistantValidator.getValidatorErrorList();
     }
 
     public Map<String, String> testMSSUserData(Doctor doctor) {
-        var doctorValidator = new CompositeDoctorValidator(checkUniqueEmail(doctor.getEmail()));
-        List<Validator<Doctor>> allDoctorValidators = MSSUserValidatorFactory.getInstance().getAllDoctorValidators();
-        doctorValidator.addValidators(allDoctorValidators);
+        var doctorValidator = new CompositeDoctorValidator(this);
         doctorValidator.validate(doctor);
         return doctorValidator.getValidatorErrorList();
     }
 
     public Map<String, String> testMSSUserData(FinancialColleague colleague) {
-        var colleaugeValidator = new CompositeColleagueValidator(checkUniqueEmail(colleague.getEmail()));
-        List<Validator<FinancialColleague>> allDoctorValidators = MSSUserValidatorFactory.getInstance().getAllColleagueValidators();
-        colleaugeValidator.addValidators(allDoctorValidators);
-        colleaugeValidator.validate(colleague);
-        return colleaugeValidator.getValidatorErrorList();
+        var colleagueValidator = new CompositeColleagueValidator(this);
+        colleagueValidator.validate(colleague);
+        return colleagueValidator.getValidatorErrorList();
     }
 
     public Map<String, String> testMSSUserData(Client client) {
-        var clientValidator = new CompositeClientValidator();
+        var clientValidator = new CompositeClientValidator(this);
         clientValidator.validate(client);
         return clientValidator.getValidatorErrorList();
-    }
-
-    public List<? extends MssUser> getGivenMssUser(String client) {
-        return mssUserRepository.getAllGivenUserType(client).orElseThrow(null);
     }
 
     public MssUser getUser(String email, String password) throws IncorrectEnteredDataException {
@@ -95,7 +87,7 @@ public class RegistrationService {
         return mssUserRepository.findByEmail(email).isPresent();
     }
 
-    private void encryptPassword(MssUser mssUsers) {
+    public void encryptPassword(MssUser mssUsers) {
         mssUsers.setPassword(new PasswordEncryption(mssUsers.getPassword()).encryptWithMD5());
     }
 

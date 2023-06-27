@@ -1,47 +1,35 @@
 package hu.ak_akademia.mss.service.validators;
 
 import hu.ak_akademia.mss.model.user.Assistant;
+import hu.ak_akademia.mss.service.RegistrationService;
 import hu.ak_akademia.mss.service.Validator;
-import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class CompositeAssistantValidator implements Validator<Assistant> {
 
-    private final boolean uniqueEmail;
-    private final List<Validator<Assistant>> validators = new ArrayList<>();
     private final Map<String, String> validatorErrorList = new HashMap<>();
 
-    public CompositeAssistantValidator(boolean uniqueEmail) {
-        this.uniqueEmail = uniqueEmail;
+    private final RegistrationService registrationService;
+
+    public CompositeAssistantValidator(RegistrationService registrationService) {
+        this.registrationService = registrationService;
     }
 
     @Override
     public void validate(Assistant assistant) {
-        for (var v : validators) {
-            try {
-                v.validate(assistant);
-            } catch (IncorrectEnteredDataException e) {
-                validatorErrorList.put(e.getMessage(), e.getErrorMessage());
-            }
-        }
-        checkUnique();
-    }
-
-    private void checkUnique() {
-        if (uniqueEmail) {
-            validatorErrorList.put("emailError", "This email already exists! Please choose another one!");
-        }
+        var instance = MSSUserValidatorFactory.getInstance();
+        instance.collectValidationError(new EmailValidator(), assistant.getEmail(), validatorErrorList);
+        instance.collectValidationError(new LastNameValidator(), assistant.getLastName(), validatorErrorList);
+        instance.collectValidationError(new FirstNameValidator(), assistant.getFirstName(), validatorErrorList);
+        instance.collectValidationError(new PasswordValidator(), assistant.getPassword(), validatorErrorList);
+        instance.collectValidationError(new PhoneNumberValidator(), assistant.getPhoneNumber(), validatorErrorList);
+        instance.collectValidationError(new UniqueEmailValidator(registrationService), assistant.getEmail(), validatorErrorList);
     }
 
     public Map<String, String> getValidatorErrorList() {
         return validatorErrorList;
     }
 
-    public void addValidators(List<Validator<Assistant>> validator) {
-        validators.addAll(validator);
-    }
 }

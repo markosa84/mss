@@ -1,6 +1,5 @@
 package hu.ak_akademia.mss.service;
 
-import hu.ak_akademia.mss.model.user.Client;
 import hu.ak_akademia.mss.model.user.MssUser;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,7 @@ import org.springframework.ui.Model;
 import javax.mail.MessagingException;
 
 @Service
-public class RegistrationVerificationService<T extends MssUser> {
+public class RegistrationVerificationService {
 
     private EmailService emailService;
 
@@ -19,9 +18,9 @@ public class RegistrationVerificationService<T extends MssUser> {
         this.emailService = emailService;
     }
 
-    public String performRegistrationVerification( MssUser user,  Model model) throws MessagingException {
+    public String performRegistrationVerification(@NotNull MssUser user, @NotNull Model model) throws MessagingException {
         emailService.sendRegistrationEmail(user.getEmail());
-        emailService.saveRegistrationVerificationCode( user);
+        emailService.saveRegistrationVerificationCode(user);
         model.addAttribute("message", "Regisztráció sikeres!");
         model.addAttribute("first_name", user.getFirstName());
         model.addAttribute("last_name", user.getLastName());

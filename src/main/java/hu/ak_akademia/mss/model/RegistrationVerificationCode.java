@@ -12,8 +12,8 @@ public class RegistrationVerificationCode {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private int id;
+
     @Column(name = "verificationCode", unique = true)
     private String verificationCode;
 

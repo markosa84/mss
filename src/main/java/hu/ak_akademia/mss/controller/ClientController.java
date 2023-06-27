@@ -39,6 +39,7 @@ public class ClientController {
         Map<String, String> errorList = registrationService.testMSSUserData(client);
         if (errorList.isEmpty()) {
             client.setRoles("ROLE_CLIENT");
+            registrationService.encryptPassword(client);
             registrationService.save(client);
             return registrationVerificationService.performRegistrationVerification(client, model);
         }
