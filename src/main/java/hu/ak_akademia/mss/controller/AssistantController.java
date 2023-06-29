@@ -32,6 +32,7 @@ public class AssistantController {
         Map<String, String> errorList = registrationService.testMSSUserData(assistant);
         if (errorList.isEmpty()) {
             assistant.setRoles("ROLE_ASSISTANT");
+            registrationService.encryptPassword(assistant);
             registrationService.save(assistant);
             return registrationVerificationService.performRegistrationVerification(assistant, model);
         }
