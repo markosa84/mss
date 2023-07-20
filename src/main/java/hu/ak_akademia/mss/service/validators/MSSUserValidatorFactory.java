@@ -3,6 +3,7 @@ package hu.ak_akademia.mss.service.validators;
 import hu.ak_akademia.mss.service.Validator;
 import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;
 
+import java.util.List;
 import java.util.Map;
 
 public class MSSUserValidatorFactory {
@@ -28,5 +29,9 @@ public class MSSUserValidatorFactory {
         } catch (IncorrectEnteredDataException e) {
             errorList.put(e.getMessage(), e.getErrorMessage());
         }
+    }
+
+    public List<Validator<String>> getValidators() {
+        return List.of(new PhoneNumberValidator(), new EmailValidator());
     }
 }
