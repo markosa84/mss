@@ -20,14 +20,16 @@ public class AreaOfExpertise {
     @ManyToMany(mappedBy = "areaOfExpertise")
     private List<MssUser> users;
 
+    private String basicInformation;
     public AreaOfExpertise() {
 
     }
 
-    public AreaOfExpertise(int id, String qualification, List<MssUser> users) {
+    public AreaOfExpertise(int id, String qualification, List<MssUser> users, String basicInformation) {
         this.id = id;
         this.qualification = qualification;
         this.users = users;
+        this.basicInformation = basicInformation;
     }
 
     public int getId() {
@@ -54,16 +56,24 @@ public class AreaOfExpertise {
         this.users = users;
     }
 
+    public String getBasicInformation() {
+        return basicInformation;
+    }
+
+    public void setBasicInformation(String basicInformation) {
+        this.basicInformation = basicInformation;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof AreaOfExpertise that)) return false;
-        return getId() == that.getId() && Objects.equals(getQualification(), that.getQualification()) && Objects.equals(getUsers(), that.getUsers());
+        return getId() == that.getId() && Objects.equals(getQualification(), that.getQualification()) && Objects.equals(getUsers(), that.getUsers()) && Objects.equals(getBasicInformation(), that.getBasicInformation());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getQualification(), getUsers());
+        return Objects.hash(getId(), getQualification(), getUsers(), getBasicInformation());
     }
 
     @Override
@@ -71,6 +81,8 @@ public class AreaOfExpertise {
         return new StringJoiner(", ", AreaOfExpertise.class.getSimpleName() + "[", "]")
                 .add("id=" + id)
                 .add("qualification='" + qualification + "'")
+                .add("users=" + users)
+                .add("basicInformation='" + basicInformation + "'")
                 .toString();
     }
 }
