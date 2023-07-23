@@ -43,6 +43,7 @@ public class SecurityConfiguration {
                         .invalidateHttpSession(true)
                         .permitAll()
                         .logoutSuccessUrl("/")
+                        .clearAuthentication(true)
                 )
                 .headers(h -> h.frameOptions().sameOrigin())
                 .userDetailsService(mssUserDetailService)

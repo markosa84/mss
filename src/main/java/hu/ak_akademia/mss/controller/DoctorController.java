@@ -17,14 +17,12 @@ import java.util.Map;
 @RequestMapping("/register")
 public class DoctorController {
 
+    @Autowired
     private RegistrationService registrationService;
 
     @Autowired
-    public void setRegistrationService(RegistrationService registrationService) {
-        this.registrationService = registrationService;
-    }
-    @Autowired
     private RegistrationVerificationService registrationVerificationService;
+
     @GetMapping("/doctor")
     public String doctor_registration(Doctor doctor, Model model) {
         model.addAttribute("genderList", registrationService.getAllGender());

@@ -1,10 +1,10 @@
 package hu.ak_akademia.mss.controller;
 
 
+import hu.ak_akademia.mss.config.SessionMssUser;
 import hu.ak_akademia.mss.model.AreaOfExpertise;
 import hu.ak_akademia.mss.model.user.MssUser;
 import hu.ak_akademia.mss.service.AreaOfExpertiseService;
-import hu.ak_akademia.mss.service.MssUserDetailService;
 import hu.ak_akademia.mss.service.RegistrationService;
 import hu.ak_akademia.mss.service.RegistrationVerificationCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -21,21 +20,17 @@ import java.util.List;
 @Controller
 @RequestMapping("/")
 public class HomeController {
-    private RegistrationService registrationService;
-    private AreaOfExpertiseService areaOfExpertiseService;
-    private MssUserDetailService mssUserDetailService;
 
+    @Autowired
+    private RegistrationService registrationService;
+    @Autowired
+    private AreaOfExpertiseService areaOfExpertiseService;
     @Autowired
     private RegistrationVerificationCodeService registrationVerificationCodeService;
+    @Autowired
+    private SessionMssUser sessionMssUser;
 
     public HomeController() {
-    }
-
-    @Autowired
-    public HomeController(RegistrationService registrationService, AreaOfExpertiseService areaOfExpertiseService, MssUserDetailService mssUserDetailService) {
-        this.registrationService = registrationService;
-        this.areaOfExpertiseService = areaOfExpertiseService;
-        this.mssUserDetailService = mssUserDetailService;
     }
 
     @GetMapping
@@ -45,19 +40,21 @@ public class HomeController {
 
     @GetMapping("/home")
     public String home(Model model, Principal principal) {
-        var currentUser = registrationService.getLoggedInUser(principal.getName());
+        var currentUser = sessionMssUser.getCurrentMssUser();
         if (!currentUser.isActive()) {
             model.addAttribute("errorMsg", "Your account is exist but not active!");
+            sessionMssUser.setCurrentUser(null);
             return "/login";
         }
         model.addAttribute("currentUser", currentUser.getFirstName() + " " + currentUser.getLastName());
 
 
         List<AreaOfExpertise> areaOfExpertise = areaOfExpertiseService.getAllAreaOfexpertise();
-        Collections.sort(areaOfExpertise, Comparator.comparing(AreaOfExpertise::getQualification));
-        model.addAttribute("areaOfexpertiseList", areaOfExpertise);
+        areaOfExpertise.sort(Comparator.comparing(AreaOfExpertise::getQualification));
+        model.addAttribute("areaOfExpertiseList", areaOfExpertise);
         return "home";
     }
+
     @ExceptionHandler(value = RuntimeException.class)
     public String error(RuntimeException e, Model model) {
         model.addAttribute("exception", e.getMessage());

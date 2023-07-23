@@ -17,15 +17,12 @@ import java.util.Map;
 @RequestMapping("/register")
 public class ClientController {
 
+    @Autowired
     private RegistrationService registrationService;
 
     @Autowired
     private RegistrationVerificationService registrationVerificationService;
 
-    @Autowired
-    public ClientController(RegistrationService registrationService) {
-        this.registrationService = registrationService;
-    }
 
     @GetMapping()
     public String registration(Client client, Model model) {
