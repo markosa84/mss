@@ -4,6 +4,7 @@ package hu.ak_akademia.mss.controller;
 import hu.ak_akademia.mss.config.SessionMssUser;
 import hu.ak_akademia.mss.model.AreaOfExpertise;
 import hu.ak_akademia.mss.model.user.MssUser;
+import hu.ak_akademia.mss.repository.MSSUserRepository;
 import hu.ak_akademia.mss.service.AreaOfExpertiseService;
 import hu.ak_akademia.mss.service.RegistrationService;
 import hu.ak_akademia.mss.service.RegistrationVerificationCodeService;
@@ -13,6 +14,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -29,7 +32,8 @@ public class HomeController {
     private RegistrationVerificationCodeService registrationVerificationCodeService;
     @Autowired
     private SessionMssUser sessionMssUser;
-
+@Autowired
+private MSSUserRepository mssUserRepository;
     public HomeController() {
     }
 
@@ -44,16 +48,34 @@ public class HomeController {
         if (!currentUser.isActive()) {
             model.addAttribute("errorMsg", "Your account is exist but not active!");
             sessionMssUser.setCurrentUser(null);
-            return "/login";
+            return "redirect:/login";
         }
         model.addAttribute("currentUser", currentUser.getFirstName() + " " + currentUser.getLastName());
 
 
-        List<AreaOfExpertise> areaOfExpertise = areaOfExpertiseService.getAllAreaOfexpertise();
+        List<AreaOfExpertise> areaOfExpertise = areaOfExpertiseService.getAllAreaOfExpertise();
         areaOfExpertise.sort(Comparator.comparing(AreaOfExpertise::getQualification));
         model.addAttribute("areaOfExpertiseList", areaOfExpertise);
         return "home";
     }
+
+    @GetMapping("/doctors")
+    public String listDoctorsForArea(@RequestParam("areaId") int areaId, Model model) {
+        var currentUser = sessionMssUser.getCurrentMssUser();
+        model.addAttribute("currentUser", currentUser.getFirstName() + " " + currentUser.getLastName());
+
+        List<MssUser> doctorsForArea = mssUserRepository.findDoctorsByAreaOfExpertise(areaId);
+        model.addAttribute("doctorsForArea", doctorsForArea);
+
+        // Választott szakirány nevének lekérése
+        String selectedAreaName = areaOfExpertiseService.getAreaOfExpertiseById(areaId);
+        model.addAttribute("selectedAreaName", selectedAreaName);
+
+
+        return "doctors"; // A válaszban "doctors.html" fájlt használjuk
+    }
+
+
 
     @ExceptionHandler(value = RuntimeException.class)
     public String error(RuntimeException e, Model model) {

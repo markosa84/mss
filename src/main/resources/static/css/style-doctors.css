@@ -1,0 +1,75 @@
+body {
+  background: #B2CF91;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: #f2f2f2;
+}
+
+/* Az első sor háttere más színű legyen
+.header-first-row {
+  background-color: #B2CF91 !important;
+}
+*/
+/* Gombok stílus */
+.button {
+  margin: 0 5px;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.custom-checkbox .form-check-input {
+  transform: scale(1.5);
+  margin-left: 10px;
+}
+
+.back-button {
+  margin-top: 10px;
+}
+.list-group-item {
+   display: flex;
+   justify-content: space-between;
+
+   padding: 0.5rem 1.75rem;
+   background-color: transparent;
+   border: none;
+}
+
+
+ .list-group-item span {
+   font-size: 20px;
+   flex: 1; /* Az orvos neve legyen flexibilis, hogy kitölthesse a rendelkezésre álló helyet */
+    margin-right: 10px; /* Adjunk távolságot a név és a checkbox között */
+ }
+
+.custom-checkbox {
+  margin-left: 5px; /* Adjunk egy kis bal margót a checkboxnak */
+   margin-top: 5px; /* Emeljük meg a checkbox felső margóját */
+}
+
+/* A kijelölt checkbox stílus */
+input[type="checkbox"]:checked + label::before {
+  content: "\2713"; /* Egy kis pipa jel jelzi a kijelölést */
+  color: green;
+  margin-right: 5px;
+}
+.form-check-label {
+  font-size: 19px; /* Itt módosítjuk a betűméretet 22px-re */
+}
+.custom-list-group {
+  width: 80%;
+}
+#selectAll {
+  margin-top: 9px; /* Emeljük meg az "Az összes orvos kiválasztása" checkbox felső margóját */
+}
+.text-center {
+  font-size: 24px; /* kiválasztott szakirány */
+}

@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- Saját CSS fájl (style-home.css) -->
     <link rel="stylesheet" th:href="@{/css/style-home.css}">
+    <!-- JavaScript hivatkozás -->
+    <script th:src="@{/js/home.js}"></script>
 </head>
 <body>
 <div class="header">
@@ -20,23 +22,22 @@
 </div>
 <div class="container">
     <div class="row">
-        <div class="col-lg-4" th:each="expertise : ${areaOfexpertiseList}">
+        <div class="col-lg-4" th:each="expertise : ${areaOfExpertiseList}">
             <div class="row">
                 <div class="col-lg-12">
                     <h3 th:text="${expertise.qualification}"></h3>
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Ide majd irunk valamit:</h5>
-                            <p th:unless="${not #lists.isEmpty(expertise.users)}">Még nincs hozzárendelt orvos.</p>
+                            <p th:text="${expertise.basicInformation}"></p>
+                            <p th:unless="${not #lists.isEmpty(expertise.users)}" style="font-weight: bold; font-size: 16px; color: red;">
+                                Még nincs hozzárendelt orvos.
+                            </p>
 
                             <div class="form-group" th:if="${not #lists.isEmpty(expertise.users)}">
-                                <label for="doctorsSelect">Válassz orvost:</label>
-                                <select class="form-control" id="doctorsSelect" name="selectedDoctorId">
-                                    <option value="" selected>Mind kiválasztva</option>
-                                    <option th:each="doctor : ${expertise.users}" th:value="${doctor.userId}" th:text="${doctor.firstName + ' ' + doctor.lastName}"></option>
-                                </select>
+                                <div class="form-group">
+                                    <a th:href="@{/doctors(areaId=${expertise.id})}" class="select-doctor-link">Válasszon orvost</a>
+                                </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -44,9 +45,5 @@
         </div>
     </div>
 </div>
-</div>
-
-
-
 </body>
 </html>

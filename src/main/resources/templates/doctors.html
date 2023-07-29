@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="hu" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!-- Bootstrap CSS hivatkozás -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Egyedi CSS fájl hivatkozása -->
+  <link rel="stylesheet" th:href="@{/css/style-doctors.css}">
+  <script th:src="@{/js/style-doctors.js}"></script>
+</head>
+<body>
+
+<div class="header header-first-row form-inline">
+  <span th:text="${currentUser}" class="mr-3"></span>
+  <form th:action="@{/logout}" method="post">
+    <input type="submit" th:value="logout" value="Logout" class="btn btn-primary">
+  </form>
+</div>
+<button type="button" class="btn btn-secondary" onclick="history.back()">Vissza</button>
+<div class="text-center mt-2">
+  <span th:text="'Kiválasztott szakirány: ' + ${selectedAreaName}"></span>
+</div>
+
+
+<div class="container-fluid mt-4">
+  <div class="row">
+    <div class="col-md-3">
+      <h3 class="text-center">Doktorok nevei:</h3>
+      <!-- Checkbox az összes orvos kiválasztásához -->
+      <div class="form-check custom-checkbox">
+        <label class="form-check-label" for="selectAll">Az összes orvos kiválasztása</label>
+        <input type="checkbox" class="form-check-input" id="selectAll">
+      </div>
+      <ul class="list-group custom-list-group">
+        <li th:each="doctor : ${doctorsForArea}" class="list-group-item">
+          <span th:text="${doctor.firstName + ' ' + doctor.lastName}" style="font-size: 20px;"></span>
+          <div class="form-check custom-checkbox">
+            <input type="checkbox" class="form-check-input" name="selectedDoctors">
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-9">
+      <!-- Naptárat vagy más tartalmat -->
+      <h3 class="text-center">Naptár vagy más tartalom itt</h3>
+    </div>
+  </div>
+</div>
+</body>
+</html>
