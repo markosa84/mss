@@ -99,7 +99,6 @@ private MSSUserRepository mssUserRepository;
         return "login";
     }
 
-
     // *** regisztrácios kod ellenőrzése*****
     @GetMapping("verify_code")
     public String verifyRegistrationCode(@RequestParam("code") String verificationCode, Model model) {

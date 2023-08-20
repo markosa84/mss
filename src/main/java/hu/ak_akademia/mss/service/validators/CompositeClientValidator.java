@@ -12,6 +12,7 @@ public class CompositeClientValidator implements Validator<Client> {
     private final RegistrationService registrationService;
 
     private final Map<String, String> validatorErrorList = new HashMap<>();
+    private final Map<String, String> validatorErrorList2 = new HashMap<>();
 
     public CompositeClientValidator(RegistrationService registrationService) {
         this.registrationService = registrationService;
@@ -29,11 +30,17 @@ public class CompositeClientValidator implements Validator<Client> {
         instance.collectValidationError(new PlaceOfBirthValidator(), client.getPlaceOfBirth(), validatorErrorList);
         instance.collectValidationError(new DateOfBirthValidator(), client.getDateOfBirth(), validatorErrorList);
         instance.collectValidationError(new TAJNumberValidator(), client.getTAJNumber(), validatorErrorList);
+        if (client.getUserId() == 0){
         instance.collectValidationError(new UniqueEmailValidator(registrationService), client.getEmail(), validatorErrorList);
+        }
     }
 
     public Map<String, String> getValidatorErrorList() {
         return validatorErrorList;
+    }
+
+    public Map<String, String> getValidatorErrorList2() {
+        return validatorErrorList2;
     }
 
 }

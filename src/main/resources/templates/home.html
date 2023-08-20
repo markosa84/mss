@@ -18,6 +18,10 @@
     <span th:text="${currentUser == null ? '' : currentUser}">Hello Mister!</span>
     <form th:action="@{/logout}" method="post">
         <input type="submit" th:value="logout" value="Logout" class="btn btn-primary">
+
+    </form>
+    <form th:action="@{/edit}" method="get">
+        <input type="submit" th:value="edit_profil" value="edit_profil" class="btn btn-primary">
     </form>
 </div>
 <div class="container">

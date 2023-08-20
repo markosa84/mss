@@ -39,6 +39,10 @@ public class RegistrationService {
         mssUserRepository.save(mssUsers);
     }
 
+    public void delete(MssUser mssUsers) {
+        mssUserRepository.delete(mssUsers);
+    }
+
     public Map<String, String> testMSSUserData(Assistant assistant) {
         var assistantValidator = new CompositeAssistantValidator(this);
         assistantValidator.validate(assistant);
