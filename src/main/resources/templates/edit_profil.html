@@ -1,5 +1,5 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>MSS</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -9,7 +9,7 @@
             crossorigin="anonymous"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" th:href="@{/css/style.css}">
-    <title>Registration</title>
+    <title>Edit Registration</title>
 </head>
 
 <body>
@@ -25,37 +25,32 @@
 </div>
 
 <form th:action="@{/saveData}" method="post" class="row g-3 needs-validation registration-form-frame"
-      >
+      th:object="${client}">
     <div class="row">
         <div class="col-md-4">
-
             <div class="header-1-view">
                 <h1>Felhasználói adatok szerkesztése</h1>
             </div>
 
-            <input type="text" class="form-control" id="test" th:field="${test}"
-                   placeholder="Gábor" required>
-
-            <div class="row">
-
-                <div class="col-md-12">
-                    <label for="firstName" class="form-label">First name</label>
-                    <input type="text" class="form-control" id="firstName" th:field="${client.firstName}"
-                           placeholder="Gábor" required>
-                    <span class="validatorError" th:text="${firstNameError} == null ? '' : ${firstNameError}"></span>
-                </div>
-            </div>
-
+            <label for="fN" class="form-label">fN</label>
+            <input type="text" class="form-control" id="fN" th:value="${test}" required>
+<!--            <div class="row">-->
+<!--                <div class="col-md-12">-->
+<!--                    <label for="firstName" class="form-label">First name</label>-->
+<!--                    <input type="text" class="form-control" id="firstName" th:field="*{firstName}"-->
+<!--                           placeholder="Gábor" required>-->
+<!--                    <span class="validatorError" th:text="${firstNameError} == null ? '' : ${firstNameError}"></span>-->
+<!--                </div>-->
+<!--            </div>-->
 
             <div class="row">
                 <div class="col-md-12">
                     <label for="lastName" class="form-label">Last name</label>
-                    <input type="text" class="form-control" id="lastName" th:field="${client.lastName}"
+                    <input type="text" class="form-control" id="lastName" th:field="*{lastName}"
                            placeholder="Kovács" required>
                     <span class="validatorError" th:text="${lastNameError} == null ? '' : ${lastNameError}"></span>
                 </div>
             </div>
-
 
             <div class="row">
                 <div class="col-md-12">
@@ -65,7 +60,7 @@
                         <span class="input-group-text" id="inputGroupPrepend"
                               style="background-color: lightgray;">@</span>
                         <input type="text" class="form-control" id="emailAddress" aria-describedby="inputGroupPrepend"
-                               th:field="${client.email}" placeholder="gaborkovacs@gmail.com" required readonly
+                               th:field="*{email}" placeholder="gaborkovacs@gmail.com" required readonly
                                style="background-color: lightgray;">
                     </div>
                     <span class="validatorError" th:text="${emailError} == null ? '' : ${emailError}"></span>
@@ -76,28 +71,25 @@
             <div class="row">
                 <div class="col-md-12">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" th:field="${client.password}"
+                    <input type="password" class="form-control" id="password" th:field="*{password}"
                            placeholder="Minimum 6 characters, contain at least 2 numbers and 2 letters" required>
                     <span class="validatorError" th:text="${passwordError} == null ? '' : ${passwordError}"></span>
 
                 </div>
             </div>
 
-
-
             <div class="row">
                 <div class="col-md-12">
                     <label for="passW" class="form-label">Password again</label>
-                    <input type="password" class="form-control" id="passW"  th:field="${passW}"
+                    <input type="password" class="form-control" id="passW" th:value="${passW}"
                            placeholder="Minimum 6 characters, contain at least 2 numbers and 2 letters" required>
                 </div>
             </div>
 
-
             <div class="row">
                 <div class="col-md-12">
                     <label for="gender" class="form-label">Gender</label>
-                    <select class="form-select" th:field="${client.gender}" id="gender" required>
+                    <select class="form-select" th:field="*{gender}" id="gender" required>
                         <option th:each="g : ${genderList}" th:value="${g.id}" th:text="${g.gender}">Male</option>
                     </select>
                 </div>
@@ -106,7 +98,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <label for="placeOfBirth" class="form-label">Place of Birth</label>
-                    <input type="text" class="form-control" id="placeOfBirth" th:field="${client.placeOfBirth}"
+                    <input type="text" class="form-control" id="placeOfBirth" th:field="*{placeOfBirth}"
                            placeholder="Budapest" required>
                     <span class="validatorError" th:text="${birthplaceError} == null ? '' : ${birthplaceError}"></span>
                 </div>
@@ -115,7 +107,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <label for="dateOfBirth" class="form-label">Date of Birth</label>
-                    <input type="date" class="form-control" id="dateOfBirth" th:field="${client.dateOfBirth}" required>
+                    <input type="date" class="form-control" id="dateOfBirth" th:field="*{dateOfBirth}" required>
                     <span class="validatorError"
                           th:text="${dateOfBirthError} == null ? '' : ${dateOfBirthError}"></span>
                 </div>
@@ -124,7 +116,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <label for="mothersName" class="form-label">Mother's Name</label>
-                    <input type="text" class="form-control" id="mothersName" th:field="${client.mothersName}"
+                    <input type="text" class="form-control" id="mothersName" th:field="*{mothersName}"
                            placeholder="Kovács Erzsébet" required>
                     <span class="validatorError" th:text="${motherNameError} == null ? '' : ${motherNameError}"></span>
                 </div>
@@ -134,7 +126,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <label for="TAJNumber" class="form-label">TAJ number</label>
-                    <input type="text" class="form-control" id="TAJNumber" th:field="${client.TAJNumber}"
+                    <input type="text" class="form-control" id="TAJNumber" th:field="*{TAJNumber}"
                            placeholder="123-456-789" required>
                     <span class="validatorError" th:text="${tajError} == null ? '' : ${tajError}"></span>
                 </div>
@@ -143,28 +135,14 @@
             <div class="row">
                 <div class="col-md-12">
                     <label for="phoneNumber" class="form-label">Phone number</label>
-                    <input type="text" class="form-control" id="phoneNumber" th:field="${client.phoneNumber}"
+                    <input type="text" class="form-control" id="phoneNumber" th:field="*{phoneNumber}"
                            placeholder="06309876543" required>
                     <span class="validatorError" th:text="${phoneError} == null ? '' : ${phoneError}"></span>
                 </div>
             </div>
 
-
-            <p>
             <div>
                 <button class="btn btn-primary" type="submit">Save</button>
-            </div>
-            </p>
-
-            <div style="display: none">
-                <input type="text" class="form-control" id="userId" th:field="${client.userId}"
-                       placeholder="43" required>
-                <input type="text" class="form-control" id="active" th:field="${client.active}"
-                       placeholder="false" required>
-                <input type="text" class="form-control" id="roles" th:field="${client.roles}"
-                       placeholder="false" required>
-                <input type="text" class="form-control" id="registrationDate" th:field="${client.registrationDate}"
-                       placeholder="false" required>
             </div>
 
         </div>
@@ -172,15 +150,7 @@
             <img src="/css/registration_1920x600.jpg" class="img-fluid" alt="Profil szerkesztése">
         </div>
     </div>
-
 </form>
-
-
-<!--
-    <input type="text" class="form-control" id="languages" th:field="${languages}"
-           placeholder="false" required>
-           -->
-
 
 </body>
 </html>
