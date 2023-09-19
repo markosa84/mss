@@ -10,11 +10,6 @@ body {
   background-color: #f2f2f2;
 }
 
-/* Az első sor háttere más színű legyen
-.header-first-row {
-  background-color: #B2CF91 !important;
-}
-*/
 /* Gombok stílus */
 .button {
   margin: 0 5px;
@@ -26,50 +21,75 @@ body {
   cursor: pointer;
 }
 
-.custom-checkbox .form-check-input {
-  transform: scale(1.5);
-  margin-left: 10px;
-}
+
 
 .back-button {
   margin-top: 10px;
 }
+
 .list-group-item {
-   display: flex;
-   justify-content: space-between;
-
-   padding: 0.5rem 1.75rem;
-   background-color: transparent;
-   border: none;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 1.75rem;
+  background-color: transparent;
+  border: none;
+}
+/* Táblázat stílus */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
 }
 
-
- .list-group-item span {
-   font-size: 20px;
-   flex: 1; /* Az orvos neve legyen flexibilis, hogy kitölthesse a rendelkezésre álló helyet */
-    margin-right: 10px; /* Adjunk távolságot a név és a checkbox között */
- }
-
-.custom-checkbox {
-  margin-left: 5px; /* Adjunk egy kis bal margót a checkboxnak */
-   margin-top: 5px; /* Emeljük meg a checkbox felső margóját */
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
 }
 
-/* A kijelölt checkbox stílus */
-input[type="checkbox"]:checked + label::before {
-  content: "\2713"; /* Egy kis pipa jel jelzi a kijelölést */
-  color: green;
-  margin-right: 5px;
+th {
+  background-color: #f2f2f2;
 }
-.form-check-label {
-  font-size: 19px; /* Itt módosítjuk a betűméretet 22px-re */
+
+/* Cellák osztály stílusai */
+.unavailable {
+  background-color: #f00;
 }
-.custom-list-group {
-  width: 80%;
+
+.available {
+  background-color: #0f0;
+  cursor: pointer;
 }
-#selectAll {
-  margin-top: 9px; /* Emeljük meg az "Az összes orvos kiválasztása" checkbox felső margóját */
+
+.booked {
+  background-color: #ffa500;
 }
-.text-center {
-  font-size: 24px; /* kiválasztott szakirány */
+
+.weekend {
+  background-color: #ccc;
+}
+
+/* Felugró ablak stílus */
+.popup {
+  display: none;
+  position: absolute;
+  background-color: #333;
+  color: #fff;
+  padding: 5px;
+  z-index: 1;
+  font-size: 12px;
+}
+
+.available:hover .popup {
+  display: block;
+}
+.inactive {
+  background-color: #ccc; /* Szürke szín */
+}
+.green-cell {
+  background-color: #0f0; /* Zöld szín */
+}
+
+.red-cell {
+  background-color: #f00; /* Piros szín */
 }

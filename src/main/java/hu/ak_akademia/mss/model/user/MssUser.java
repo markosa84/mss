@@ -3,7 +3,6 @@ package hu.ak_akademia.mss.model.user;
 import hu.ak_akademia.mss.model.AreaOfExpertise;
 import hu.ak_akademia.mss.model.Language;
 import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -46,6 +45,7 @@ public abstract class MssUser {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "area_of_expertise_id"))
     private List<AreaOfExpertise> areaOfExpertise;
+
 
     public MssUser() {
     }

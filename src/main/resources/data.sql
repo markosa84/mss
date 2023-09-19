@@ -9,6 +9,11 @@ VALUES (1,'Hungarian'), (2,'Deutsch'),(3, 'English'),(4, 'Chinese');
 INSERT INTO Gender(gender_id,gender)
  VALUES (1,'Male'), (2,'Female'),(3,'Other');
 
+----ApoointmentStatus data
+-----------------
+INSERT INTO AppointmentStatus(status_id,status)
+ VALUES (1,'Completed'), (2,'In progress'),(3,'Booked'),(4,'Did not come'),(5,'Canceled it');
+
 ---- doktor data
 -----------------
 INSERT INTO MSS_USER (DTYPE, ACTIVE,
@@ -103,3 +108,7 @@ INSERT INTO mss_user_to_area_of_expertise ( user_id ,  area_of_expertise_id) VAL
 INSERT INTO mss_user_to_area_of_expertise ( user_id ,  area_of_expertise_id) VALUES (2 ,2);
 INSERT INTO mss_user_to_area_of_expertise ( user_id ,  area_of_expertise_id) VALUES (5 ,1);
 INSERT INTO mss_user_to_area_of_expertise ( user_id ,  area_of_expertise_id) VALUES (5 ,2);
+
+-- dayofweek data
+INSERT INTO day_of_week (day_of_week_id,day_name)
+VALUES (1,'Monday'), (2,'Tuesday'), (3,'Wednesday'), (4,'Thursday'), (5,'Friday'), (6,'Saturday'), (7,'Sunday');

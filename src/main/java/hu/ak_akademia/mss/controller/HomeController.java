@@ -1,10 +1,14 @@
 package hu.ak_akademia.mss.controller;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import hu.ak_akademia.mss.config.SessionMssUser;
+import hu.ak_akademia.mss.model.Appointment;
 import hu.ak_akademia.mss.model.AreaOfExpertise;
 import hu.ak_akademia.mss.model.user.MssUser;
+import hu.ak_akademia.mss.repository.AppointmentRepository;
 import hu.ak_akademia.mss.repository.MSSUserRepository;
+import hu.ak_akademia.mss.service.AppointmentService;
 import hu.ak_akademia.mss.service.AreaOfExpertiseService;
 import hu.ak_akademia.mss.service.RegistrationService;
 import hu.ak_akademia.mss.service.RegistrationVerificationCodeService;
@@ -13,11 +17,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+
+
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.*;
 
 
 @Controller
@@ -32,6 +36,10 @@ public class HomeController {
     private RegistrationVerificationCodeService registrationVerificationCodeService;
     @Autowired
     private SessionMssUser sessionMssUser;
+    @Autowired
+    private AppointmentRepository appointmentRepository;
+    @Autowired
+    private AppointmentService appointmentService;
 @Autowired
 private MSSUserRepository mssUserRepository;
     public HomeController() {
@@ -74,6 +82,7 @@ private MSSUserRepository mssUserRepository;
 
         return "doctors"; // A válaszban "doctors.html" fájlt használjuk
     }
+
 
 
 

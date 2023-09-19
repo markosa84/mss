@@ -75,9 +75,10 @@ public class Language {
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", Language.class.getSimpleName() + "[", "]")
-                .add("id=" + id)
-                .add("name='" + name + "'")
-                .toString();
+        return "Language{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", users=" + users +
+                '}';
     }
 }

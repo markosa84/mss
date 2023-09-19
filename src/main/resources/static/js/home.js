@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Egér belép a kártya területére
   function showSelectDoctorLink() {
+   event.preventDefault(); // Megállítjuk az alapértelmezett működést (navigációt)
     this.querySelector('.select-doctor-link').style.display = 'inline';
   }
 
