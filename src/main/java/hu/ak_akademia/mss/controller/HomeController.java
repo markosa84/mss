@@ -2,7 +2,6 @@ package hu.ak_akademia.mss.controller;
 
 
 import hu.ak_akademia.mss.config.SessionMssUser;
-import hu.ak_akademia.mss.model.Appointment;
 import hu.ak_akademia.mss.model.AreaOfExpertise;
 import hu.ak_akademia.mss.model.user.MssUser;
 import hu.ak_akademia.mss.repository.AppointmentRepository;
@@ -16,11 +15,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-
-
 import java.security.Principal;
-import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
 
 
 @Controller
@@ -39,8 +36,9 @@ public class HomeController {
     private AppointmentRepository appointmentRepository;
     @Autowired
     private AppointmentService appointmentService;
-@Autowired
-private MSSUserRepository mssUserRepository;
+    @Autowired
+    private MSSUserRepository mssUserRepository;
+
     public HomeController() {
     }
 
@@ -54,10 +52,10 @@ private MSSUserRepository mssUserRepository;
         var currentUser = sessionMssUser.getCurrentMssUser();
         if (!currentUser.isActive()) {
             model.addAttribute("errorMsg", "Your account is exist but not active!");
-            sessionMssUser.setCurrentUser(null);
+            sessionMssUser.clearCurrentUser();
             return "redirect:/login";
         }
-        model.addAttribute("currentUser", currentUser.getFirstName() + " " + currentUser.getLastName());
+        model.addAttribute("currentUser", currentUser);
 
 
         List<AreaOfExpertise> areaOfExpertise = areaOfExpertiseService.getAllAreaOfExpertise();
