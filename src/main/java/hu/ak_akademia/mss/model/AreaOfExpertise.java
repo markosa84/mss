@@ -21,8 +21,8 @@ public class AreaOfExpertise {
     private List<MssUser> users;
 
     private String basicInformation;
-    public AreaOfExpertise() {
 
+    public AreaOfExpertise() {
     }
 
     public AreaOfExpertise(int id, String qualification, List<MssUser> users, String basicInformation) {

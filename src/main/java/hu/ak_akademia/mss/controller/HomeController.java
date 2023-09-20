@@ -1,7 +1,6 @@
 package hu.ak_akademia.mss.controller;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import hu.ak_akademia.mss.config.SessionMssUser;
 import hu.ak_akademia.mss.model.Appointment;
 import hu.ak_akademia.mss.model.AreaOfExpertise;
@@ -84,8 +83,6 @@ private MSSUserRepository mssUserRepository;
     }
 
 
-
-
     @ExceptionHandler(value = RuntimeException.class)
     public String error(RuntimeException e, Model model) {
         model.addAttribute("exception", e.getMessage());
@@ -97,8 +94,7 @@ private MSSUserRepository mssUserRepository;
     @GetMapping("/login")
     public String login(Model model, String error) {
         if (error != null) {
-            model.addAttribute("errorMsg", "Incorrect username or password1!");
-
+            model.addAttribute("errorMsg", "Incorrect username or password!");
         }
         return "login";
     }

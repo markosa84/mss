@@ -25,13 +25,14 @@ public class SecurityConfiguration {
                 .csrf(c -> c.ignoringAntMatchers("/h2-console/**", "/resources/**", "/static/**"))
                 .authorizeRequests(a -> a
                         .antMatchers("/h2-console/**", "/resources/**").permitAll()
-                        .antMatchers("/register/**", "/login/**").permitAll()
+                        .antMatchers("/register", "/login/**").permitAll()
 //                        .antMatchers("/home/**").hasAnyRole("CLIENT"))
                         /*
                          * use the above and don't add the string "ROLE_" in front of the text because Spring Security does it implicitly
                          * or use below and add the String "ROLE_".
                          * */
-                        .antMatchers("/home/**").hasAnyAuthority("ROLE_CLIENT","ROLE_DOCTOR"))
+                        .antMatchers("/home/**").hasAnyAuthority("ROLE_CLIENT", "ROLE_DOCTOR", "ROLE_ASSISTANT")
+                        .antMatchers("/register/doctor", "/register/assistant", "/register/financialColleague").hasAnyAuthority("ROLE_ASSISTANT"))
                 .formLogin().loginPage("/login").permitAll()
                 .loginProcessingUrl("/login").passwordParameter("password").usernameParameter("username")
                 .defaultSuccessUrl("/home", true).permitAll()
@@ -39,6 +40,7 @@ public class SecurityConfiguration {
                 .and()
                 .logout(logout -> logout
                         .logoutUrl("/logout")
+                        .logoutSuccessUrl("/")
                         .deleteCookies()
                         .invalidateHttpSession(true)
                         .permitAll()

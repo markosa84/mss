@@ -28,4 +28,8 @@ public class SessionMssUser {
     public void setCurrentUser(MssUser currentUser) {
         this.currentUser = currentUser;
     }
+
+    public void clearCurrentUser() {
+        currentUser = null;
+    }
 }

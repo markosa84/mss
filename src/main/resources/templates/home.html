@@ -15,7 +15,7 @@
 </head>
 <body>
 <div class="header">
-    <span th:text="${currentUser == null ? '' : currentUser}">Hello Mister!</span>
+    <span th:text="${currentUser == null ? '' : currentUser.getLastName + ' ' + currentUser.getFirstName }">Hello Mister!</span>
     <form th:action="@{/logout}" method="post">
         <input type="submit" th:value="logout" value="Logout" class="btn btn-primary">
 

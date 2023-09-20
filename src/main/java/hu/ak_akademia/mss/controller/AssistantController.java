@@ -18,7 +18,7 @@ import java.util.Map;
 public class AssistantController {
 
     @Autowired
-    RegistrationService registrationService;
+    private RegistrationService registrationService;
     @Autowired
     private RegistrationVerificationService registrationVerificationService;
     @GetMapping("/assistant")

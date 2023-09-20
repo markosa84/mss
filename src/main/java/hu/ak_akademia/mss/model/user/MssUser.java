@@ -34,7 +34,7 @@ public abstract class MssUser {
     private String phoneNumber;
     @Column(nullable = false)
     private String roles;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "mss_user_to_language",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "language_id"))
