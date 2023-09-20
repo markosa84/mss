@@ -1,21 +1,15 @@
 package hu.ak_akademia.mss.model.user;
 
-import hu.ak_akademia.mss.model.Language;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
-import java.util.StringJoiner;
 
 @Entity
 public class Client extends MssUser {
-
-
+    
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfBirth;
     private String placeOfBirth;
@@ -25,14 +19,6 @@ public class Client extends MssUser {
     private String TAJNumber;
 
     public Client() {
-    }
-
-    public Client(int userId, boolean active, LocalDateTime registrationDate, String email, String password, String firstName, String lastName, int gender, String phoneNumber, String roles, List<Language> languages, LocalDate dateOfBirth, String placeOfBirth, String mothersName, String TAJNumber) {
-        super(userId, active, registrationDate, email, password, firstName, lastName, gender, phoneNumber, roles, languages, Collections.emptyList());
-        this.dateOfBirth = dateOfBirth;
-        this.placeOfBirth = placeOfBirth;
-        this.mothersName = mothersName;
-        this.TAJNumber = TAJNumber;
     }
 
     public LocalDate getDateOfBirth() {
@@ -82,11 +68,11 @@ public class Client extends MssUser {
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", Client.class.getSimpleName() + "[", "]")
-                .add("dateOfBirth=" + dateOfBirth)
-                .add("placeOfBirth='" + placeOfBirth + "'")
-                .add("mothersName='" + mothersName + "'")
-                .add("TAJNumber='" + TAJNumber + "'")
-                .toString();
+        return "Client{" +
+                "dateOfBirth=" + dateOfBirth +
+                ", placeOfBirth='" + placeOfBirth + '\'' +
+                ", mothersName='" + mothersName + '\'' +
+                ", TAJNumber='" + TAJNumber + '\'' +
+                '}';
     }
 }

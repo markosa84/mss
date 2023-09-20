@@ -5,7 +5,6 @@ import hu.ak_akademia.mss.model.user.MssUser;
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
-import java.util.StringJoiner;
 
 @Entity
 public class Language {
@@ -17,17 +16,8 @@ public class Language {
 
     private String name;
 
-    @ManyToMany(mappedBy = "languages")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "languages")
     private List<MssUser> users;
-
-    public Language() {
-    }
-
-    public Language(int id, String name, List<MssUser> users) {
-        this.id = id;
-        this.name = name;
-        this.users = users;
-    }
 
     public int getId() {
         return id;

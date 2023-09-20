@@ -3,11 +3,11 @@ package hu.ak_akademia.mss.model.user;
 import hu.ak_akademia.mss.model.AreaOfExpertise;
 import hu.ak_akademia.mss.model.Language;
 import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
-import java.util.StringJoiner;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -34,7 +34,7 @@ public abstract class MssUser {
     private String phoneNumber;
     @Column(nullable = false)
     private String roles;
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany()
     @JoinTable(name = "mss_user_to_language",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "language_id"))
@@ -175,20 +175,20 @@ public abstract class MssUser {
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", MssUser.class.getSimpleName() + "[", "]")
-                .add("userId=" + userId)
-                .add("active=" + active)
-                .add("registrationDate=" + registrationDate)
-                .add("email='" + email + "'")
-                .add("password='" + password + "'")
-                .add("firstName='" + firstName + "'")
-                .add("lastName='" + lastName + "'")
-                .add("gender=" + gender)
-                .add("phoneNumber='" + phoneNumber + "'")
-                .add("roles='" + roles + "'")
-                .add("languages=" + languages)
-                .add("areaOfExpertise=" + areaOfExpertise)
-                .toString();
+        return "MssUser{" +
+                "userId=" + userId +
+                ", active=" + active +
+                ", registrationDate=" + registrationDate +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", gender=" + gender +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", roles='" + roles + '\'' +
+//                ", languages=" + languages +
+                ", areaOfExpertise=" + areaOfExpertise +
+                '}';
     }
 }
 

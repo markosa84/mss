@@ -31,20 +31,6 @@ public class Appointment {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
 
-
-    public Appointment() {
-    }
-
-    public Appointment(int id, MssUser mssUserClient, MssUser mssUserDoctor, Appointmentstatus status, AreaOfExpertise areaOfExpertise, LocalDateTime startDate, LocalDateTime endDate) {
-        this.id = id;
-        this.mssUserClient = mssUserClient;
-        this.mssUserDoctor = mssUserDoctor;
-        this.status = status;
-        this.areaOfExpertise = areaOfExpertise;
-        this.startDate = startDate;
-        this.endDate = endDate;
-    }
-
     public int getId() {
         return id;
     }

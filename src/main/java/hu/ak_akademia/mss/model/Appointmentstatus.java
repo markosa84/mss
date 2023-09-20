@@ -11,15 +11,7 @@ public class Appointmentstatus {
     @Column(name = "status_id")
     private int id;
 
-    private  String status;
-
-    public Appointmentstatus() {
-    }
-
-    public Appointmentstatus(int id, String status) {
-        this.id = id;
-        this.status = status;
-    }
+    private String status;
 
     public int getId() {
         return id;

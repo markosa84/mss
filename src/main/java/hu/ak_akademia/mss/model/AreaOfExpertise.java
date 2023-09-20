@@ -10,7 +10,6 @@ import java.util.StringJoiner;
 @Entity
 public class AreaOfExpertise {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "area_of_expertise_id")
