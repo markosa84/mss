@@ -1,4 +1,4 @@
-package hu.ak_akademia.mss.service;
+package hu.ak_akademia.mss.model;
 
 import hu.ak_akademia.mss.model.user.Doctor;
 import org.springframework.context.annotation.Scope;

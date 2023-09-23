@@ -31,8 +31,8 @@
             <div class="header-1-view">
                 <h1>Felhasználói adatok szerkesztése</h1>
             </div>
-            <label for="firstName" class="form-label" th:text="${name.user.firstName}">fN</label>
-            <input type="text" class="form-control" id="firstName" name="user.firstName" th:value="*{name.user.firstName}"
+            <label for="firstName" class="form-label" th:text="${container.user.firstName}">fN</label>
+            <input type="text" class="form-control" id="firstName" name="user.firstName" th:value="*{container.user.firstName}"
                    required>
             <div>
                 <button class="btn btn-primary" type="submit">Save</button>
