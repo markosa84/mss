@@ -56,8 +56,6 @@ public class HomeController {
             return "redirect:/login";
         }
         model.addAttribute("currentUser", currentUser);
-
-
         List<AreaOfExpertise> areaOfExpertise = areaOfExpertiseService.getAllAreaOfExpertise();
         areaOfExpertise.sort(Comparator.comparing(AreaOfExpertise::getQualification));
         model.addAttribute("areaOfExpertiseList", areaOfExpertise);
@@ -83,6 +81,8 @@ public class HomeController {
 
     @ExceptionHandler(value = RuntimeException.class)
     public String error(RuntimeException e, Model model) {
+        System.out.println("e.getMessage()");
+        System.out.println(e.getMessage());
         model.addAttribute("exception", e.getMessage());
         return "error";
     }

@@ -34,7 +34,7 @@ public abstract class MssUser {
     private String phoneNumber;
     @Column(nullable = false)
     private String roles;
-    @ManyToMany()
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "mss_user_to_language",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "language_id"))
@@ -48,21 +48,6 @@ public abstract class MssUser {
 
 
     public MssUser() {
-    }
-
-    public MssUser(int userId, boolean active, LocalDateTime registrationDate, String email, String password, String firstName, String lastName, int gender, String phoneNumber, String roles, List<Language> languages, List<AreaOfExpertise> areaOfExpertise) {
-        this.userId = userId;
-        this.active = active;
-        this.registrationDate = registrationDate;
-        this.email = email;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.gender = gender;
-        this.phoneNumber = phoneNumber;
-        this.roles = roles;
-        this.languages = languages;
-        this.areaOfExpertise = areaOfExpertise;
     }
 
     public int getUserId() {
@@ -186,8 +171,6 @@ public abstract class MssUser {
                 ", gender=" + gender +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", roles='" + roles + '\'' +
-//                ", languages=" + languages +
-                ", areaOfExpertise=" + areaOfExpertise +
                 '}';
     }
 }

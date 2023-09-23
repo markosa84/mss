@@ -73,6 +73,6 @@ public class Client extends MssUser {
                 ", placeOfBirth='" + placeOfBirth + '\'' +
                 ", mothersName='" + mothersName + '\'' +
                 ", TAJNumber='" + TAJNumber + '\'' +
-                '}';
+                "} " + super.toString();
     }
 }

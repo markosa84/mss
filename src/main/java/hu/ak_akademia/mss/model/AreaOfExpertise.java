@@ -5,7 +5,6 @@ import hu.ak_akademia.mss.model.user.MssUser;
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
-import java.util.StringJoiner;
 
 @Entity
 public class AreaOfExpertise {
@@ -77,11 +76,11 @@ public class AreaOfExpertise {
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", AreaOfExpertise.class.getSimpleName() + "[", "]")
-                .add("id=" + id)
-                .add("qualification='" + qualification + "'")
-                .add("users=" + users)
-                .add("basicInformation='" + basicInformation + "'")
-                .toString();
+        return "AreaOfExpertise{" +
+                "id=" + id +
+                ", qualification='" + qualification + '\'' +
+                ", users=" + users +
+                ", basicInformation='" + basicInformation + '\'' +
+                '}';
     }
 }

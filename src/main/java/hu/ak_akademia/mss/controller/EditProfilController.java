@@ -2,12 +2,17 @@ package hu.ak_akademia.mss.controller;
 
 import hu.ak_akademia.mss.config.SessionMssUser;
 import hu.ak_akademia.mss.model.user.Doctor;
+import hu.ak_akademia.mss.service.Container;
 import hu.ak_akademia.mss.service.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
+@Transactional
 @Controller
 @RequestMapping("/")
 public class EditProfilController {
@@ -23,9 +28,7 @@ public class EditProfilController {
 
     @GetMapping("/edit")
     public String edit_profil(Model model) {
-        container.setAge("40");
         container.setUser((Doctor) sessionMssUser.getCurrentMssUser());
-//        System.out.println(container);
         model.addAttribute("name", container);
         return "edit_profil";
     }
@@ -33,15 +36,11 @@ public class EditProfilController {
     @PostMapping("/saveData")
     public String editRegistrationData(Container ct, Model model) {
         System.out.println(ct.getUser().getFirstName());
-        System.out.println(ct);
-//        container.setUser(ct.getUser());
-        System.out.println(container.getUser() );
-        container.setUser((Doctor) sessionMssUser.getCurrentMssUser());
-        container.getUser().setFirstName(ct.getUser().getFirstName());
+        System.out.println(sessionMssUser.getCurrentMssUser());
         System.out.println(container.getUser());
+        System.out.println(container);
         model.addAttribute("name", container);
         return "edit_profil";
     }
-
 
 }
