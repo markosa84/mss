@@ -1,6 +1,7 @@
 package hu.ak_akademia.mss.repository;
 
 import hu.ak_akademia.mss.model.AreaOfExpertise;
+import hu.ak_akademia.mss.model.user.Client;
 import hu.ak_akademia.mss.model.user.MssUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -25,5 +26,6 @@ public interface MSSUserRepository extends JpaRepository<MssUser, Integer> {
     @Query("SELECT u FROM MssUser u JOIN u.areaOfExpertise a WHERE a.id = :areaId")
     List<MssUser> findDoctorsByAreaOfExpertise(@Param("areaId") int areaId);
 
-
+    @Query("SELECT u FROM MssUser u WHERE u.roles = 'ROLE_CLIENT'")
+    Optional<List<Client>> getAllClients();
 }

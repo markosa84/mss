@@ -5,7 +5,7 @@ import hu.ak_akademia.mss.model.user.Doctor;
 import hu.ak_akademia.mss.service.Validator;
 import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;
 
-class PasswordValidator implements Validator<String> {
+public class PasswordValidator implements Validator<String> {
 
     private static final String PASSWORD_REGEX = "^(?=.*[0-9])" + //Must contain at least one digit [0-9]
             "(?=.*[a-z])" + // Must contain at least one lowercase  character [a-z]

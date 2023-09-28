@@ -32,7 +32,7 @@ public class DoctorController {
 
     @PostMapping("/doctor")
     public String doctorRegistrationForm(Doctor doctor, Model model) throws MessagingException {
-        Map<String, String> errorList = registrationService.testMSSUserData(doctor);
+        Map<String, String> errorList = registrationService.testMSSUserData(doctor, "");
         if (errorList.isEmpty()) {
             doctor.setRoles("ROLE_DOCTOR");
             registrationService.encryptPassword(doctor);

@@ -5,7 +5,7 @@ import hu.ak_akademia.mss.model.user.Doctor;
 import hu.ak_akademia.mss.service.Validator;
 import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;
 
-class PhoneNumberValidator implements Validator<String> {
+public class PhoneNumberValidator implements Validator<String> {
     private static final String PHONE_NUMBER_REGEX =
 
             "^(06|\\+36)?" + //country code -> currently optional, delete ? to make it mandatory

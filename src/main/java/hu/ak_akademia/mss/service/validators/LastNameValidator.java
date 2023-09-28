@@ -3,7 +3,7 @@ package hu.ak_akademia.mss.service.validators;
 import hu.ak_akademia.mss.service.Validator;
 import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;
 
-class LastNameValidator implements Validator<String> {
+public class LastNameValidator implements Validator<String> {
     private static final String LAST_NAME_REGEX = "^[A-ZÁÉÍÓÚÖÜŐŰa-záéíóúöüőű]" + //Username consists of  characters (a-zA-Z), lowercase, or uppercase
             "([. -_](?![. -_])" + // follow by a dot, hyphen, or underscore, negative lookahead to ensures dot, hyphen, and underscore does not appear consecutively
             "|[A-ZÁÉÍÓÚÖÜŐŰa-záéíóúöüőű])" +  // or  character

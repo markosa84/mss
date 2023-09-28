@@ -50,6 +50,11 @@ public class HomeController {
     @GetMapping("/home")
     public String home(Model model, Principal principal) {
         var currentUser = sessionMssUser.getCurrentMssUser();
+
+        if (currentUser.getRoles().equals( "ROLE_ADMIN" )){
+            return "home_admin";
+        }
+
         if (!currentUser.isActive()) {
             model.addAttribute("errorMsg", "Your account is exist but not active!");
             sessionMssUser.clearCurrentUser();
@@ -94,6 +99,7 @@ public class HomeController {
         if (error != null) {
             model.addAttribute("errorMsg", "Incorrect username or password!");
         }
+
         return "login";
     }
 

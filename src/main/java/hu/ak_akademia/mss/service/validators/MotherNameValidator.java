@@ -4,7 +4,7 @@ import hu.ak_akademia.mss.model.user.Client;
 import hu.ak_akademia.mss.service.Validator;
 import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;
 
-class MotherNameValidator implements Validator<String> {
+public class MotherNameValidator implements Validator<String> {
 
     @Override
     public void validate(String mothersName) throws IncorrectEnteredDataException {

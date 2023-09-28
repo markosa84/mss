@@ -49,6 +49,14 @@
     </div>
 
     <div class="col-md-4">
+        <label for="passwordAgain" class="form-label">Password again</label>
+        <input type="password" class="form-control" id="passwordAgain" name="passwordAgain" th:value="${passwordAgain}"
+               placeholder="Minimum 6 characters, contain at least 2 numbers and 2 letters" required>
+        <span class="validatorError" th:text="${samePasswordError} == null ? '' : ${samePasswordError}"></span>
+    </div>
+
+
+    <div class="col-md-4">
         <label for="gender" class="form-label">Gender</label>
         <select class="form-select" th:field="*{gender}" id="gender" required>
             <option th:each="g : ${genderList}" th:value="${g.id}" th:text="${g.gender}">Male</option>
@@ -93,7 +101,7 @@
             </label>
         </div>
     </div>
-    <div class=" col-12 text-center" >
+    <div class=" col-12 text-center">
         <button class="btn btn-primary" type="submit">Register</button>
     </div>
 </form>

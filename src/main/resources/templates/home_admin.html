@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <!-- Bootstrap CSS hivatkozás -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Saját CSS fájl (style-home.css) -->
+  <link rel="stylesheet" th:href="@{/css/style-home.css}">
+    <title>Admin board</title>
+</head>
+<body>
+<form th:action="@{/logout}" method="post">
+  <input type="submit" th:value="logout" value="Logout" class="btn btn-primary">
+
+</form>
+<form th:action="@{/getAllClients}" method="get">
+  <input type="submit" value="Get Clients" class="btn btn-primary"/>
+</form>
+<form th:action="@{/getDoctors}" method="get">
+  <input type="submit" value="Get Doctors" class="btn btn-primary"/>
+</form>
+
+
+<div class="container height_100">
+  <div class="row height_100">
+    <div class="col-md-12 my-auto mx-auto">
+      <div class="text-center">
+        <h1>Users Data</h1><br><br>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-10 mx-auto">
+          <table class="table caprion-top">
+            <thead>
+            <tr class="border-bottom">
+              <th>#</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Email</th>
+              <th>Phone Number</th>
+              <th>Registration Date</th>
+              <th>Is Active</th>
+              <th>Modify</th>
+              <th>Delete</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="border-bottom" th:object="${client}" th:each="client, stat: ${clientList}" >
+
+              <td th:text="${stat.count}">1</td>
+              <td th:text="*{firstName}"></td>
+              <td th:text="*{lastName}"></td>
+              <td th:text="*{email}"></td>
+              <td th:text="*{phoneNumber}"></td>
+              <td th:text="*{registrationDate}"></td>
+              <td th:text="*{active}"></td>
+              <td class="text-center">
+                <!--
+                <form th:action="@{modify(id=${team.id})}" method="post">
+                  <input type="submit" value="Modify"/>
+                </form>
+                -->
+                Modify
+              </td>
+              <td class="text-center">
+                <!--
+                <form th:action="@{delete(id=${team.id})}" method="post">
+                <input type="submit" value="Delete"/>
+                </form>
+                -->
+              Delete
+              </td>
+
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</body>
+</html>

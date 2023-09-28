@@ -25,7 +25,10 @@ public class CompositeDoctorValidator implements Validator<Doctor> {
         instance.collectValidationError(new FirstNameValidator(), doctor.getFirstName(), validatorErrorList);
         instance.collectValidationError(new PasswordValidator(), doctor.getPassword(), validatorErrorList);
         instance.collectValidationError(new PhoneNumberValidator(), doctor.getPhoneNumber(), validatorErrorList);
-        instance.collectValidationError(new UniqueEmailValidator(registrationService), doctor.getEmail(), validatorErrorList);
+        if (doctor.getUserId() == 0){
+            instance.collectValidationError(new UniqueEmailValidator(registrationService), doctor.getEmail(), validatorErrorList);
+        }
+
     }
 
     public Map<String, String> getValidatorErrorList() {
