@@ -26,7 +26,7 @@ public class Appointment {
     @JoinColumn(name = "status_id")
     private Appointmentstatus status;
     @ManyToOne
-    @JoinColumn(name = "area_id")
+    @JoinColumn(name = "area_of_expertise_id")
     private AreaOfExpertise areaOfExpertise;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
