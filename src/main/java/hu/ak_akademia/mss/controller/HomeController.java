@@ -52,6 +52,8 @@ public class HomeController {
         var currentUser = sessionMssUser.getCurrentMssUser();
 
         if (currentUser.getRoles().equals( "ROLE_ADMIN" )){
+            model.addAttribute("name", "");
+            model.addAttribute("isEmpty", true);
             return "home_admin";
         }
 
