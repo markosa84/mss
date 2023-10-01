@@ -31,6 +31,14 @@ public class MSSUserValidatorFactory {
         }
     }
 
+    public void collectValidationError(ConfirmationPasswordValidator validator, String mssUser, String again, Map<String, String> errorList) {
+        try {
+            validator.validate(mssUser, again);
+        } catch (IncorrectEnteredDataException e) {
+            errorList.put(e.getMessage(), e.getErrorMessage());
+        }
+    }
+
     public List<Validator<String>> getValidators() {
         return List.of(new PhoneNumberValidator(), new EmailValidator());
     }

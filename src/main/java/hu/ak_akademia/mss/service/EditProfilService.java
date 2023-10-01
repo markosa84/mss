@@ -10,6 +10,8 @@ import hu.ak_akademia.mss.repository.LanguageRepository;
 import hu.ak_akademia.mss.repository.MSSUserRepository;
 import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;
 import hu.ak_akademia.mss.service.validators.*;
+import hu.ak_akademia.mss.service.validators.editProfil.ClientCompareValidatorEditProfil;
+import hu.ak_akademia.mss.service.validators.editProfil.CompositeClientValidatorEditProfil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -18,8 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class RegistrationService {
-
+public class EditProfilService {
     @Autowired
     private MSSUserRepository mssUserRepository;
 
@@ -39,7 +40,7 @@ public class RegistrationService {
     public void delete(MssUser mssUsers) {
         mssUserRepository.delete(mssUsers);
     }
-
+/*
     public Map<String, String> testMSSUserData(Assistant assistant) {
         var assistantValidator = new CompositeAssistantValidator(this);
         assistantValidator.validate(assistant);
@@ -51,7 +52,7 @@ public class RegistrationService {
         doctorValidator.validate(doctor);
 
         var instance = MSSUserValidatorFactory.getInstance();
-        instance.collectValidationError(new  ConfirmationPasswordValidator(), doctor.getPassword(), passwordAgain, doctorValidator.getValidatorErrorList());
+        instance.collectValidationError(new ConfirmationPasswordValidator(), doctor.getPassword(), passwordAgain, doctorValidator.getValidatorErrorList());
 
         return doctorValidator.getValidatorErrorList();
     }
@@ -62,13 +63,15 @@ public class RegistrationService {
         return colleagueValidator.getValidatorErrorList();
     }
 
+ */
+
     public Map<String, String> testMSSUserData(Client client, String passwordAgain) {
-        var clientValidator = new CompositeClientValidator(this);
+        var clientValidator = new CompositeClientValidatorEditProfil(this);
         clientValidator.validate(client);
 
-        var clientCompareValidator = new ClientCompareValidator(this, clientValidator.getValidatorErrorList());
+        var clientCompareValidator = new ClientCompareValidatorEditProfil(this, clientValidator.getValidatorErrorList());
         clientCompareValidator.validate(client.getPassword(), passwordAgain);
-        
+
         return clientValidator.getValidatorErrorList();
     }
 
@@ -99,5 +102,4 @@ public class RegistrationService {
     public void encryptPassword(MssUser mssUsers) {
         mssUsers.setPassword(new PasswordEncryption(mssUsers.getPassword()).encryptWithMD5());
     }
-
 }

@@ -1,20 +1,22 @@
-package hu.ak_akademia.mss.service.validators;
+package hu.ak_akademia.mss.service.validators.editProfil;
 
 import hu.ak_akademia.mss.model.user.Client;
+import hu.ak_akademia.mss.service.EditProfilService;
 import hu.ak_akademia.mss.service.RegistrationService;
 import hu.ak_akademia.mss.service.Validator;
+import hu.ak_akademia.mss.service.validators.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class CompositeClientValidator implements Validator<Client> {
+public class CompositeClientValidatorEditProfil implements Validator<Client> {
 
-    private final RegistrationService registrationService;
+    private final EditProfilService editProfilService;
 
     private final Map<String, String> validatorErrorList = new HashMap<>();
 
-    public CompositeClientValidator(RegistrationService registrationService) {
-        this.registrationService = registrationService;
+    public CompositeClientValidatorEditProfil(EditProfilService editProfilService) {
+        this.editProfilService = editProfilService;
     }
 
     @Override
@@ -30,9 +32,6 @@ public class CompositeClientValidator implements Validator<Client> {
         instance.collectValidationError(new DateOfBirthValidator(), client.getDateOfBirth(), validatorErrorList);
         instance.collectValidationError(new TAJNumberValidator(), client.getTAJNumber(), validatorErrorList);
 
-        if (client.getUserId() == 0){
-        instance.collectValidationError(new UniqueEmailValidator(registrationService), client.getEmail(), validatorErrorList);
-        }
     }
 
     public Map<String, String> getValidatorErrorList() {

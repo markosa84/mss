@@ -3,7 +3,7 @@ package hu.ak_akademia.mss.service.validators;
 import hu.ak_akademia.mss.service.Validator;
 import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;
 
-class TAJNumberValidator implements Validator<String> {
+public class TAJNumberValidator implements Validator<String> {
 
     @Override
     public void validate(String TAJNumber) throws IncorrectEnteredDataException {

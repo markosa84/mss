@@ -7,7 +7,7 @@ import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;
 import java.time.LocalDate;
 import java.time.Period;
 
-class DateOfBirthValidator implements Validator<LocalDate> {
+public class DateOfBirthValidator implements Validator<LocalDate> {
 
     @Override
     public void validate(LocalDate dateOfBirth) throws IncorrectEnteredDataException {

@@ -31,7 +31,7 @@ public class SecurityConfiguration {
                          * use the above and don't add the string "ROLE_" in front of the text because Spring Security does it implicitly
                          * or use below and add the String "ROLE_".
                          * */
-                        .antMatchers("/home/**").hasAnyAuthority("ROLE_CLIENT", "ROLE_DOCTOR", "ROLE_ASSISTANT")
+                        .antMatchers("/home/**").hasAnyAuthority("ROLE_CLIENT", "ROLE_DOCTOR", "ROLE_ASSISTANT", "ROLE_ADMIN")
                         .antMatchers("/register/doctor", "/register/assistant", "/register/financialColleague").hasAnyAuthority("ROLE_ASSISTANT"))
                 .formLogin().loginPage("/login").permitAll()
                 .loginProcessingUrl("/login").passwordParameter("password").usernameParameter("username")

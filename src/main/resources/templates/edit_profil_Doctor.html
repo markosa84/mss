@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -10,7 +10,6 @@
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <title>Edit Registration</title>
 </head>
-
 <body>
 
 <div class="header">
@@ -23,14 +22,13 @@
     </form>
 </div>
 
-<form th:action="@{/saveData}" method="post" class="row g-3 needs-validation registration-form-frame"
-      th:object="${client}">
+<form th:action="@{/saveDoctor}" method="post" class="row g-3 needs-validation registration-form-frame"
+      th:object="${doctor}">
     <div class="row">
         <div class="col-md-4">
             <div class="header-1-view">
                 <h1>Felhasználói adatok szerkesztése</h1>
             </div>
-
 
             <div class="row">
                 <div class="col-md-12">
@@ -77,17 +75,15 @@
             </div>
 
 
+
             <div class="row">
                 <div class="col-md-12">
                     <label for="passwordAgain" class="form-label">Password again</label>
-                    <input type="password" class="form-control" id="passwordAgain" name="passwordAgain"
-                           th:value="${passwordAgain}"
+                    <input type="password" class="form-control" id="passwordAgain" name="passwordAgain" th:value="${passwordAgain}"
                            placeholder="Minimum 6 characters, contain at least 2 numbers and 2 letters" required>
-                    <span class="validatorError"
-                          th:text="${samePasswordError} == null ? '' : ${samePasswordError}"></span>
+                    <span class="validatorError" th:text="${samePasswordError} == null ? '' : ${samePasswordError}"></span>
                 </div>
             </div>
-
 
             <div class="row">
                 <div class="col-md-12">
@@ -97,43 +93,16 @@
                     </select>
                 </div>
             </div>
-
+<!--
             <div class="row">
                 <div class="col-md-12">
-                    <label for="placeOfBirth" class="form-label">Place of Birth</label>
-                    <input type="text" class="form-control" id="placeOfBirth" th:field="*{placeOfBirth}"
-                           placeholder="Budapest" required>
-                    <span class="validatorError" th:text="${birthplaceError} == null ? '' : ${birthplaceError}"></span>
+                    <label for="areaOfExpertise" class="form-label">Area Of Expertises</label>
+                    <select class="form-select" th:field="*{areaOfExpertise}" id="areaOfExpertise" required>
+                        <option th:each="a : ${areaOfExpertisesList}" th:value="${a.id}" th:text="${a.qualification}">Select!</option>
+                    </select>
                 </div>
             </div>
-
-            <div class="row">
-                <div class="col-md-12">
-                    <label for="dateOfBirth" class="form-label">Date of Birth</label>
-                    <input type="date" class="form-control" id="dateOfBirth" th:field="*{dateOfBirth}" required>
-                    <span class="validatorError"
-                          th:text="${dateOfBirthError} == null ? '' : ${dateOfBirthError}"></span>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-12">
-                    <label for="mothersName" class="form-label">Mother's Name</label>
-                    <input type="text" class="form-control" id="mothersName" th:field="*{mothersName}"
-                           placeholder="Kovács Erzsébet" required>
-                    <span class="validatorError" th:text="${motherNameError} == null ? '' : ${motherNameError}"></span>
-                </div>
-
-            </div>
-
-            <div class="row">
-                <div class="col-md-12">
-                    <label for="TAJNumber" class="form-label">TAJ number</label>
-                    <input type="text" class="form-control" id="TAJNumber" th:field="*{TAJNumber}"
-                           placeholder="123-456-789" required>
-                    <span class="validatorError" th:text="${tajError} == null ? '' : ${tajError}"></span>
-                </div>
-            </div>
+-->
 
             <div class="row">
                 <div class="col-md-12">
@@ -144,12 +113,9 @@
                 </div>
             </div>
 
-
-            <p>
             <div>
                 <button class="btn btn-primary" type="submit">Save</button>
             </div>
-            </p>
 
             <div style="display: none">
                 <input type="text" class="form-control" id="userId" th:field="*{userId}"
@@ -163,15 +129,10 @@
             </div>
 
         </div>
+        <div class="col-md-8">
+            <img src="/css/registration_1920x600.jpg" class="img-fluid" alt="Profil szerkesztése">
+        </div>
     </div>
-    </div>
-
-    <div class="col-md-8">
-        <img src="/css/registration_1920x600.jpg" class="img-fluid" alt="Profil szerkesztése">
-    </div>
-    </div>
-
-
 </form>
 
 </body>

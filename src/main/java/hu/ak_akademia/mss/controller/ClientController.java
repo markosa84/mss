@@ -28,12 +28,13 @@ public class ClientController {
     public String registration(Client client, Model model) {
         model.addAttribute("genderList", registrationService.getAllGender());
         model.addAttribute("languageList", registrationService.getLanguages());
+        model.addAttribute("passwordAgain", "");
         return "registration";
     }
 
     @PostMapping("/client")
-    public String registrationForm(Client client, Model model) throws MessagingException {
-        Map<String, String> errorList = registrationService.testMSSUserData(client);
+    public String registrationForm(Client client, String passwordAgain, Model model) throws MessagingException {
+        Map<String, String> errorList = registrationService.testMSSUserData(client, passwordAgain);
         if (errorList.isEmpty()) {
             client.setRoles("ROLE_CLIENT");
             registrationService.encryptPassword(client);
@@ -42,6 +43,7 @@ public class ClientController {
         }
         model.addAttribute("genderList", registrationService.getAllGender());
         model.addAttribute("languageList", registrationService.getLanguages());
+        model.addAttribute("passwordAgain", "");
         model.addAllAttributes(errorList);
         return "registration";
     }
