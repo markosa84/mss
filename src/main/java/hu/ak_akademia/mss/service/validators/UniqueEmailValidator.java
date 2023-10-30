@@ -1,6 +1,5 @@
 package hu.ak_akademia.mss.service.validators;
 
-import hu.ak_akademia.mss.service.EditProfilService;
 import hu.ak_akademia.mss.service.RegistrationService;
 import hu.ak_akademia.mss.service.Validator;
 import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;

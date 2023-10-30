@@ -1,57 +1,37 @@
 package hu.ak_akademia.mss.controller;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import hu.ak_akademia.mss.config.SessionMssUser;
 import hu.ak_akademia.mss.model.AreaOfExpertise;
-import hu.ak_akademia.mss.model.user.MssUser;
-import hu.ak_akademia.mss.repository.AppointmentRepository;
-import hu.ak_akademia.mss.repository.MSSUserRepository;
-import hu.ak_akademia.mss.service.AppointmentService;
 import hu.ak_akademia.mss.service.AreaOfExpertiseService;
-import hu.ak_akademia.mss.service.RegistrationService;
-import hu.ak_akademia.mss.service.RegistrationVerificationCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
 import java.util.Comparator;
 import java.util.List;
 
-
-@Controller
+@RestController
 @RequestMapping("/")
 public class HomeController {
 
     @Autowired
-    private RegistrationService registrationService;
-    @Autowired
     private AreaOfExpertiseService areaOfExpertiseService;
     @Autowired
-    private RegistrationVerificationCodeService registrationVerificationCodeService;
-    @Autowired
     private SessionMssUser sessionMssUser;
-    @Autowired
-    private AppointmentRepository appointmentRepository;
-    @Autowired
-    private AppointmentService appointmentService;
-    @Autowired
-    private MSSUserRepository mssUserRepository;
-
-    public HomeController() {
-    }
-
-    @GetMapping
-    public String index() {
-        return "/index";
-    }
 
     @GetMapping("/home")
     public String home(Model model, Principal principal) {
+        // Ellenőrizd a felhasználó bejelentkezését itt, majd kérj le szükség esetén szakirányokat
         var currentUser = sessionMssUser.getCurrentMssUser();
 
-        if (currentUser.getRoles().equals( "ROLE_ADMIN" )){
+        if (currentUser.getRoles().equals("ROLE_ADMIN")) {
             model.addAttribute("name", "");
             model.addAttribute("isEmpty", true);
             return "home_admin";
@@ -62,39 +42,26 @@ public class HomeController {
             sessionMssUser.clearCurrentUser();
             return "redirect:/login";
         }
-        model.addAttribute("currentUser", currentUser);
+
+        // Kérj le és adj hozzá szakirányokat a modellhez
         List<AreaOfExpertise> areaOfExpertise = areaOfExpertiseService.getAllAreaOfExpertise();
         areaOfExpertise.sort(Comparator.comparing(AreaOfExpertise::getQualification));
         model.addAttribute("areaOfExpertiseList", areaOfExpertise);
+
+        // Konvertáljuk az adatokat JSON formátumba
+        ObjectMapper objectMapper = new ObjectMapper();
+        String areaOfExpertiseJson;
+        try {
+            areaOfExpertiseJson = objectMapper.writeValueAsString(areaOfExpertise);
+        } catch (JsonProcessingException e) {
+            // Kezeljük a kivételt, ha valami nem stimmel
+            e.printStackTrace();
+            areaOfExpertiseJson = "[]"; // Üres JSON, ha hiba történik
+        }
+        model.addAttribute("areaOfExpertiseJson", areaOfExpertiseJson);
+
         return "home";
     }
-
-    @GetMapping("/doctors")
-    public String listDoctorsForArea(@RequestParam("areaId") int areaId, Model model) {
-        var currentUser = sessionMssUser.getCurrentMssUser();
-        model.addAttribute("currentUser", currentUser.getFirstName() + " " + currentUser.getLastName());
-
-        List<MssUser> doctorsForArea = mssUserRepository.findDoctorsByAreaOfExpertise(areaId);
-        model.addAttribute("doctorsForArea", doctorsForArea);
-
-        // Választott szakirány nevének lekérése
-        String selectedAreaName = areaOfExpertiseService.getAreaOfExpertiseById(areaId);
-        model.addAttribute("selectedAreaName", selectedAreaName);
-
-
-        return "doctors"; // A válaszban "doctors.html" fájlt használjuk
-    }
-
-
-    @ExceptionHandler(value = RuntimeException.class)
-    public String error(RuntimeException e, Model model) {
-        System.out.println("e.getMessage()");
-        System.out.println(e.getMessage());
-        model.addAttribute("exception", e.getMessage());
-        return "error";
-    }
-
-//    ************************************************************************************************************
 
     @GetMapping("/login")
     public String login(Model model, String error) {
@@ -108,32 +75,5 @@ public class HomeController {
     @PostMapping("/logout")
     public String logout() {
         return "login";
-    }
-
-    // *** regisztrácios kod ellenőrzése*****
-    @GetMapping("verify_code")
-    public String verifyRegistrationCode(@RequestParam("code") String verificationCode, Model model) {
-        if (registrationVerificationCodeService.isValidCode(verificationCode)) {
-            if (registrationVerificationCodeService.isRegistrationCodeValid(verificationCode)) {
-                MssUser user = registrationVerificationCodeService.findUserByVerificationCode(verificationCode);
-                if (user != null) {
-                    // regisztrácios kod helyes és a kod ideje nem járt még le
-                    user.setActive(true); // isActive mező true-ra állítás
-                    registrationService.save(user); // Felhasználó mentése az adatbázisba
-                    model.addAttribute("message", "Regisztrációs kód helyes!");
-                    model.addAttribute("user_first_name", user.getFirstName());
-                    model.addAttribute("user_last_name", user.getLastName());
-                    model.addAttribute("loginUrl", "/login");
-                    return "registration_verification";
-                }
-            } else {
-                // Regisztrációs kód lejárt
-                model.addAttribute("message", "Regisztrációs kód lejárt!");
-                return "registration_verification";
-            }
-        }
-        // Érvénytelen regisztrációs kód
-        model.addAttribute("message", "Érvénytelen regisztrációs kód!");
-        return "registration_verification";
     }
 }

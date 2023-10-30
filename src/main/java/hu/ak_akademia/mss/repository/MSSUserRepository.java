@@ -1,6 +1,5 @@
 package hu.ak_akademia.mss.repository;
 
-import hu.ak_akademia.mss.model.AreaOfExpertise;
 import hu.ak_akademia.mss.model.user.Client;
 import hu.ak_akademia.mss.model.user.Doctor;
 import hu.ak_akademia.mss.model.user.MssUser;

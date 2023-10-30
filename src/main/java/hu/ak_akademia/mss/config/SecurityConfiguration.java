@@ -8,9 +8,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
 
 @Configuration
 @EnableWebSecurity
+
+
 public class SecurityConfiguration {
 
     private final MssUserDetailService mssUserDetailService;
@@ -22,21 +25,19 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
+                .cors(c -> c
+                        .configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues())
+                )
                 .csrf(c -> c.ignoringAntMatchers("/h2-console/**", "/resources/**", "/static/**"))
                 .authorizeRequests(a -> a
                         .antMatchers("/h2-console/**", "/resources/**").permitAll()
                         .antMatchers("/register", "/login/**").permitAll()
-//                        .antMatchers("/home/**").hasAnyRole("CLIENT"))
-                        /*
-                         * use the above and don't add the string "ROLE_" in front of the text because Spring Security does it implicitly
-                         * or use below and add the String "ROLE_".
-                         * */
                         .antMatchers("/home/**").hasAnyAuthority("ROLE_CLIENT", "ROLE_DOCTOR", "ROLE_ASSISTANT", "ROLE_ADMIN")
                         .antMatchers("/register/doctor", "/register/assistant", "/register/financialColleague").hasAnyAuthority("ROLE_ASSISTANT"))
-                .formLogin().loginPage("/login").permitAll()
+                .formLogin()
+                .loginPage("/login").permitAll()
                 .loginProcessingUrl("/login").passwordParameter("password").usernameParameter("username")
                 .defaultSuccessUrl("/home", true).permitAll()
-//                .and().logout().logoutUrl("/login?logout").logoutSuccessUrl("/").clearAuthentication(true).permitAll()
                 .and()
                 .logout(logout -> logout
                         .logoutUrl("/logout")
@@ -56,6 +57,5 @@ public class SecurityConfiguration {
     PasswordEncoder passwordEncoder() {
         return new PasswordEncryption();
     }
-
 
 }

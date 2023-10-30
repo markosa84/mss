@@ -2,17 +2,13 @@ package hu.ak_akademia.mss.controller;
 
 import hu.ak_akademia.mss.config.SessionMssUser;
 import hu.ak_akademia.mss.model.user.Client;
-import hu.ak_akademia.mss.model.user.Doctor;
 import hu.ak_akademia.mss.model.Container;
 import hu.ak_akademia.mss.service.EditProfilService;
-import hu.ak_akademia.mss.service.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.mail.MessagingException;

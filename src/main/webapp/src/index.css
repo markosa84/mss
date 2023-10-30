@@ -1,0 +1,90 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #b2cf91;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+  padding: 0;
+}
+
+.site-header {
+  padding-block: 1em;
+  text-align: center;
+  border-bottom: 1px solid black;
+}
+
+.container {
+  width: min(calc(100vw - 2em), 1100px);
+  /* background-color: pink; */
+  margin-inline: auto;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding-block: 0.5em;
+  background-color: black;
+  color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+}
+
+.login-form {
+  font-size: 1.5rem;
+  width: min(100%, 600px);
+  margin-inline: auto;
+  margin-top: 16rem;
+}
+
+.login-form > * + * {
+  margin-top: 2rem;
+}
+
+.form-control {
+  display: grid;
+  gap: 0.55rem;
+}
+
+form .submit-btn {
+  font: inherit;
+  display: block;
+  padding: 10px 20px;
+  background-color: #0d6efd;
+  margin-inline: auto;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+form .submit-btn:disabled {
+  background-color: darkgray;
+}
+
+input[type="text"],
+input[type="password"] {
+  border-radius: 8px;
+  border: 0;
+  padding: 0.75rem;
+}
+
+.error-msg {
+  font-size: 1.25rem;
+  color: rgb(197, 27, 27);
+}

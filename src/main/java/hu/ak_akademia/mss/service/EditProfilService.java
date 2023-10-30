@@ -9,7 +9,6 @@ import hu.ak_akademia.mss.repository.GenderRepository;
 import hu.ak_akademia.mss.repository.LanguageRepository;
 import hu.ak_akademia.mss.repository.MSSUserRepository;
 import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;
-import hu.ak_akademia.mss.service.validators.*;
 import hu.ak_akademia.mss.service.validators.editProfil.ClientCompareValidatorEditProfil;
 import hu.ak_akademia.mss.service.validators.editProfil.CompositeClientValidatorEditProfil;
 import org.springframework.beans.factory.annotation.Autowired;

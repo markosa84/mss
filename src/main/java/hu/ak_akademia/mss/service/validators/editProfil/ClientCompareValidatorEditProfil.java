@@ -2,7 +2,6 @@ package hu.ak_akademia.mss.service.validators.editProfil;
 
 import hu.ak_akademia.mss.service.CompareValidator;
 import hu.ak_akademia.mss.service.EditProfilService;
-import hu.ak_akademia.mss.service.RegistrationService;
 import hu.ak_akademia.mss.service.validators.ConfirmationPasswordValidator;
 import hu.ak_akademia.mss.service.validators.MSSUserValidatorFactory;
 
