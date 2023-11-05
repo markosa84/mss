@@ -23,9 +23,12 @@ export const Login = () => {
   // --------------------------------
 
   const onSubmit = async ({ email, password }) => {
-    const loginData = { email, password };
+    const params = new URLSearchParams();
+    params.append("username", email);
+    params.append("password", password);
+    console.log(params.get("password"));
     try {
-      const res = await axios1.post("/login", loginData);
+      const res = await axios1.post("/login", params);
       console.log("Zseniális!!! Megvan a user!");
       console.log("User: ", res.data);
     } catch (error) {
