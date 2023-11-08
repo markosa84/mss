@@ -1,0 +1,14 @@
+[
+  {
+    "doctorId": 1,
+    "name": "Dr. John Heart"
+  },
+  {
+    "doctorId": 2,
+    "name": "Dr. Jane Ventricle"
+  },
+  {
+    "doctorId": 3,
+    "name": "Dr. Joe Atrium"
+  }
+]

@@ -1,0 +1,50 @@
+[
+  {
+    "timeSlotId": 1,
+    "startTime": "09:00"
+  },
+  {
+    "timeSlotId": 2,
+    "startTime": "09:15"
+  },
+  {
+    "timeSlotId": 3,
+    "startTime": "09:30"
+  },
+  {
+    "timeSlotId": 4,
+    "startTime": "09:45"
+  },
+  {
+    "timeSlotId": 5,
+    "startTime": "10:00"
+  },
+  {
+    "timeSlotId": 6,
+    "startTime": "10:15"
+  },
+  {
+    "timeSlotId": 7,
+    "startTime": "10:30"
+  },
+  {
+    "timeSlotId": 8,
+    "startTime": "10:45"
+  },
+  {
+    "timeSlotId": 9,
+    "startTime": "11:00"
+  },
+  {
+    "timeSlotId": 10,
+    "startTime": "11:15"
+  },
+  {
+    "timeSlotId": 11,
+    "startTime": "11:30"
+  },
+  {
+    "timeSlotId": 12,
+    "startTime": "11:45"
+  }
+]

@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "radiology",
+    "intro": "Lorem ipsum dolor sit amet consectetur. Netus feugiat mauris adipiscing amet sed. Enim imperdiet elit nibh est. Eu ultrices sed sit nunc libero. Adipiscing sapien molestie imperdiet id bibendum orci gravida."
+  },
+  {
+    "id": 2,
+    "name": "cardiology",
+    "intro": "Lorem ipsum dolor sit amet consectetur. Netus feugiat mauris adipiscing amet sed."
+  },
+  {
+    "id": 3,
+    "name": "gastroenterology",
+    "intro": "Lorem ipsum dolor sit amet consectetur. Netus feugiat mauris adipiscing amet sed. Enim imperdiet elit nibh est. Eu ultrices sed sit nunc libero. Adipiscing sapien molestie imperdiet id bibendum orci gravida."
+  },
+  {
+    "id": 4,
+    "name": "pediatrics",
+    "intro": "Lorem ipsum dolor sit amet consectetur. Netus feugiat mauris adipiscing amet sed. Enim imperdiet elit nibh est. Eu ultrices sed sit nunc libero. Adipiscing sapien molestie imperdiet id bibendum orci gravida."
+  },
+  {
+    "id": 5,
+    "name": "rheumatology",
+    "intro": "Lorem ipsum dolor sit amet consectetur. Netus feugiat mauris adipiscing amet sed. Enim imperdiet elit nibh est. Eu ultrices sed sit nunc libero. Adipiscing sapien molestie imperdiet id bibendum orci gravida."
+  },
+  {
+    "id": 6,
+    "name": "opthalmology",
+    "intro": "Lorem ipsum dolor sit amet consectetur. Netus feugiat mauris adipiscing amet sed. Enim imperdiet elit nibh est. Eu ultrices sed sit nunc libero. Adipiscing sapien molestie imperdiet id bibendum orci gravida."
+  }
+]

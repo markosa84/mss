@@ -18,9 +18,15 @@ h3,
 h4,
 h5,
 h6,
-p {
+p,
+ul {
   margin: 0;
   padding: 0;
+}
+
+img {
+  max-width: 100%;
+  display: block;
 }
 
 .site-header {
@@ -36,7 +42,7 @@ p {
 }
 
 footer {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   width: 100%;
   padding-block: 0.5em;
@@ -87,4 +93,110 @@ input[type="password"] {
 .error-msg {
   font-size: 1.25rem;
   color: rgb(197, 27, 27);
+}
+
+.layout-flex {
+  display: flex;
+}
+
+.user-sidebar {
+  background: aquamarine;
+}
+
+.user-sidebar ul {
+  margin-top: 5rem;
+  min-width: 250px;
+  min-height: 100vh;
+  list-style: none;
+  padding: 0 2rem;
+}
+
+.user-sidebar li {
+  margin-block: 2rem;
+}
+
+.user-content {
+  flex-grow: 1;
+  padding: 1rem 2rem;
+}
+
+.departments-title {
+  text-align: center;
+  margin-block: 2rem;
+}
+
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+  gap: 1rem;
+}
+
+.card {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
+  transition: all 150ms;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  /* align-items: ; */
+}
+
+.card:hover,
+.card:focus {
+  scale: 1.01;
+}
+
+.card__image {
+  height: 150px;
+  overflow: hidden;
+}
+
+.card__image img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.card__title {
+  text-transform: capitalize;
+}
+
+.card__content {
+  display: grid;
+  grid-template-rows: 1fr, auto;
+  row-gap: 1rem;
+  padding: 1rem;
+}
+
+.card__buttons {
+  align-self: end;
+  display: flex;
+  justify-content: space-between;
+}
+
+.booking-instruction {
+  margin-block: 1rem;
+}
+
+.doctors {
+  margin-left: 2rem;
+  list-style: none;
+}
+
+.doctors label {
+  margin-left: 0.75rem;
+}
+
+.selected-department-heading {
+  margin-block: 2rem;
+}
+
+.selected-department-heading span {
+  text-transform: capitalize;
+  margin-inline: 1rem;
+}
+
+.date-picker-wrapper {
+  margin-left: 2rem;
 }
