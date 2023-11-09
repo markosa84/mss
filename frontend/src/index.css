@@ -200,3 +200,49 @@ input[type="password"] {
 .date-picker-wrapper {
   margin-left: 2rem;
 }
+
+.table {
+  width: max-content;
+  margin-bottom: 3rem;
+  border-left: 1px solid black;
+  display: flex;
+  border-top: 1px solid black;
+}
+
+.table *:not(.column) {
+  min-height: 60px;
+  min-width: 150px;
+  text-align: center;
+  padding: 1em;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+}
+
+.disabled {
+  background-color: silver;
+}
+
+.choice:not(.disabled) {
+  background-color: aqua;
+  cursor: pointer;
+}
+
+.appointment-summary {
+  margin-bottom: 3rem;
+  margin-left: 2rem;
+}
+
+.confirm-appointment-button {
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 1rem 2rem;
+  margin-left: 2rem;
+  margin-bottom: 3rem;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.appointment-confirmed-text {
+  margin-top: 5rem;
+}

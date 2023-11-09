@@ -5,6 +5,7 @@ import { Register } from "./pages/Register";
 import { ClientLayout } from "./layouts/ClientLayout";
 import { WelcomePage } from "./pages/WelcomePage";
 import { BookAppointment } from "./pages/BookAppointment";
+import { AppointmentBooked } from "./pages/AppointmentBooked";
 
 export const router = createBrowserRouter([
   {
@@ -19,6 +20,7 @@ export const router = createBrowserRouter([
         children: [
           { index: true, element: <WelcomePage /> },
           { path: "appointments", element: <BookAppointment /> },
+          { path: "appointment-booked", element: <AppointmentBooked /> },
         ],
       },
     ],

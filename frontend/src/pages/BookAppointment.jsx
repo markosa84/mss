@@ -10,6 +10,8 @@ export const BookAppointment = () => {
   const { search } = useLocation();
   const searchParams = new URLSearchParams(search);
 
+  // console.log(selectedDepartment, departments.length);
+
   useEffect(() => {
     axios
       .get("/dummyDb/departments.json")
@@ -17,7 +19,7 @@ export const BookAppointment = () => {
       .catch((err) => console.log(err));
   }, []);
 
-  if (selectedDepartment === null && departments.length > 0) {
+  if (selectedDepartment === null || departments.length === 0) {
     return (
       <SelectDepartment
         departments={departments}
