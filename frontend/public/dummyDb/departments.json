@@ -1,32 +1,32 @@
 [
   {
-    "id": 1,
+    "areaOfExpertiseId": 1,
     "name": "radiology",
-    "intro": "Lorem ipsum dolor sit amet consectetur. Netus feugiat mauris adipiscing amet sed. Enim imperdiet elit nibh est. Eu ultrices sed sit nunc libero. Adipiscing sapien molestie imperdiet id bibendum orci gravida."
+    "description": "Lorem ipsum dolor sit amet consectetur. Netus feugiat mauris adipiscing amet sed. Enim imperdiet elit nibh est. Eu ultrices sed sit nunc libero. Adipiscing sapien molestie imperdiet id bibendum orci gravida."
   },
   {
-    "id": 2,
+    "areaOfExpertiseId": 2,
     "name": "cardiology",
-    "intro": "Lorem ipsum dolor sit amet consectetur. Netus feugiat mauris adipiscing amet sed."
+    "description": "Lorem ipsum dolor sit amet consectetur. Netus feugiat mauris adipiscing amet sed."
   },
   {
-    "id": 3,
+    "areaOfExpertiseId": 3,
     "name": "gastroenterology",
-    "intro": "Lorem ipsum dolor sit amet consectetur. Netus feugiat mauris adipiscing amet sed. Enim imperdiet elit nibh est. Eu ultrices sed sit nunc libero. Adipiscing sapien molestie imperdiet id bibendum orci gravida."
+    "description": "Lorem ipsum dolor sit amet consectetur. Netus feugiat mauris adipiscing amet sed. Enim imperdiet elit nibh est. Eu ultrices sed sit nunc libero. Adipiscing sapien molestie imperdiet id bibendum orci gravida."
   },
   {
-    "id": 4,
+    "areaOfExpertiseId": 4,
     "name": "pediatrics",
-    "intro": "Lorem ipsum dolor sit amet consectetur. Netus feugiat mauris adipiscing amet sed. Enim imperdiet elit nibh est. Eu ultrices sed sit nunc libero. Adipiscing sapien molestie imperdiet id bibendum orci gravida."
+    "description": "Lorem ipsum dolor sit amet consectetur. Netus feugiat mauris adipiscing amet sed. Enim imperdiet elit nibh est. Eu ultrices sed sit nunc libero. Adipiscing sapien molestie imperdiet id bibendum orci gravida."
   },
   {
-    "id": 5,
+    "areaOfExpertiseId": 5,
     "name": "rheumatology",
-    "intro": "Lorem ipsum dolor sit amet consectetur. Netus feugiat mauris adipiscing amet sed. Enim imperdiet elit nibh est. Eu ultrices sed sit nunc libero. Adipiscing sapien molestie imperdiet id bibendum orci gravida."
+    "description": "Lorem ipsum dolor sit amet consectetur. Netus feugiat mauris adipiscing amet sed. Enim imperdiet elit nibh est. Eu ultrices sed sit nunc libero. Adipiscing sapien molestie imperdiet id bibendum orci gravida."
   },
   {
-    "id": 6,
+    "areaOfExpertiseId": 6,
     "name": "opthalmology",
-    "intro": "Lorem ipsum dolor sit amet consectetur. Netus feugiat mauris adipiscing amet sed. Enim imperdiet elit nibh est. Eu ultrices sed sit nunc libero. Adipiscing sapien molestie imperdiet id bibendum orci gravida."
+    "description": "Lorem ipsum dolor sit amet consectetur. Netus feugiat mauris adipiscing amet sed. Enim imperdiet elit nibh est. Eu ultrices sed sit nunc libero. Adipiscing sapien molestie imperdiet id bibendum orci gravida."
   }
 ]

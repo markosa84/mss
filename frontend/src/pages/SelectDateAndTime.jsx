@@ -2,14 +2,27 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { setHours, setMinutes, setSeconds, format, addMinutes } from "date-fns";
+import {
+  setHours,
+  setMinutes,
+  setSeconds,
+  format,
+  addMinutes,
+  isWeekend,
+  nextMonday,
+} from "date-fns";
 import { useNavigate } from "react-router-dom";
+import { af } from "date-fns/locale";
 
 export const SelectDateAndTime = ({
   selectedDepartmentName,
   setSelectedDepartment,
 }) => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(() => {
+    const today = new Date();
+
+    return isWeekend(today) ? nextMonday(today) : today;
+  });
   const [departmentDoctors, setDepartmentDoctors] = useState([]);
   const [selectedDoctorIds, setSelectedDoctorIds] = useState([]);
   const [timeSlots, setTimeSlots] = useState([]);
@@ -78,6 +91,7 @@ export const SelectDateAndTime = ({
   useEffect(() => {
     if (timeSlots.length > 0) {
       const dateSlots = timeSlots.find(({ date }) => date === dateString);
+
       const fullSlots = dateSlots.availableSlotsDoctors
         .map((docSlot) => {
           const fullArr = [];
