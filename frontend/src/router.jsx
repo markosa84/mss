@@ -4,8 +4,9 @@ import { Login } from "./pages/Login";
 import { Register } from "./pages/Register";
 import { ClientLayout } from "./layouts/ClientLayout";
 import { WelcomePage } from "./pages/WelcomePage";
-import { BookAppointment } from "./pages/BookAppointment";
+import { BookAppointment } from "./pages/BookAppointment/BookAppointment";
 import { AppointmentBooked } from "./pages/AppointmentBooked";
+import { AppointmentProvider } from "./pages/BookAppointment/AppointmentProvider";
 
 export const router = createBrowserRouter([
   {
@@ -19,7 +20,14 @@ export const router = createBrowserRouter([
         element: <ClientLayout />,
         children: [
           { index: true, element: <WelcomePage /> },
-          { path: "appointments", element: <BookAppointment /> },
+          {
+            path: "appointments",
+            element: (
+              <AppointmentProvider>
+                <BookAppointment />
+              </AppointmentProvider>
+            ),
+          },
           { path: "appointment-booked", element: <AppointmentBooked /> },
         ],
       },

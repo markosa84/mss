@@ -1,5 +1,22 @@
 [
   {
+    "date": "2023-11-30",
+    "doctorsTimeSlots": [
+      {
+        "doctorId": 1,
+        "availableSlotIds": [4, 8, 9]
+      },
+      {
+        "doctorId": 2,
+        "availableSlotIds": [4, 5, 6, 8, 10]
+      },
+      {
+        "doctorId": 3,
+        "availableSlotIds": [1, 2]
+      }
+    ]
+  },
+  {
     "date": "2023-12-01",
     "doctorsTimeSlots": [
       {
@@ -341,6 +358,23 @@
   },
   {
     "date": "2023-12-29",
+    "doctorsTimeSlots": [
+      {
+        "doctorId": 1,
+        "availableSlotIds": [1, 2, 5, 6, 9, 10]
+      },
+      {
+        "doctorId": 2,
+        "availableSlotIds": [1, 2, 5, 6, 9, 10]
+      },
+      {
+        "doctorId": 3,
+        "availableSlotIds": [3, 4, 7, 8, 11, 12]
+      }
+    ]
+  },
+  {
+    "date": "2024-01-01",
     "doctorsTimeSlots": [
       {
         "doctorId": 1,

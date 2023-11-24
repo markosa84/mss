@@ -1,8 +1,9 @@
 import { useState } from "react";
+import { useAppointmentSelector } from "../pages/BookAppointment/useAppointmentSelector";
 
 const IMG_URL_BASE = "/assets/dept-";
 
-export const DepartmentCard = ({ department, setSelectedDepartment }) => {
+export const DepartmentCard = ({ department }) => {
   let [imgSrc, setImgSrc] = useState(`${IMG_URL_BASE}${department.name}.jpg`);
 
   return (
@@ -10,10 +11,7 @@ export const DepartmentCard = ({ department, setSelectedDepartment }) => {
       <Header imgSrc={imgSrc} setImgSrc={setImgSrc} />
       <div className="card__content">
         <Body department={department} />
-        <Buttons
-          department={department}
-          setSelectedDepartment={setSelectedDepartment}
-        />
+        <Buttons department={department} />
       </div>
     </div>
   );
@@ -39,13 +37,14 @@ function Body({ department }) {
   );
 }
 
-function Buttons(department, setSelectedDepartment) {
+function Buttons({ department }) {
+  const { setSelectedDepartmentId } = useAppointmentSelector();
   return (
     <div className="card__buttons">
       <button>Learn more</button>
       <button
         onClick={() => {
-          setSelectedDepartment({ ...department });
+          setSelectedDepartmentId(department.areaOfExpertiseId);
         }}
       >
         Book Appointment
