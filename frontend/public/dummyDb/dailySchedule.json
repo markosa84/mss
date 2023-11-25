@@ -1,0 +1,62 @@
+[
+  {
+    "slotId": 1,
+    "startTime": "09:00",
+    "endTime": "09:15"
+  },
+  {
+    "slotId": 2,
+    "startTime": "09:15",
+    "endTime": "09:30"
+  },
+  {
+    "slotId": 3,
+    "startTime": "09:30",
+    "endTime": "09:45"
+  },
+  {
+    "slotId": 4,
+    "startTime": "09:45",
+    "endTime": "10:00"
+  },
+  {
+    "slotId": 5,
+    "startTime": "10:00",
+    "endTime": "10:15"
+  },
+  {
+    "slotId": 6,
+    "startTime": "10:15",
+    "endTime": "10:30"
+  },
+  {
+    "slotId": 7,
+    "startTime": "10:30",
+    "endTime": "10:45"
+  },
+  {
+    "slotId": 8,
+    "startTime": "10:45",
+    "endTime": "11:00"
+  },
+  {
+    "slotId": 9,
+    "startTime": "11:00",
+    "endTime": "11:15"
+  },
+  {
+    "slotId": 10,
+    "startTime": "11:15",
+    "endTime": "11:30"
+  },
+  {
+    "slotId": 11,
+    "startTime": "11:30",
+    "endTime": "11:45"
+  },
+  {
+    "slotId": 12,
+    "startTime": "11:45",
+    "endTime": "12:00"
+  }
+]

@@ -3,10 +3,6 @@ import format from "date-fns/format";
 import { useMemo } from "react";
 import { useAppointmentSelector } from "../pages/BookAppointment/useAppointmentSelector";
 
-const MAX_DAILY_SLOT_COUNT = 12;
-const START_TIME = "09:00";
-const SLOT_DURATION_MINS = 15;
-
 export default function TimePicker() {
   const {
     selectedDate,
@@ -15,21 +11,35 @@ export default function TimePicker() {
     departmentDoctors,
     selectedAppointment,
     setSelectedAppointment,
+    dailySchedule,
   } = useAppointmentSelector();
+
   const dailySlots = useMemo(() => {
-    const firstSlotStartTime = new Date(
-      `${format(selectedDate, "yyyy-MM-dd")}T${START_TIME}`
-    );
-    const slotArr = [];
-    for (
-      let i = 0, time = firstSlotStartTime;
-      i < MAX_DAILY_SLOT_COUNT;
-      i++, time = addMinutes(time, 15)
-    ) {
-      slotArr.push({ slotId: i + 1, startTime: time });
-    }
-    return slotArr;
+    return dailySchedule.map((slot) => ({
+      slotId: slot.slotId,
+      startTime: new Date(
+        `${format(selectedDate, "yyyy-MM-dd")}T${slot.startTime}`
+      ),
+      endTime: new Date(
+        `${format(selectedDate, "yyyy-MM-dd")}T${slot.endTime}`
+      ),
+    }));
   }, [selectedDate]);
+
+  // const dailySlots = useMemo(() => {
+  //   const firstSlotStartTime = new Date(
+  //     `${format(selectedDate, "yyyy-MM-dd")}T${START_TIME}`
+  //   );
+  //   const slotArr = [];
+  //   for (
+  //     let i = 0, time = firstSlotStartTime;
+  //     i < MAX_DAILY_SLOT_COUNT;
+  //     i++, time = addMinutes(time, 15)
+  //   ) {
+  //     slotArr.push({ slotId: i + 1, startTime: time });
+  //   }
+  //   return slotArr;
+  // }, [selectedDate]);
 
   function isSlotAvailable(slotId, startTime, selectedDoctorId) {
     const unavailableSlotsObj = dailyUnavailableSlots.find(
@@ -54,8 +64,6 @@ export default function TimePicker() {
       : `${baseClassName} disabled`;
   }
 
-  if (selectedAppointment) console.log(selectedAppointment);
-
   return (
     <div className="table">
       <div className="column">
@@ -63,13 +71,13 @@ export default function TimePicker() {
         {dailySlots.map((slot) => (
           <div key={slot.slotId}>
             {`${format(slot.startTime, "HH:mm")} - ${format(
-              addMinutes(slot.startTime, SLOT_DURATION_MINS),
+              slot.endTime,
               "HH:mm"
             )}`}
           </div>
         ))}
       </div>
-      {/* Rendering the timeslots */}
+      {/* Rendering the available timeslots */}
       {selectedDoctorIds.map((selectedDoctorId) => (
         <div key={selectedDoctorId} className="column">
           <div className="header-cell">

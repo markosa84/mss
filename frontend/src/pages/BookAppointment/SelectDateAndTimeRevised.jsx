@@ -8,19 +8,14 @@ import { DoctorSelectorSection } from "./DoctorSelectorSection";
 export function SelectDateAndTimeRevised({ selectedDepartmentName }) {
   const {
     selectedAppointment,
+    setSelectedAppointment,
     setSelectedDepartmentId,
-    setDepartmentDoctors,
-    setSelectedDate,
-    setSelectedDoctorIds,
   } = useAppointmentSelector();
 
   function reset() {
     setSelectedDepartmentId(null);
-    // setSelectedDoctorIds([]);
-    // setDepartmentDoctors([]);
-    // setSelectedDate(null);
+    setSelectedAppointment(undefined);
   }
-
   return (
     <div>
       <h3 className="selected-department-heading">
