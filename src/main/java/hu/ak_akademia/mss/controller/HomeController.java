@@ -5,17 +5,21 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hu.ak_akademia.mss.config.SessionMssUser;
 import hu.ak_akademia.mss.model.AreaOfExpertise;
+import hu.ak_akademia.mss.model.user.MssUser;
 import hu.ak_akademia.mss.service.AreaOfExpertiseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
+import org.springframework.data.jpa.repository.query.Procedure;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/")
@@ -63,17 +67,15 @@ public class HomeController {
         return "home";
     }
 
-    @GetMapping("/login")
-    public String login(Model model, String error) {
-        if (error != null) {
-            model.addAttribute("errorMsg", "Incorrect username or password!");
-        }
-
-        return "login";
+    @GetMapping("/test/endpoint")
+    public String test(){
+        return "Hello World!! Juppppiiii";
     }
 
     @PostMapping("/logout")
     public String logout() {
         return "login";
     }
+
+
 }

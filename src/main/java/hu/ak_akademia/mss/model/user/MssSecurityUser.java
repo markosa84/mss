@@ -45,6 +45,10 @@ public class MssSecurityUser implements UserDetails, Serializable {
         //TODO make up code : user.getRoles()
     }
 
+    public MssUser getUser(){
+        return user;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;

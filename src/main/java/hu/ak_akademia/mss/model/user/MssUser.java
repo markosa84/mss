@@ -5,13 +5,15 @@ import hu.ak_akademia.mss.model.Language;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public abstract class MssUser {
+public abstract class MssUser{
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

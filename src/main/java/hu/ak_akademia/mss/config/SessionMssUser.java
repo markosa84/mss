@@ -5,7 +5,9 @@ import hu.ak_akademia.mss.service.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -18,7 +20,11 @@ public class SessionMssUser {
     private RegistrationService registrationService;
 
     public MssUser getCurrentMssUser() {
+
         if (currentUser == null) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            System.out.println(authentication.isAuthenticated());
+            System.out.println( authentication.getPrincipal());
             String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
             currentUser = registrationService.getLoggedInUser(userEmail);
         }
