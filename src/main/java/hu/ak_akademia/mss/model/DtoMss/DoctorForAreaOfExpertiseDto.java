@@ -10,7 +10,7 @@ public class DoctorForAreaOfExpertiseDto {
         this.docotr_Id = docotor.getUserId();
         this.name = "Dr. " + docotor.getFirstName() + " " + docotor.getLastName();
     }
-
+//lehetséges tartalom
     public int getDocotr_Id() {
         return docotr_Id;
     }

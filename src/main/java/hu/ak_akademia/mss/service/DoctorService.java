@@ -9,7 +9,7 @@ import java.util.List;
 
 @Service
 public class DoctorService {
-
+// lehet ide jön még más is
     @Autowired
     private MSSUserRepository mssUserRepository;
 

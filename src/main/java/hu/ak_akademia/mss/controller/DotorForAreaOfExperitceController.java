@@ -30,7 +30,7 @@ public class DotorForAreaOfExperitceController {
             doctorDtos.add(new DoctorForAreaOfExpertiseDto(doctor));
         }
 
-
+// proba
     //    List<DoctorForAreaOfExpertiseDto> doctorDtos = doctors.stream()
       //          .map(DoctorForAreaOfExpertiseDto::new)
         //        .collect(Collectors.toList());
