@@ -2,7 +2,7 @@ import { DepartmentCard } from "../../components/DepartmentCard";
 import { useAppointmentSelector } from "./useAppointmentSelector";
 
 export const SelectDepartment = () => {
-  const { departments, setSelectedDepartmentId } = useAppointmentSelector();
+  const { departments } = useAppointmentSelector();
 
   return (
     <div>

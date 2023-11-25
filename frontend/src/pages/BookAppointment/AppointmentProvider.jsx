@@ -1,50 +1,48 @@
 import axios from "axios";
-import { addDays, format, isWeekend, nextMonday } from "date-fns";
+import { addDays, format, isWeekend, nextMonday, setMinutes } from "date-fns";
 import { createContext, useEffect, useState } from "react";
 
 export const AppointmentContext = createContext();
 
-const MAX_DAILY_SLOT_COUNT = 12;
-
 export const AppointmentProvider = ({ children }) => {
   const [departments, setDepartments] = useState([]);
+  const [departmentDoctors, setDepartmentDoctors] = useState([]);
+  const [dailyUnavailableSlots, setDailyUnavaliableSlots] = useState([]);
+  const [dailySchedule, setDailySchedule] = useState([]);
+
   const [selectedDepartmentId, setSelectedDepartmentId] = useState(null);
   const [selectedDate, setSelectedDate] = useState(() => {
     const today = new Date();
     return isWeekend(today) ? nextMonday(today) : today;
   });
-  const [departmentDoctors, setDepartmentDoctors] = useState([]);
-  const [dailyUnavailableSlots, setDailyUnavaliableSlots] = useState([]);
   const [selectedDoctorIds, setSelectedDoctorIds] = useState([]);
   const [selectedAppointment, setSelectedAppointment] = useState();
 
+  // Date and time picker date initialization
   useEffect(() => {
-    console.log("should fetch here");
     const fetchData = async () => {
+      let endpoints = [
+        "/dummyDb/doctorsCardiology.json",
+        "/dummyDb/allUnavailableTimeSlotsSmall.json",
+        "/dummyDb/dailySchedule.json",
+      ];
       try {
-        const doctorsResponse = await axios.get(
-          "/dummyDb/doctorsCardiology.json"
+        const [doctors, unavailableSlots, schedule] = await Promise.all(
+          endpoints.map((endpoint) => axios.get(endpoint))
         );
-        setDepartmentDoctors(doctorsResponse.data);
-        setSelectedDoctorIds(
-          doctorsResponse.data.map((doctor) => doctor.doctorId)
-        );
+        setDepartmentDoctors(doctors.data);
+        setSelectedDoctorIds(doctors.data.map((doctor) => doctor.doctorId));
+        setDailyUnavaliableSlots(unavailableSlots.data);
+        setDailySchedule(schedule.data);
       } catch (error) {
         console.log(error);
       }
-
-      try {
-        const timeSlotsResponse = await axios.get(
-          "/dummyDb/allUnavailableTimeSlotsSmall.json"
-        );
-        setDailyUnavaliableSlots(timeSlotsResponse.data);
-      } catch (error) {
-        // console.log(error);
-      }
     };
+
     fetchData();
   }, [selectedDepartmentId]);
 
+  // Reset selected date
   useEffect(() => {
     setSelectedDate(getFirstAvailableDate());
   }, [dailyUnavailableSlots, selectedDoctorIds]);
@@ -58,7 +56,7 @@ export const AppointmentProvider = ({ children }) => {
             (doc) => doc.doctorId === doctorId
           );
           return unavailableDoctor?.unavailableSlotIds.length ===
-            MAX_DAILY_SLOT_COUNT
+            dailySchedule.length
             ? count + 1
             : count;
         },
@@ -71,10 +69,6 @@ export const AppointmentProvider = ({ children }) => {
 
   function getFirstAvailableDate() {
     let candidateDate = new Date();
-    // if (!disabledDateStrings)
-    //   return !isWeekend(candidateDate)
-    //     ? candidateDate
-    //     : nextMonday(candidateDate);
     while (disabledDateStrings.includes(format(candidateDate, "yyyy-MM-dd"))) {
       candidateDate = addDays(candidateDate, 1);
     }
@@ -96,7 +90,6 @@ export const AppointmentProvider = ({ children }) => {
   }
 
   function handleDateChange(date) {
-    console.log(date);
     setSelectedDate(date);
     setSelectedAppointment(undefined);
   }
@@ -122,6 +115,7 @@ export const AppointmentProvider = ({ children }) => {
         setDepartments,
         selectedDepartmentId,
         setSelectedDepartmentId,
+        dailySchedule,
       }}
     >
       {children}

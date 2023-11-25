@@ -1,5 +1,6 @@
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
+import { SectionHeader } from "./SectionHeader";
 
 export function ConfirmSection({ appointment }) {
   const navigate = useNavigate();
@@ -10,9 +11,7 @@ export function ConfirmSection({ appointment }) {
   }
   return (
     <div>
-      <h3 className="booking-instruction">
-        4. Please confirm your appointment
-      </h3>
+      <SectionHeader>4. Please confirm your appointment</SectionHeader>
       <h4 className="appointment-summary">{`Your appointment is with ${
         appointment.doctorName
       }, on ${format(

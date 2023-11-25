@@ -11,15 +11,14 @@ export function DatePickerSection() {
     handleDateChange,
     disabledDateStrings,
   } = useAppointmentSelector();
+
   return (
     <div>
       <SectionHeader>1. Please select doctor(s)</SectionHeader>
       <div className="date-picker-wrapper">
         <DatePicker
-          focusSelectedMonth
-          selected={selectedDate}
+          selected={selectedDoctorIds.length > 0 && selectedDate}
           minDate={getFirstAvailableDate()}
-          disabledKeyboardNavigation
           maxDate={
             selectedDoctorIds.length === 0 &&
             addDays(getFirstAvailableDate(), -1)
@@ -30,6 +29,8 @@ export function DatePickerSection() {
             (ds) => new Date(Date.parse(ds))
           )}
           calendarStartDay={1}
+          focusSelectedMonth
+          disabledKeyboardNavigation
           shouldCloseOnSelect={false}
           inline={true}
         />

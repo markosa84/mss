@@ -3,6 +3,7 @@ import { useAppointmentSelector } from "./useAppointmentSelector";
 export function DoctorSelector() {
   const { departmentDoctors, selectedDoctorIds, handleSelectChange } =
     useAppointmentSelector();
+
   return (
     <ul className="doctors">
       {departmentDoctors.length > 0 &&
