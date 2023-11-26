@@ -3,8 +3,11 @@ import { axios1, axiosDummy } from "../api/axios";
 import { FormControl } from "../components/FormControl";
 import { useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
+import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -30,7 +33,8 @@ export const Login = () => {
     try {
       const res = await axios1.post("/login", { username: email, password });
       console.log("Zseniális!!! Megvan a user!");
-      console.log("User: ", res.data);
+      console.log("User: ", res.headers.authorization);
+      // navigate("/client");
     } catch (error) {
       console.log("Valami nem jó...");
       console.log("Error: ", error);
