@@ -2,7 +2,6 @@ package hu.ak_akademia.mss.service.validators;
 
 import hu.ak_akademia.mss.model.user.Doctor;
 import hu.ak_akademia.mss.service.RegistrationService;
-import hu.ak_akademia.mss.service.Validator;
 
 import java.util.HashMap;
 import java.util.Map;

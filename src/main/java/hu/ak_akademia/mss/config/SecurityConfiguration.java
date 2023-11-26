@@ -5,26 +5,18 @@ import hu.ak_akademia.mss.config.jwt.JwtTokenVerifier;
 import hu.ak_akademia.mss.config.jwt.JwtUsernameAndPasswordAuthenticationFilter;
 import hu.ak_akademia.mss.service.MssUserDetailService;
 import hu.ak_akademia.mss.service.PasswordEncryption;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Customizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.SecurityConfigurer;
-import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
-import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -33,7 +25,7 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfiguration{
+public class SecurityConfiguration {
 
     private final MssUserDetailService mssUserDetailService;
     private final JwtConfig jwtConfig;
@@ -41,12 +33,10 @@ public class SecurityConfiguration{
     public SecurityConfiguration(MssUserDetailService mssUserDetailService, JwtConfig jwtConfig) {
         this.mssUserDetailService = mssUserDetailService;
         this.jwtConfig = jwtConfig;
-
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -61,28 +51,9 @@ public class SecurityConfiguration{
                         .antMatchers("/register/doctor", "/register/assistant", "/register/financialColleague")
                         .hasAnyAuthority("ROLE_ASSISTANT", "ROLE_ADMIN")
                         .anyRequest().authenticated())
-                //.formLogin()
-
-                //.loginPage("http://localhost:5173/login")
-                //.loginProcessingUrl("/login")
-                //.passwordParameter("password")
-                //.usernameParameter("username")
-                //.failureUrl("/failedLogin")
-                //.defaultSuccessUrl("/home")
-                //.permitAll()
-                //.and()
-                .cors(cors -> {})
-
-                //.logout(logout -> logout
-                //        .logoutUrl("/logout")
-                //        .logoutSuccessUrl("/")
-                //        .deleteCookies()
-                //        .invalidateHttpSession(true)
-                //        .permitAll()
-                //        .logoutSuccessUrl("/")
-                //        .clearAuthentication(true))
-                //.headers(h -> h.frameOptions().sameOrigin())
-                //.userDetailsService(mssUserDetailService)
+                .cors(cors -> {
+                })
+                .headers(h -> h.frameOptions().sameOrigin())
                 .build();
     }
 
@@ -103,9 +74,10 @@ public class SecurityConfiguration{
     }
 
     @Bean
-    public AuthenticationManager addAuthMan(){
-        return new  ProviderManager(addDaoProvider());
+    public AuthenticationManager addAuthMan() {
+        return new ProviderManager(addDaoProvider());
     }
+
     @Bean
     public AuthenticationProvider addDaoProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
@@ -113,7 +85,5 @@ public class SecurityConfiguration{
         provider.setPasswordEncoder(passwordEncoder());
         return provider;
     }
-
-
 
 }

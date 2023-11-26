@@ -14,8 +14,6 @@ public class DoctorsWorkingHours {
     @Column(name = "working_hours_day_id")
     private int id;
 
-
-
     @ManyToOne
     @JoinColumn(name = "day_of_week_id")
     private DayOfWeek dayOfWeek;
@@ -27,7 +25,11 @@ public class DoctorsWorkingHours {
     @ManyToOne
     @JoinColumn(name = "doctor_id")
     private MssUser mssUserDoctor;
+
+    @Basic
     private LocalTime startTime; // Munka kezdete
+
+    @Basic
     private LocalTime endTime; // Munka vége
 
     public DoctorsWorkingHours() {

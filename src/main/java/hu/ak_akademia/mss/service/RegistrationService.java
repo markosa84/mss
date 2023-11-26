@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -40,6 +41,12 @@ public class RegistrationService {
         mssUserRepository.delete(mssUsers);
     }
 
+    public Map<String, String> comparePassword(MssUser mssUser, String passwordAgain) {
+        return !mssUser.getPassword().equals(passwordAgain)
+                ? Collections.singletonMap("samePasswordError", "Incorrect! The two passwords must be the same")
+                : Collections.emptyMap();
+    }
+
     public Map<String, String> testMSSUserData(Assistant assistant) {
         var assistantValidator = new CompositeAssistantValidator(this);
         assistantValidator.validate(assistant);
@@ -51,7 +58,7 @@ public class RegistrationService {
         doctorValidator.validate(doctor);
 
         var instance = MSSUserValidatorFactory.getInstance();
-        instance.collectValidationError(new  ConfirmationPasswordValidator(), doctor.getPassword(), passwordAgain, doctorValidator.getValidatorErrorList());
+        instance.collectValidationError(new ConfirmationPasswordValidator(), doctor.getPassword(), passwordAgain, doctorValidator.getValidatorErrorList());
 
         return doctorValidator.getValidatorErrorList();
     }
@@ -68,16 +75,17 @@ public class RegistrationService {
 
         var clientCompareValidator = new ClientCompareValidator(this, clientValidator.getValidatorErrorList());
         clientCompareValidator.validate(client.getPassword(), passwordAgain);
-        
+
         return clientValidator.getValidatorErrorList();
     }
 
     public MssUser getUser(String email, String password) throws IncorrectEnteredDataException {
-        return mssUserRepository.getMSSUserByEmail(email, password).orElseThrow(() -> new IncorrectEnteredDataException("loginError", "Incorrect password or email!"));
+        var passwordEncryption = new PasswordEncryption(password);
+        return mssUserRepository.getMSSUserByEmail(email, passwordEncryption.encryptWithMD5()).orElseThrow(() -> new IncorrectEnteredDataException("loginError", "Incorrect password or email!"));
     }
 
     public MssUser getLoggedInUser(String email) {
-        return mssUserRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Not found user"));
+        return mssUserRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
     public List<Gender> getAllGender() {

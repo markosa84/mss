@@ -133,3 +133,11 @@ INSERT INTO mss_user_to_area_of_expertise ( user_id ,  area_of_expertise_id) VAL
 -- dayofweek data
 INSERT INTO day_of_week (day_of_week_id,day_name)
 VALUES (1,'Monday'), (2,'Tuesday'), (3,'Wednesday'), (4,'Thursday'), (5,'Friday'), (6,'Saturday'), (7,'Sunday');
+
+
+INSERT INTO doctors_working_hours (working_hours_day_id ,end_time ,start_time ,area_id ,day_of_week_id ,doctor_id)
+VALUES (1, '09:00:00', '12:00:00', 3, 1, 1);
+
+
+INSERT INTO appointment (appointment_id ,end_date ,start_date ,area_of_expertise_id ,client_id ,doctor_id ,status_id)
+VALUES (1,'2023-10-25 09:15:00.569823', '2023-10-25 09:00:00.569823',3,3,1,1)

@@ -3,6 +3,7 @@ package hu.ak_akademia.mss.controller;
 import hu.ak_akademia.mss.config.SessionMssUser;
 import hu.ak_akademia.mss.model.user.Client;
 import hu.ak_akademia.mss.model.Container;
+import hu.ak_akademia.mss.model.user.Client;
 import hu.ak_akademia.mss.service.EditProfilService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

@@ -1,4 +1,4 @@
-package hu.ak_akademia.mss.service;
+package hu.ak_akademia.mss.service.validators;
 
 import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;
 

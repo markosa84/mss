@@ -13,7 +13,6 @@ public class Appointment {
     @Column(name = "appointment_id")
     private int id;
 
-
     @ManyToOne
     @JoinColumn(name = "client_id")
     private MssUser mssUserClient;
@@ -28,7 +27,9 @@ public class Appointment {
     @ManyToOne
     @JoinColumn(name = "area_of_expertise_id")
     private AreaOfExpertise areaOfExpertise;
+    @Basic
     private LocalDateTime startDate;
+    @Basic
     private LocalDateTime endDate;
 
     public int getId() {

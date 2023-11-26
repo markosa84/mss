@@ -1,4 +1,4 @@
-package hu.ak_akademia.mss.model.DtoMss;
+package hu.ak_akademia.mss.dto;
 
 import hu.ak_akademia.mss.model.user.MssUser;
 

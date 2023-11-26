@@ -1,19 +1,21 @@
 package hu.ak_akademia.mss.controller;
 
+import hu.ak_akademia.mss.model.Gender;
 import hu.ak_akademia.mss.model.user.Assistant;
 import hu.ak_akademia.mss.service.RegistrationService;
 import hu.ak_akademia.mss.service.RegistrationVerificationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.mail.MessagingException;
+import java.util.List;
 import java.util.Map;
 
-@Controller
+@RestController
 @RequestMapping("/register")
 public class AssistantController {
 
@@ -21,10 +23,11 @@ public class AssistantController {
     private RegistrationService registrationService;
     @Autowired
     private RegistrationVerificationService registrationVerificationService;
+
     @GetMapping("/assistant")
-    public String assistant_registration(Assistant assistant, Model model) {
+    public List<Gender> assistant_registration(Assistant assistant, Model model) {
         model.addAttribute("genderList", registrationService.getAllGender());
-        return "assistant_registration";
+        return registrationService.getAllGender();
     }
 
     @PostMapping("/assistant")

@@ -1,6 +1,5 @@
 package hu.ak_akademia.mss.service.validators;
 
-import hu.ak_akademia.mss.service.Validator;
 import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;
 
 public class TAJNumberValidator implements Validator<String> {

@@ -18,6 +18,8 @@ import java.util.UUID;
 public class EmailService {
     private String uniqueCode;
     private final JavaMailSender emailSender;
+
+    @Autowired
     private final TemplateEngine templateEngine;
 
     @Autowired

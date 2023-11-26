@@ -1,6 +1,6 @@
 package hu.ak_akademia.mss.controller;
 
-import hu.ak_akademia.mss.model.DtoMss.DoctorForAreaOfExpertiseDto;
+import hu.ak_akademia.mss.dto.DoctorForAreaOfExpertiseDto;
 import hu.ak_akademia.mss.model.user.MssUser;
 import hu.ak_akademia.mss.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
