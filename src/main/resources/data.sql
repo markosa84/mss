@@ -135,9 +135,17 @@ INSERT INTO day_of_week (day_of_week_id,day_name)
 VALUES (1,'Monday'), (2,'Tuesday'), (3,'Wednesday'), (4,'Thursday'), (5,'Friday'), (6,'Saturday'), (7,'Sunday');
 
 
-INSERT INTO doctors_working_hours (working_hours_day_id ,end_time ,start_time ,area_id ,day_of_week_id ,doctor_id)
+INSERT INTO doctors_working_hours (working_hours_day_id ,start_time ,end_time ,area_id ,day_of_week_id ,doctor_id)
 VALUES (1, '09:00:00', '12:00:00', 3, 1, 1);
+INSERT INTO doctors_working_hours (working_hours_day_id ,start_time ,end_time ,area_id ,day_of_week_id ,doctor_id)
+VALUES (2, '09:00:00', '16:00:00', 3, 2, 1);
+INSERT INTO doctors_working_hours (working_hours_day_id ,start_time ,end_time ,area_id ,day_of_week_id ,doctor_id)
+VALUES (3, '09:00:00', '12:00:00', 3, 3, 1);
+INSERT INTO doctors_working_hours (working_hours_day_id ,start_time ,end_time ,area_id ,day_of_week_id ,doctor_id)
+VALUES (4, '09:00:00', '12:00:00', 3, 4, 1);
+INSERT INTO doctors_working_hours (working_hours_day_id ,start_time ,end_time ,area_id ,day_of_week_id ,doctor_id)
+VALUES (5, '09:00:00', '16:00:00', 3, 5, 1);
 
 
 INSERT INTO appointment (appointment_id ,end_date ,start_date ,area_of_expertise_id ,client_id ,doctor_id ,status_id)
-VALUES (1,'2023-10-25 09:15:00.569823', '2023-10-25 09:00:00.569823',3,3,1,1)
+VALUES (1,'2023-01-25 09:15:00.569823', '2023-01-25 09:00:00.569823',3,3,1,1)
