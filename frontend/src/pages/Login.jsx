@@ -34,7 +34,8 @@ export const Login = () => {
       const res = await axios1.post("/login", { username: email, password });
       console.log("Zseniális!!! Megvan a user!");
       console.log("User: ", res.headers.authorization);
-      // navigate("/client");
+      navigate("/client");
+      localStorage.setItem("mssAuth", res.headers.authorization);
     } catch (error) {
       console.log("Valami nem jó...");
       console.log("Error: ", error);

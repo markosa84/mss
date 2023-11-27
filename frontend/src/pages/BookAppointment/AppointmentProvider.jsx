@@ -1,6 +1,7 @@
 import axios from "axios";
 import { addDays, format, isWeekend, nextMonday, setMinutes } from "date-fns";
 import { createContext, useEffect, useState } from "react";
+import { axios1 } from "../../api/axios";
 
 export const AppointmentContext = createContext();
 
@@ -20,33 +21,48 @@ export const AppointmentProvider = ({ children }) => {
 
   // Date and time picker date initialization
   useEffect(() => {
-    const fetchData = async () => {
-      let endpoints = [
-        "/dummyDb/doctorsCardiology.json",
-        "/dummyDb/allUnavailableTimeSlotsSmall.json",
-        "/dummyDb/dailySchedule.json",
-      ];
-      try {
-        const [doctors, unavailableSlots, schedule] = await Promise.all(
-          endpoints.map((endpoint) => axios.get(endpoint))
-        );
-        setDepartmentDoctors(doctors.data);
-        setSelectedDoctorIds(doctors.data.map((doctor) => doctor.doctorId));
-        setDailyUnavaliableSlots(unavailableSlots.data);
-        setDailySchedule(schedule.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+    if (selectedDepartmentId) {
+      const fetchData = async () => {
+        console.log(selectedDepartmentId);
+        let endpoints = [
+          "/dummyDb/doctorsCardiology.json",
+          "/dummyDb/allUnavailableTimeSlotsSmall.json",
+          "/dummyDb/dailySchedule.json",
+        ];
+        try {
+          const apiDoctorRes = await axios1.get(
+            `/doctors/area-of-expertise/${selectedDepartmentId}`,
+            {
+              headers: { Authorization: localStorage.getItem("mssAuth") },
+            }
+          );
+          console.log(apiDoctorRes.data);
+          const [doctors, unavailableSlots, schedule] = await Promise.all(
+            endpoints.map((endpoint) => axios.get(endpoint))
+          );
+          setDepartmentDoctors(apiDoctorRes.data);
+          setSelectedDoctorIds(
+            apiDoctorRes.data.map((doctor) => doctor.doctorId)
+          );
+          // setDepartmentDoctors(apiDoctorRes.data);
+          // setSelectedDoctorIds(
+          //   apiDoctorRes.data.map((doctor) => doctor.doctorId)
+          // );
+          setDailyUnavaliableSlots(unavailableSlots.data);
+          setDailySchedule(schedule.data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
 
-    fetchData();
+      fetchData();
+    }
   }, [selectedDepartmentId]);
 
   // Reset selected date
   useEffect(() => {
     setSelectedDate(getFirstAvailableDate());
   }, [dailyUnavailableSlots, selectedDoctorIds]);
-
   let disabledDateStrings = [];
   if (dailyUnavailableSlots && selectedDoctorIds.length > 0) {
     const disabledDays = dailyUnavailableSlots.filter((day) => {
@@ -66,6 +82,8 @@ export const AppointmentProvider = ({ children }) => {
     });
     disabledDateStrings = disabledDays.map((dayObj) => dayObj.date);
   }
+  console.log(selectedDoctorIds);
+  console.log(disabledDateStrings);
 
   function getFirstAvailableDate() {
     let candidateDate = new Date();
