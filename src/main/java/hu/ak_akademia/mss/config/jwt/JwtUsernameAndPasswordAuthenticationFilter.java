@@ -22,13 +22,15 @@ import java.security.Key;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalUnit;
-import java.util.Date;
+import java.util.*;
 
 public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     @Autowired
     private final AuthenticationManager authenticationManager;
 
     private final JwtConfig jwtConfig;
+
+    ObjectMapper objectMapper = new ObjectMapper();
 
     public JwtUsernameAndPasswordAuthenticationFilter(AuthenticationManager authenticationManager, JwtConfig jwtConfig){
         this.authenticationManager = authenticationManager;
@@ -56,7 +58,6 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
     }
 
     // TODO lejárati dátumot valami értelmesre!! pl 3 perc) + értelmes key
-    // tegyük bele a tokenbe a role-t is!
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request,
@@ -68,7 +69,15 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
         MssUser mssUser = securityUser.getUser();
         String name = mssUser.getFirstName() + " " + mssUser.getLastName();
         String role = mssUser.getRoles();
-        String jsonResponse = "{\n\t\"name\": \"" + name + "\",\n\t \"role\": \"" + role + "\"\n}";
+        List<String> roles = new ArrayList<>();
+        roles.add(role);
+        Map<String, Object> responseObject = new LinkedHashMap<>();
+        responseObject.put("name", name);
+        responseObject.put("roles", roles);
+
+
+
+        String jsonResponse = objectMapper.writeValueAsString(responseObject);
 
         String token = Jwts.builder().subject(authResult.getName())
                 .claim("authorities", authResult.getAuthorities())
