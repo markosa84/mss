@@ -22,19 +22,8 @@ public class DoctorForAreaOfExpertiseController {
 
     @GetMapping("/area-of-expertise/{areaId}")
     public ResponseEntity<List<DoctorForAreaOfExpertiseDto>> getDoctorsByAreaOfExpertise(@PathVariable int areaId) {
-        List<MssUser> doctors = doctorService.findDoctorsByAreaOfExpertise(areaId);
-
-        List<DoctorForAreaOfExpertiseDto> doctorDtos = new ArrayList<>();
-        for (MssUser doctor : doctors) {
-            doctorDtos.add(new DoctorForAreaOfExpertiseDto(doctor));
-        }
-
-// proba
-    //    List<DoctorForAreaOfExpertiseDto> doctorDtos = doctors.stream()
-      //          .map(DoctorForAreaOfExpertiseDto::new)
-        //        .collect(Collectors.toList());
-
-        return ResponseEntity.ok(doctorDtos);
+        List<DoctorForAreaOfExpertiseDto> doctors = doctorService.getDoctorDtosByAreaOfExpertise(areaId);
+        return ResponseEntity.ok(doctors);
     }
 
 

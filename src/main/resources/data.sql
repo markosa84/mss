@@ -27,9 +27,42 @@ INSERT INTO MSS_USER (DTYPE, ACTIVE,
 INSERT INTO MSS_USER (DTYPE, ACTIVE,  EMAIL, PASSWORD, FIRST_NAME, LAST_NAME,
     GENDER,REGISTRATION_DATE,
      PHONE_NUMBER, ROLES)
-    VALUES ('Doctor', 'true', 'dokk@gmail.com', '1151371fe13913e1f31121181f51a311819311e1721881ea', 'Zoli', 'Ozsvár',
+    VALUES ('Doctor', 'true'
+    , 'dokk@gmail.com', '1151371fe13913e1f31121181f51a311819311e1721881ea', 'Zoli', 'Ozsvár',
      (SELECT gender_id FROM GENDER WHERE gender='Male'),'2023-01-02 08:15:14.587231',
      '+36306415258', 'ROLE_DOCTOR');
+
+INSERT INTO MSS_USER (DTYPE, ACTIVE,
+ EMAIL, PASSWORD, FIRST_NAME,
+ LAST_NAME,GENDER,REGISTRATION_DATE,
+  PHONE_NUMBER, ROLES)
+ VALUES ('Doctor', 'true'
+ ,'doki1@gmail.com', '1151371fe13913e1f31121181f51a311819311e1721881ea', 'Imre','Okos'
+ , (SELECT gender_id FROM GENDER WHERE gender='Male'),'2022-12-15 10:15:28.145238','+36706383358','ROLE_DOCTOR');
+
+INSERT INTO MSS_USER (DTYPE, ACTIVE,
+ EMAIL, PASSWORD, FIRST_NAME,
+ LAST_NAME,GENDER,REGISTRATION_DATE,
+  PHONE_NUMBER, ROLES)
+ VALUES ('Doctor', 'true'
+ ,'doki12@gmail.com', '1151371fe13913e1f31121181f51a311819311e1721881ea', 'Árpád','Gera'
+ , (SELECT gender_id FROM GENDER WHERE gender='Male'),'2022-11-05 10:15:28.145238','+36706777258','ROLE_DOCTOR');
+
+INSERT INTO MSS_USER (DTYPE, ACTIVE,
+ EMAIL, PASSWORD, FIRST_NAME,
+ LAST_NAME,GENDER,REGISTRATION_DATE,
+  PHONE_NUMBER, ROLES)
+ VALUES ('Doctor', 'true'
+ ,'doki1as@gmail.com', '1151371fe13913e1f31121181f51a311819311e1721881ea', 'Víg','Béla'
+ , (SELECT gender_id FROM GENDER WHERE gender='Male'),'2022-12-21 10:15:28.145238','+36706355458','ROLE_DOCTOR');
+
+INSERT INTO MSS_USER (DTYPE, ACTIVE,
+ EMAIL, PASSWORD, FIRST_NAME,
+ LAST_NAME,GENDER,REGISTRATION_DATE,
+  PHONE_NUMBER, ROLES)
+ VALUES ('Doctor', 'true'
+ ,'dokkbfa@gmail.com', '1151371fe13913e1f31121181f51a311819311e1721881ea', 'Tamás','Béres'
+ , (SELECT gender_id FROM GENDER WHERE gender='Male'),'2023-10-24 10:15:28.145238','+36706381111','ROLE_DOCTOR');
 
 ----client data
 ----------------
@@ -127,25 +160,103 @@ INSERT INTO area_of_expertise (area_of_expertise_id ,qualification ,basic_inform
 INSERT INTO mss_user_to_area_of_expertise ( user_id ,  area_of_expertise_id) VALUES (1 ,1);
 INSERT INTO mss_user_to_area_of_expertise ( user_id ,  area_of_expertise_id) VALUES (1 ,3);
 INSERT INTO mss_user_to_area_of_expertise ( user_id ,  area_of_expertise_id) VALUES (2 ,2);
-INSERT INTO mss_user_to_area_of_expertise ( user_id ,  area_of_expertise_id) VALUES (5 ,1);
+INSERT INTO mss_user_to_area_of_expertise ( user_id ,  area_of_expertise_id) VALUES (2 ,4);
+INSERT INTO mss_user_to_area_of_expertise ( user_id ,  area_of_expertise_id) VALUES (3 ,5);
+INSERT INTO mss_user_to_area_of_expertise ( user_id ,  area_of_expertise_id) VALUES (3 ,1);
+INSERT INTO mss_user_to_area_of_expertise ( user_id ,  area_of_expertise_id) VALUES (4 ,3);
+INSERT INTO mss_user_to_area_of_expertise ( user_id ,  area_of_expertise_id) VALUES (4 ,4);
 INSERT INTO mss_user_to_area_of_expertise ( user_id ,  area_of_expertise_id) VALUES (5 ,2);
+INSERT INTO mss_user_to_area_of_expertise ( user_id ,  area_of_expertise_id) VALUES (5 ,4);
+INSERT INTO mss_user_to_area_of_expertise ( user_id ,  area_of_expertise_id) VALUES (6 ,5);
+INSERT INTO mss_user_to_area_of_expertise ( user_id ,  area_of_expertise_id) VALUES (6 ,2);
+
 
 -- dayofweek data
 INSERT INTO day_of_week (day_of_week_id,day_name)
 VALUES (1,'Monday'), (2,'Tuesday'), (3,'Wednesday'), (4,'Thursday'), (5,'Friday'), (6,'Saturday'), (7,'Sunday');
 
-
+-- weekly workout
+--docotr_id = 1
 INSERT INTO doctors_working_hours (working_hours_day_id ,start_time ,end_time ,area_id ,day_of_week_id ,doctor_id)
-VALUES (1, '09:00:00', '12:00:00', 3, 1, 1);
+VALUES (1, '09:00:00', '12:00:00', 1, 1, 1);
 INSERT INTO doctors_working_hours (working_hours_day_id ,start_time ,end_time ,area_id ,day_of_week_id ,doctor_id)
-VALUES (2, '09:00:00', '16:00:00', 3, 2, 1);
+VALUES (2, '09:00:00', '16:00:00', 1, 2, 1);
 INSERT INTO doctors_working_hours (working_hours_day_id ,start_time ,end_time ,area_id ,day_of_week_id ,doctor_id)
 VALUES (3, '09:00:00', '12:00:00', 3, 3, 1);
 INSERT INTO doctors_working_hours (working_hours_day_id ,start_time ,end_time ,area_id ,day_of_week_id ,doctor_id)
 VALUES (4, '09:00:00', '12:00:00', 3, 4, 1);
 INSERT INTO doctors_working_hours (working_hours_day_id ,start_time ,end_time ,area_id ,day_of_week_id ,doctor_id)
 VALUES (5, '09:00:00', '16:00:00', 3, 5, 1);
+--doctor_id  = 2
+INSERT INTO doctors_working_hours (working_hours_day_id ,start_time ,end_time ,area_id ,day_of_week_id ,doctor_id)
+VALUES (6, '09:00:00', '12:00:00', 2, 1, 2);
+INSERT INTO doctors_working_hours (working_hours_day_id ,start_time ,end_time ,area_id ,day_of_week_id ,doctor_id)
+VALUES (7, '09:00:00', '16:00:00', 4, 2, 2);
+INSERT INTO doctors_working_hours (working_hours_day_id ,start_time ,end_time ,area_id ,day_of_week_id ,doctor_id)
+VALUES (8, '09:00:00', '12:00:00', 2, 3, 2);
+INSERT INTO doctors_working_hours (working_hours_day_id ,start_time ,end_time ,area_id ,day_of_week_id ,doctor_id)
+VALUES (9, '09:00:00', '12:00:00', 4, 4, 2);
+INSERT INTO doctors_working_hours (working_hours_day_id ,start_time ,end_time ,area_id ,day_of_week_id ,doctor_id)
+VALUES (10, '09:00:00', '16:00:00', 2, 5, 2);
+--doctor_id = 3
+INSERT INTO doctors_working_hours (working_hours_day_id ,start_time ,end_time ,area_id ,day_of_week_id ,doctor_id)
+VALUES (11, '09:00:00', '12:00:00', 5, 1, 3);
+INSERT INTO doctors_working_hours (working_hours_day_id ,start_time ,end_time ,area_id ,day_of_week_id ,doctor_id)
+VALUES (12, '09:00:00', '16:00:00', 5, 2, 3);
+INSERT INTO doctors_working_hours (working_hours_day_id ,start_time ,end_time ,area_id ,day_of_week_id ,doctor_id)
+VALUES (13, '09:00:00', '12:00:00', 5, 3, 3);
+INSERT INTO doctors_working_hours (working_hours_day_id ,start_time ,end_time ,area_id ,day_of_week_id ,doctor_id)
+VALUES (14, '09:00:00', '12:00:00', 1, 4, 3);
+INSERT INTO doctors_working_hours (working_hours_day_id ,start_time ,end_time ,area_id ,day_of_week_id ,doctor_id)
+VALUES (15, '09:00:00', '16:00:00', 1, 5, 3);
+--doctor_id  = 4
+INSERT INTO doctors_working_hours (working_hours_day_id ,start_time ,end_time ,area_id ,day_of_week_id ,doctor_id)
+VALUES (16, '09:00:00', '12:00:00', 3, 1, 4);
+INSERT INTO doctors_working_hours (working_hours_day_id ,start_time ,end_time ,area_id ,day_of_week_id ,doctor_id)
+VALUES (17, '09:00:00', '16:00:00', 3, 2, 4);
+INSERT INTO doctors_working_hours (working_hours_day_id ,start_time ,end_time ,area_id ,day_of_week_id ,doctor_id)
+VALUES (18, '09:00', '12:00:00', 3, 3, 4);
+INSERT INTO doctors_working_hours (working_hours_day_id ,start_time ,end_time ,area_id ,day_of_week_id ,doctor_id)
+VALUES (19, '09:00:00', '12:00:00', 4, 4, 4);
+INSERT INTO doctors_working_hours (working_hours_day_id ,start_time ,end_time ,area_id ,day_of_week_id ,doctor_id)
+VALUES (20, '09:00:00', '16:00:00', 4, 5, 4);
+--docotr_id = 5
+INSERT INTO doctors_working_hours (working_hours_day_id ,start_time ,end_time ,area_id ,day_of_week_id ,doctor_id)
+VALUES (21, '09:00:00', '12:00:00', 4, 1, 5);
+INSERT INTO doctors_working_hours (working_hours_day_id ,start_time ,end_time ,area_id ,day_of_week_id ,doctor_id)
+VALUES (22, '09:00:00', '16:00:00', 2, 2, 5);
+INSERT INTO doctors_working_hours (working_hours_day_id ,start_time ,end_time ,area_id ,day_of_week_id ,doctor_id)
+VALUES (23, '09:00:00', '12:00:00', 2, 3, 5);
+INSERT INTO doctors_working_hours (working_hours_day_id ,start_time ,end_time ,area_id ,day_of_week_id ,doctor_id)
+VALUES (24, '09:00:00', '12:00:00', 2, 4, 5);
+INSERT INTO doctors_working_hours (working_hours_day_id ,start_time ,end_time ,area_id ,day_of_week_id ,doctor_id)
+VALUES (25, '09:00:00', '16:00:00', 4, 5, 5);
+--docotr_id = 6
+INSERT INTO doctors_working_hours (working_hours_day_id ,start_time ,end_time ,area_id ,day_of_week_id ,doctor_id)
+VALUES (26, '09:00:00', '12:00:00', 5, 1, 6);
+INSERT INTO doctors_working_hours (working_hours_day_id ,start_time ,end_time ,area_id ,day_of_week_id ,doctor_id)
+VALUES (27, '09:00:00', '16:00:00', 5, 2, 6);
+INSERT INTO doctors_working_hours (working_hours_day_id ,start_time ,end_time ,area_id ,day_of_week_id ,doctor_id)
+VALUES (28, '09:00:00', '12:00:00', 5, 3, 6);
+INSERT INTO doctors_working_hours (working_hours_day_id ,start_time ,end_time ,area_id ,day_of_week_id ,doctor_id)
+VALUES (29, '9:00:00', '12:00:00', 2, 4, 6);
+INSERT INTO doctors_working_hours (working_hours_day_id ,start_time ,end_time ,area_id ,day_of_week_id ,doctor_id)
+VALUES (30, '09:00:00', '16:00:00', 2, 5, 6);
 
 
-INSERT INTO appointment (appointment_id ,end_date ,start_date ,area_of_expertise_id ,client_id ,doctor_id ,status_id)
-VALUES (1,'2023-01-25 09:15:00.569823', '2023-01-25 09:00:00.569823',3,3,1,1)
+--appointment proba
+
+INSERT INTO appointment (appointment_id, end_date, start_date, area_of_expertise_id, client_id, doctor_id, status_id)
+VALUES (1, CONCAT(DATEADD('DAY', 1, CURRENT_DATE), ' 09:15:00.569823'), CONCAT(DATEADD('DAY', 1, CURRENT_DATE), ' 09:00:00.569823'), 3, 7, 1, 1);
+
+INSERT INTO appointment (appointment_id, end_date, start_date, area_of_expertise_id, client_id, doctor_id, status_id)
+VALUES (2, CONCAT(DATEADD('DAY', 0, CURRENT_DATE), ' 10:15:00.569823'), CONCAT(DATEADD('DAY', 0, CURRENT_DATE), ' 10:00:00.569823'), 2, 8, 5, 1);
+
+INSERT INTO appointment (appointment_id, end_date, start_date, area_of_expertise_id, client_id, doctor_id, status_id)
+VALUES (3, CONCAT(DATEADD('DAY', 10, CURRENT_DATE), ' 11:15:00.569823'), CONCAT(DATEADD('DAY', 1, CURRENT_DATE), ' 11:00:00.569823'), 3, 9, 2, 1);
+
+INSERT INTO appointment (appointment_id, end_date, start_date, area_of_expertise_id, client_id, doctor_id, status_id)
+VALUES (4, CONCAT(DATEADD('DAY', 1, CURRENT_DATE), ' 11:30:00.569823'), CONCAT(DATEADD('DAY', 1, CURRENT_DATE), ' 11:15:00.569823'), 3, 10, 2, 1);
+
+INSERT INTO appointment (appointment_id, end_date, start_date, area_of_expertise_id, client_id, doctor_id, status_id)
+VALUES (5, CONCAT(DATEADD('DAY', 3, CURRENT_DATE), ' 11:15:00.569823'), CONCAT(DATEADD('DAY', 1, CURRENT_DATE), ' 11:00:00.569823'), 4,8, 5, 1);
