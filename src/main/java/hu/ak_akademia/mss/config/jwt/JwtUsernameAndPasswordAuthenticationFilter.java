@@ -3,10 +3,12 @@ package hu.ak_akademia.mss.config.jwt;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hu.ak_akademia.mss.model.user.MssSecurityUser;
 import hu.ak_akademia.mss.model.user.MssUser;
+import hu.ak_akademia.mss.service.exceptions.UserIsNotActiveException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -30,8 +32,6 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
 
     private final JwtConfig jwtConfig;
 
-    ObjectMapper objectMapper = new ObjectMapper();
-
     public JwtUsernameAndPasswordAuthenticationFilter(AuthenticationManager authenticationManager, JwtConfig jwtConfig){
         this.authenticationManager = authenticationManager;
         this.jwtConfig = jwtConfig;
@@ -39,7 +39,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-
+        Authentication authenticate = null;
         try {
             UsernameAndPasswordAuthenticationRequest authenticationRequest = new ObjectMapper()
                     .readValue(request.getInputStream(), UsernameAndPasswordAuthenticationRequest.class);
@@ -48,7 +48,10 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
                     authenticationRequest.getUsername(),
                     authenticationRequest.getPassword()
             );
-            return authenticationManager.authenticate(authentication);
+            authenticate = authenticationManager.authenticate(authentication);
+            MssSecurityUser securityUser = (MssSecurityUser) authenticate.getPrincipal();
+
+            return authenticate;
 
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -77,7 +80,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
 
 
 
-        String jsonResponse = objectMapper.writeValueAsString(responseObject);
+        String jsonResponse =  new ObjectMapper().writeValueAsString(responseObject);
 
         String token = Jwts.builder().subject(authResult.getName())
                 .claim("authorities", authResult.getAuthorities())
@@ -86,8 +89,14 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
                 .expiration(java.sql.Date.valueOf(LocalDate.now().plusDays(jwtConfig.getTokenExpiration())))
                 .signWith(jwtConfig.getSecretKeyForSigning())
                 .compact();
-        response.addHeader(jwtConfig.getAuthorizationHeader(), jwtConfig.getTokenPrefix() + token);
-        response.getWriter().write(jsonResponse);
+
+        if (securityUser.getUser().isActive()) {
+            response.addHeader(jwtConfig.getAuthorizationHeader(), jwtConfig.getTokenPrefix() + token);
+            response.getWriter().write(jsonResponse);
+        } else {
+            response.setStatus(403);
+            response.getWriter().write("Your account isn't active!");
+        }
 
     }
 }
