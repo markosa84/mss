@@ -8,15 +8,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-
 @Service
 public class AreaOfExpertiseService {
+    
     @Autowired
     private AreaOfExpertiseRepository areaOfExpertiseRepository;
 
     public AreaOfExpertiseService() {
-
-
     }
 
     public List<AreaOfExpertise> getAllAreaOfExpertise() {
@@ -26,6 +24,10 @@ public class AreaOfExpertiseService {
     public String getAreaOfExpertiseById(int areaId) {
         Optional<AreaOfExpertise> areaOfExpertiseOptional = areaOfExpertiseRepository.findById(areaId);
         return areaOfExpertiseOptional.map(AreaOfExpertise::getQualification).orElse("Unknown area of expertise");
+    }
+
+    public AreaOfExpertise getAreaById(int areaId) {
+        return areaOfExpertiseRepository.getReferenceById(areaId);
     }
 }
 

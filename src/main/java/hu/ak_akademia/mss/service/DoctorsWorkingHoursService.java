@@ -1,9 +1,9 @@
 package hu.ak_akademia.mss.service;
 
 import hu.ak_akademia.mss.dto.DoctorsWorkingHoursDTO;
-import hu.ak_akademia.mss.model.DoctorsWorkingHours;
 import hu.ak_akademia.mss.repository.DoctorsWorkingHoursRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,10 +13,13 @@ import java.util.List;
 public class DoctorsWorkingHoursService {
 
     @Autowired
+    private Environment env;
+
+    @Autowired
     private DoctorsWorkingHoursRepository doctorsWorkingHoursRepository;
 
-    public List<DoctorsWorkingHours> getSpecialArea(int areaId) {
-        return doctorsWorkingHoursRepository.findAll();
+    public Integer getSlotInterval() {
+        return env.getProperty("slot.time", Integer.class);
     }
 
     public List<DoctorsWorkingHoursDTO> getAreaOfExpertiseSchedule(int areaId) {

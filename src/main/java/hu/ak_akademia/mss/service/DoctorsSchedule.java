@@ -24,7 +24,7 @@ public class DoctorsSchedule {
             Slot slot = new Slot();
             slot.setSlotId(i);
             slot.setStartTime(start);
-            slot.setEndTime(start = start.plusMinutes(15));
+            slot.setEndTime(start = start.plusMinutes(doctorsWorkingHours.getSlotInterval()));
             slots.add(slot);
         }
         return slots;
