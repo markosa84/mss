@@ -23,7 +23,7 @@ public class Appointment {
 
     @ManyToOne
     @JoinColumn(name = "status_id")
-    private Appointmentstatus status;
+    private AppointmentStatus status;
     @ManyToOne
     @JoinColumn(name = "area_of_expertise_id")
     private AreaOfExpertise areaOfExpertise;
@@ -56,11 +56,11 @@ public class Appointment {
         this.mssUserDoctor = mssUserDoctor;
     }
 
-    public Appointmentstatus getStatus() {
+    public AppointmentStatus getStatus() {
         return status;
     }
 
-    public void setStatus(Appointmentstatus status) {
+    public void setStatus(AppointmentStatus status) {
         this.status = status;
     }
 

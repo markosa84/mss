@@ -1,4 +1,4 @@
-package hu.ak_akademia.mss.service;
+package hu.ak_akademia.mss.login_security_service;
 
 import hu.ak_akademia.mss.model.user.MssSecurityUser;
 import hu.ak_akademia.mss.model.user.MssUser;

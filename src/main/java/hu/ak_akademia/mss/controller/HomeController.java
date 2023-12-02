@@ -5,21 +5,20 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hu.ak_akademia.mss.config.SessionMssUser;
 import hu.ak_akademia.mss.model.AreaOfExpertise;
-import hu.ak_akademia.mss.model.user.MssUser;
+import hu.ak_akademia.mss.model.Slot;
 import hu.ak_akademia.mss.service.AreaOfExpertiseService;
+import hu.ak_akademia.mss.service.DoctorsSchedule;
+import hu.ak_akademia.mss.service.DoctorsWorkingHoursService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
-import org.springframework.data.jpa.repository.query.Procedure;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.CurrentSecurityContext;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/")
@@ -29,6 +28,8 @@ public class HomeController {
     private AreaOfExpertiseService areaOfExpertiseService;
     @Autowired
     private SessionMssUser sessionMssUser;
+    @Autowired
+    private DoctorsWorkingHoursService doctorsWorkingHoursService;
 
     @GetMapping("/home")
     public String home(Model model, Principal principal) {
@@ -68,7 +69,7 @@ public class HomeController {
     }
 
     @GetMapping("/test/endpoint")
-    public String test(){
+    public String test() {
         return "Hello World!! Juppppiiii";
     }
 
@@ -77,5 +78,14 @@ public class HomeController {
         return "login";
     }
 
+    @GetMapping("/special")
+    public List<Slot> specialArea() {
+        AreaOfExpertise areaOfExpertise = new AreaOfExpertise();
+        areaOfExpertise.setId(3);
+        DoctorsSchedule doctorsSchedule = new DoctorsSchedule(areaOfExpertise);
+        List<Slot> startAndEndWorkingTime = doctorsSchedule.generateSlots(doctorsWorkingHoursService);
+        System.out.println(startAndEndWorkingTime);
+        return startAndEndWorkingTime;
+    }
 
 }

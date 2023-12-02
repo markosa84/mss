@@ -11,7 +11,7 @@ INSERT INTO Gender(gender_id,gender)
 
 ----ApoointmentStatus data
 -----------------
-INSERT INTO AppointmentStatus(status_id,status)
+INSERT INTO Appointment_status(status_id,status)
  VALUES (1,'Completed'), (2,'In progress'),(3,'Booked'),(4,'Did not come'),(5,'Canceled it');
 
 ---- doktor data
@@ -186,7 +186,7 @@ VALUES (3, '09:00:00', '12:00:00', 3, 3, 1);
 INSERT INTO doctors_working_hours (working_hours_day_id ,start_time ,end_time ,area_id ,day_of_week_id ,doctor_id)
 VALUES (4, '09:00:00', '12:00:00', 3, 4, 1);
 INSERT INTO doctors_working_hours (working_hours_day_id ,start_time ,end_time ,area_id ,day_of_week_id ,doctor_id)
-VALUES (5, '09:00:00', '16:00:00', 3, 5, 1);
+VALUES (5, '07:00:00', '16:00:00', 3, 5, 1);
 --doctor_id  = 2
 INSERT INTO doctors_working_hours (working_hours_day_id ,start_time ,end_time ,area_id ,day_of_week_id ,doctor_id)
 VALUES (6, '09:00:00', '12:00:00', 2, 1, 2);

@@ -1,4 +1,4 @@
-package hu.ak_akademia.mss.service;
+package hu.ak_akademia.mss.login_security_service;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 

@@ -1,5 +1,6 @@
 package hu.ak_akademia.mss.service;
 
+import hu.ak_akademia.mss.login_security_service.PasswordEncryption;
 import hu.ak_akademia.mss.model.AreaOfExpertise;
 import hu.ak_akademia.mss.model.Gender;
 import hu.ak_akademia.mss.model.Language;

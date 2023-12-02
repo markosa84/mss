@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-public class Appointmentstatus {
+public class AppointmentStatus {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +33,7 @@ public class Appointmentstatus {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Appointmentstatus that = (Appointmentstatus) o;
+        AppointmentStatus that = (AppointmentStatus) o;
         return id == that.id && Objects.equals(status, that.status);
     }
 

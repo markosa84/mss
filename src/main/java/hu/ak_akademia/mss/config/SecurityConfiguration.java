@@ -3,8 +3,8 @@ package hu.ak_akademia.mss.config;
 import hu.ak_akademia.mss.config.jwt.JwtConfig;
 import hu.ak_akademia.mss.config.jwt.JwtTokenVerifier;
 import hu.ak_akademia.mss.config.jwt.JwtUsernameAndPasswordAuthenticationFilter;
-import hu.ak_akademia.mss.service.MssUserDetailService;
-import hu.ak_akademia.mss.service.PasswordEncryption;
+import hu.ak_akademia.mss.login_security_service.MssUserDetailService;
+import hu.ak_akademia.mss.login_security_service.PasswordEncryption;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -65,7 +65,6 @@ public class SecurityConfiguration {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-//        corsConfiguration.addAllowedOrigin("*");
         corsConfiguration.setAllowedOrigins(List.of("http://localhost:5173", "http://127.0.0.1:5173"));
         corsConfiguration.setAllowedMethods(List.of("*"));
         corsConfiguration.setAllowedHeaders(List.of("*"));

@@ -1,6 +1,5 @@
 package hu.ak_akademia.mss.model;
 
-
 import hu.ak_akademia.mss.model.user.MssUser;
 
 import javax.persistence.*;
@@ -33,15 +32,6 @@ public class DoctorsWorkingHours {
     private LocalTime endTime; // Munka vége
 
     public DoctorsWorkingHours() {
-    }
-
-    public DoctorsWorkingHours(int id, DayOfWeek dayOfWeek, AreaOfExpertise areaOfExpertise, MssUser mssUserDoctor, LocalTime startTime, LocalTime endTime) {
-        this.id = id;
-        this.dayOfWeek = dayOfWeek;
-        this.areaOfExpertise = areaOfExpertise;
-        this.mssUserDoctor = mssUserDoctor;
-        this.startTime = startTime;
-        this.endTime = endTime;
     }
 
     public int getId() {
