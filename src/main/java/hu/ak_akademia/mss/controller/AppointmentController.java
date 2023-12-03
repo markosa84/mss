@@ -5,7 +5,6 @@ import hu.ak_akademia.mss.model.Slot;
 import hu.ak_akademia.mss.service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +22,7 @@ import java.util.Map;
 @ConfigurationProperties(prefix = "slot")
 @RequestMapping("/appointment")
 public class AppointmentController {
+
     @Autowired
     AppointmentService appointmentService;
     DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -40,20 +40,17 @@ public class AppointmentController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity saveDate(@RequestBody Map<String, Object> payLoad){
-        Slot slot = new Slot();
+    public ResponseEntity saveDate(@RequestBody Map<String, Object> payLoad) {
         try {
             LocalTime startTime = LocalTime.parse((String) payLoad.get("startTime"), timeFormatter);
             LocalTime endTime = LocalTime.parse((String) payLoad.get("endTime"), timeFormatter);
-            slot.setSlotId((int) payLoad.get("slotId"));
-            slot.setStartTime(startTime);
-            slot.setEndTime(endTime);
+            Slot slot = new Slot((int) payLoad.get("slotId"), startTime, endTime);
             return appointmentService.saveAppointment((Integer) payLoad.get("drID"), (String) payLoad.get("username"), slot, (String) payLoad.get("areaOfExpertise"), LocalDate.parse((String) payLoad.get("date"), dateFormatter));
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             return new ResponseEntity<>("None of the parameter values can be null!", HttpStatus.valueOf(400));
-        } catch (DateTimeParseException e){
+        } catch (DateTimeParseException e) {
             return new ResponseEntity<>("You entered the wrong date format!! Try the Date in this format: yyyy-MM-dd, and the times in this format: HH:mm:ss!!", HttpStatus.valueOf(400));
-        } catch (ClassCastException e){
+        } catch (ClassCastException e) {
             return new ResponseEntity<>("drId parameter must be an integer", HttpStatus.valueOf(400));
         }
     }
