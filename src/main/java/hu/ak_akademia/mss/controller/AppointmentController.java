@@ -53,6 +53,6 @@ public class AppointmentController {
         } catch (DateTimeParseException e){
             return new ResponseEntity<>("You entered the wrong date format!! Try the Date in this format: yyyy-MM-dd, and the times in this format: HH:mm:ss!!", HttpStatus.valueOf(400));
         }
-        return appointmentService.createAppointment(drId, userId, slot, areaOfExpertise, date);
+        return appointmentService.saveAppointment(drId, userId, slot, areaOfExpertise, date);
     }
 }

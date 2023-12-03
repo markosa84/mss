@@ -47,8 +47,20 @@ public class AppointmentService {
 
 
 
-    public Appointment saveAppointment(Appointment appointment) {
-        return appointmentRepository.save(appointment);
+    public ResponseEntity saveAppointment(String drId, String userId, Slot slot, String name, LocalDate date) {
+        ResponseEntity response = createAppointment(drId, userId, slot, name, date);
+        if (response.getStatusCode()!= HttpStatus.valueOf(200)){
+            return response;
+        }
+
+        Appointment appointment = (Appointment) response.getBody();
+
+        List<Appointment> existingAppointmentInTheSameTime = appointmentRepository.getAppointmentsByDateAndDoctor(appointment.getStartDate(),appointment.getEndDate() , appointment.getMssUserDoctor().getUserId());
+        if (!existingAppointmentInTheSameTime.isEmpty()){
+            return new ResponseEntity<>("Sorry!! This appointment is already booked", HttpStatus.valueOf(400));
+        }
+        appointmentRepository.save(appointment);
+        return new ResponseEntity<>("The appointment was successfully booked", HttpStatus.valueOf(200));
     }
 
     public Optional<Appointment> getAppointmentById(int id) {
@@ -123,8 +135,7 @@ public class AppointmentService {
         LocalDateTime endDate = LocalDateTime.of(date, endTime);
 
         Appointment appointment = new Appointment(client, doctor, appointmentStatus, areaOfExpertise, startDate, endDate);
-        saveAppointment(appointment);
-        return new ResponseEntity<>("The appointment has been successfully booked", HttpStatus.valueOf(200));
+        return new ResponseEntity<>(appointment, HttpStatus.valueOf(200));
     }
 }
 
