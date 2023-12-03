@@ -55,9 +55,13 @@ public class AppointmentService {
 
         Appointment appointment = (Appointment) response.getBody();
 
-        List<Appointment> existingAppointmentInTheSameTime = appointmentRepository.getAppointmentsByDateAndDoctor(appointment.getStartDate(),appointment.getEndDate() , appointment.getMssUserDoctor().getUserId());
-        if (!existingAppointmentInTheSameTime.isEmpty()){
+        List<Appointment> existingAppointmentInTheSameTimeByDoctor = appointmentRepository.getAppointmentsByDateAndDoctor(appointment.getStartDate(),appointment.getEndDate() , appointment.getMssUserDoctor().getUserId());
+        if (!existingAppointmentInTheSameTimeByDoctor.isEmpty()){
             return new ResponseEntity<>("Sorry!! This appointment is already booked", HttpStatus.valueOf(400));
+        }
+        List<Appointment> existingAppointmentInTheSameTimeByClient = appointmentRepository.getAppointmentsByDateAndClient(appointment.getStartDate(),appointment.getEndDate() , appointment.getMssUserClient().getUserId());
+        if (!existingAppointmentInTheSameTimeByClient.isEmpty()){
+            return new ResponseEntity<>("Sorry!! You already have another booked appointment at this time", HttpStatus.valueOf(400));
         }
         appointmentRepository.save(appointment);
         return new ResponseEntity<>("The appointment was successfully booked", HttpStatus.valueOf(200));
