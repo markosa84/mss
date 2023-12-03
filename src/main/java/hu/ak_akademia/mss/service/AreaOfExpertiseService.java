@@ -1,6 +1,7 @@
 package hu.ak_akademia.mss.service;
 
 import hu.ak_akademia.mss.model.AreaOfExpertise;
+import hu.ak_akademia.mss.model.dto.departmentSelector.AreaOfExpertiseDTO;
 import hu.ak_akademia.mss.repository.AreaOfExpertiseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,7 @@ import java.util.Optional;
 
 @Service
 public class AreaOfExpertiseService {
-    
+
     @Autowired
     private AreaOfExpertiseRepository areaOfExpertiseRepository;
 
@@ -23,7 +24,13 @@ public class AreaOfExpertiseService {
 
     public String getAreaOfExpertiseById(int areaId) {
         Optional<AreaOfExpertise> areaOfExpertiseOptional = areaOfExpertiseRepository.findById(areaId);
-        return areaOfExpertiseOptional.map(AreaOfExpertise::getQualification).orElse("Unknown area of expertise");
+        return areaOfExpertiseOptional.map(AreaOfExpertise::getName).orElse("Unknown area of expertise");
+    }
+
+    public List<AreaOfExpertiseDTO> getAreaOfExpertiseDTO () {
+        var areaOfExpertiseDTO = new AreaOfExpertiseDTO();
+        return areaOfExpertiseDTO.getAreOfExpertiseDTO();
+
     }
 
     public AreaOfExpertise getAreaById(int areaId) {

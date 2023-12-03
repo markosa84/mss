@@ -149,11 +149,11 @@ INSERT INTO MSS_USER (DTYPE, ACTIVE,
    INSERT INTO mss_user_to_language (user_id ,language_id) VALUES (4,4);
 
 -- areaOfExpertise (areaOfExpertise_id, qualification)
-INSERT INTO area_of_expertise (area_of_expertise_id ,qualification ,basic_information) VALUES (1,'Urologist','Az urológia mindkét nemnél a szervezet méregtelenítésében fontos szerepet játszó vizelet elválasztó és elvezető rendszer , valamint a férfi nemi szervek megbetegedéseivel foglalkozó szakterület.');
-INSERT INTO area_of_expertise (area_of_expertise_id ,qualification ,basic_information) VALUES (2,'Psychologist','A mai modern felfogásunk szerint a pszichológia az emberi gondolkozás, viselkedés és érzelmi élet összefüggéseit vizsgáló tudományterület.');
-INSERT INTO area_of_expertise (area_of_expertise_id ,qualification ,basic_information) VALUES (3,'Surgeon','A sebészet megbetegedéseinek műtéti kezelését végzi,');
-INSERT INTO area_of_expertise (area_of_expertise_id ,qualification ,basic_information) VALUES (4,'Dentist','A fogászat a szájüreg és a rágókészülék (rágóizmok, rágóízület, fogak) betegségeinek gyógyítása.');
-INSERT INTO area_of_expertise (area_of_expertise_id ,qualification ,basic_information) VALUES (5,'Gynecologist','Nőgyógyászati szakrendelést nem csak panasz esetén, hanem szűrés céljából is ajánlott felkeresni.');
+INSERT INTO area_of_expertise (area_of_expertise_id,name,description) VALUES (1,'Urologist','Az urológia mindkét nemnél a szervezet méregtelenítésében fontos szerepet játszó vizelet elválasztó és elvezető rendszer , valamint a férfi nemi szervek megbetegedéseivel foglalkozó szakterület.');
+INSERT INTO area_of_expertise (area_of_expertise_id,name,description) VALUES (2,'Psychologist','A mai modern felfogásunk szerint a pszichológia az emberi gondolkozás, viselkedés és érzelmi élet összefüggéseit vizsgáló tudományterület.');
+INSERT INTO area_of_expertise (area_of_expertise_id,name,description) VALUES (3,'Surgeon','A sebészet megbetegedéseinek műtéti kezelését végzi,');
+INSERT INTO area_of_expertise (area_of_expertise_id,name,description) VALUES (4,'Dentist','A fogászat a szájüreg és a rágókészülék (rágóizmok, rágóízület, fogak) betegségeinek gyógyítása.');
+INSERT INTO area_of_expertise (area_of_expertise_id,name,description) VALUES (5,'Gynecologist','Nőgyógyászati szakrendelést nem csak panasz esetén, hanem szűrés céljából is ajánlott felkeresni.');
 
 
 -- mss_user_to_areaOfExpertise( user_id,areaOfExpertise_id)

@@ -3,6 +3,7 @@ package hu.ak_akademia.mss.controller;
 
 import hu.ak_akademia.mss.config.SessionMssUser;
 import hu.ak_akademia.mss.model.Slot;
+import hu.ak_akademia.mss.model.dto.departmentSelector.AreaOfExpertiseDTO;
 import hu.ak_akademia.mss.service.AreaOfExpertiseService;
 import hu.ak_akademia.mss.service.DoctorsSchedule;
 import hu.ak_akademia.mss.service.DoctorsWorkingHoursService;
@@ -39,6 +40,11 @@ public class HomeController {
     @PostMapping("/logout")
     public String logout() {
         return "login";
+    }
+
+    @GetMapping("/components/departmentcard")
+    public List<AreaOfExpertiseDTO> getDepartmentCard () {
+        return areaOfExpertiseService.getAreaOfExpertiseDTO();
     }
 
     @GetMapping("/slots/{areaId}")

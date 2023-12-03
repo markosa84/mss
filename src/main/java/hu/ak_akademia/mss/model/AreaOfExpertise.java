@@ -12,38 +12,38 @@ public class AreaOfExpertise {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "area_of_expertise_id")
-    private int id;
-    private String qualification;
+    private int areaOfExpertiseId;
+    private String name;
 
     @ManyToMany(mappedBy = "areaOfExpertise")
     private List<MssUser> users;
 
-    private String basicInformation;
+    private String description;
 
     public AreaOfExpertise() {
     }
 
-    public AreaOfExpertise(int id, String qualification, List<MssUser> users, String basicInformation) {
-        this.id = id;
-        this.qualification = qualification;
+    public AreaOfExpertise(int areaOfExpertiseId, String name, List<MssUser> users, String description) {
+        this.areaOfExpertiseId = areaOfExpertiseId;
+        this.name = name;
         this.users = users;
-        this.basicInformation = basicInformation;
+        this.description = description;
     }
 
-    public int getId() {
-        return id;
+    public int getAreaOfExpertiseId() {
+        return areaOfExpertiseId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setAreaOfExpertiseId(int areaOfExpertiseId) {
+        this.areaOfExpertiseId = areaOfExpertiseId;
     }
 
-    public String getQualification() {
-        return qualification;
+    public String getName() {
+        return name;
     }
 
-    public void setQualification(String qualification) {
-        this.qualification = qualification;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<MssUser> getUsers() {
@@ -54,33 +54,33 @@ public class AreaOfExpertise {
         this.users = users;
     }
 
-    public String getBasicInformation() {
-        return basicInformation;
+    public String getDescription() {
+        return description;
     }
 
-    public void setBasicInformation(String basicInformation) {
-        this.basicInformation = basicInformation;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof AreaOfExpertise that)) return false;
-        return getId() == that.getId() && Objects.equals(getQualification(), that.getQualification()) && Objects.equals(getUsers(), that.getUsers()) && Objects.equals(getBasicInformation(), that.getBasicInformation());
+        return getAreaOfExpertiseId() == that.getAreaOfExpertiseId() && Objects.equals(getName(), that.getName()) && Objects.equals(getUsers(), that.getUsers()) && Objects.equals(getDescription(), that.getDescription());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getQualification(), getUsers(), getBasicInformation());
+        return Objects.hash(getAreaOfExpertiseId(), getName(), getUsers(), getDescription());
     }
 
     @Override
     public String toString() {
         return "AreaOfExpertise{" +
-                "id=" + id +
-                ", qualification='" + qualification + '\'' +
+                "id=" + areaOfExpertiseId +
+                ", qualification='" + name + '\'' +
                 ", users=" + users +
-                ", basicInformation='" + basicInformation + '\'' +
+                ", basicInformation='" + description + '\'' +
                 '}';
     }
 }

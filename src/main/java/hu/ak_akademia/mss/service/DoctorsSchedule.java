@@ -31,7 +31,7 @@ public class DoctorsSchedule {
     }
 
     private List<LocalTime> findStartAndEndWorkingTime(DoctorsWorkingHoursService doctorsWorkingHours) {
-        List<DoctorsWorkingHoursDTO> list = doctorsWorkingHours.getAreaOfExpertiseSchedule(areaOfExpertise.getId());
+        List<DoctorsWorkingHoursDTO> list = doctorsWorkingHours.getAreaOfExpertiseSchedule(areaOfExpertise.getAreaOfExpertiseId());
         var startTime = list.stream()
                 .map(DoctorsWorkingHoursDTO::getStartTime)
                 .min(LocalTime::compareTo)
