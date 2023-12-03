@@ -49,7 +49,7 @@ public class AppointmentController {
             date = LocalDate.parse(stringDate, dateFormatter);
 
         } catch (NullPointerException e){
-            return new ResponseEntity<>("the value of none of the parameters can be null!", HttpStatus.valueOf(400));
+            return new ResponseEntity<>("None of the parameter values can be null!", HttpStatus.valueOf(400));
         } catch (DateTimeParseException e){
             return new ResponseEntity<>("You entered the wrong date format!! Try the Date in this format: yyyy-MM-dd, and the times in this format: HH:mm:ss!!", HttpStatus.valueOf(400));
         }

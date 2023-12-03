@@ -75,7 +75,7 @@ public class AppointmentService {
         return appointments;
     }
 
-    public ResponseEntity createAppointment(String drId, String userId, Slot slot, String qualification, LocalDate date) {
+    public ResponseEntity createAppointment(String drId, String userId, Slot slot, String name, LocalDate date) {
         Client client;
         Doctor doctor;
         AppointmentStatus appointmentStatus;
@@ -102,7 +102,7 @@ public class AppointmentService {
             return new ResponseEntity<>("Appointment status was not found", HttpStatus.valueOf(404));
         }
 
-        Optional<AreaOfExpertise> optionalAreaOfExpertise  = areaOfExpertiseRepository.getByQualification(qualification);
+        Optional<AreaOfExpertise> optionalAreaOfExpertise  = areaOfExpertiseRepository.getByname(name);
         if (optionalAreaOfExpertise.isPresent()){
             areaOfExpertise = optionalAreaOfExpertise.get();
         } else {
