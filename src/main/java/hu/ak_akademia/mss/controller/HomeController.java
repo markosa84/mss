@@ -45,7 +45,7 @@ public class HomeController {
 
     @GetMapping("/components/departmentcard")
     public List<AreaOfExpertiseDTO> getDepartmentCard () {
-        return areaOfExpertiseService.getAreaOfExpertiseDTO();
+        return areaOfExpertiseService.getAreOfExpertiseDTO();
     }
 
 }

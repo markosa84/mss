@@ -7,6 +7,7 @@ import hu.ak_akademia.mss.repository.AreaOfExpertiseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,12 +32,6 @@ public class AreaOfExpertiseService {
         return areaOfExpertiseOptional.map(AreaOfExpertise::getName).orElse("Unknown area of expertise");
     }
 
-    public List<AreaOfExpertiseDTO> getAreaOfExpertiseDTO() {
-        var areaOfExpertiseDTO = new AreaOfExpertiseDTO();
-        return areaOfExpertiseDTO.getAreOfExpertiseDTO();
-
-    }
-
     public AreaOfExpertise getAreaById(int areaId) {
         return areaOfExpertiseRepository.getReferenceById(areaId);
     }
@@ -47,6 +42,18 @@ public class AreaOfExpertiseService {
         doctorsSchedule.setAreaOfExpertise(areaOfExpertise);
         doctorsSchedule.setWorkingHoursService(doctorsWorkingHoursService);
         return doctorsSchedule.generateSlots();
+    }
+
+    public List<AreaOfExpertiseDTO> getAreOfExpertiseDTO() {
+        ArrayList<AreaOfExpertiseDTO> listOfAreaOfExpertise = new ArrayList<>();
+        for (AreaOfExpertise areaOfExpertise : areaOfExpertiseRepository.findAll()) {
+            var DTO = new AreaOfExpertiseDTO();
+            DTO.setName(areaOfExpertise.getName());
+            DTO.setAreaOfExpertiseId(areaOfExpertise.getAreaOfExpertiseId());
+            DTO.setDescription(areaOfExpertise.getDescription());
+            listOfAreaOfExpertise.add(DTO);
+        }
+        return listOfAreaOfExpertise;
     }
 }
 
