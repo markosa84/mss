@@ -32,6 +32,18 @@ public class Appointment {
     @Basic
     private LocalDateTime endDate;
 
+    public Appointment(MssUser mssUserClient, MssUser mssUserDoctor, AppointmentStatus status, AreaOfExpertise areaOfExpertise, LocalDateTime startDate, LocalDateTime endDate) {
+        this.mssUserClient = mssUserClient;
+        this.mssUserDoctor = mssUserDoctor;
+        this.status = status;
+        this.areaOfExpertise = areaOfExpertise;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
+    public Appointment() {
+    }
+
     public int getId() {
         return id;
     }
