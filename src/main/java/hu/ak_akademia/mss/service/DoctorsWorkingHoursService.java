@@ -32,4 +32,5 @@ public class DoctorsWorkingHoursService {
         }
         return list;
     }
+
 }

@@ -1,4 +1,4 @@
-package hu.ak_akademia.mss.model.dto.departmentSelector;
+package hu.ak_akademia.mss.dto;
 
 import hu.ak_akademia.mss.model.AreaOfExpertise;
 import hu.ak_akademia.mss.repository.AreaOfExpertiseRepository;

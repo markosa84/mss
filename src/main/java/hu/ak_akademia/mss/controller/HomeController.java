@@ -2,14 +2,15 @@ package hu.ak_akademia.mss.controller;
 
 
 import hu.ak_akademia.mss.config.SessionMssUser;
-import hu.ak_akademia.mss.model.Slot;
-import hu.ak_akademia.mss.model.dto.departmentSelector.AreaOfExpertiseDTO;
+import hu.ak_akademia.mss.dto.AreaOfExpertiseDTO;
 import hu.ak_akademia.mss.service.AreaOfExpertiseService;
-import hu.ak_akademia.mss.service.DoctorsSchedule;
 import hu.ak_akademia.mss.service.DoctorsWorkingHoursService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
 import java.util.List;
@@ -45,13 +46,6 @@ public class HomeController {
     @GetMapping("/components/departmentcard")
     public List<AreaOfExpertiseDTO> getDepartmentCard () {
         return areaOfExpertiseService.getAreaOfExpertiseDTO();
-    }
-
-    @GetMapping("/slots/{areaId}")
-    public List<Slot> specialArea(@PathVariable int areaId) {
-        var areaOfExpertise = areaOfExpertiseService.getAreaById(areaId);
-        DoctorsSchedule doctorsSchedule = new DoctorsSchedule(areaOfExpertise);
-        return doctorsSchedule.generateSlots(doctorsWorkingHoursService);
     }
 
 }

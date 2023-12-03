@@ -132,8 +132,8 @@ public class AppointmentService {
             return new ResponseEntity<>("Area of expertise was not found", HttpStatus.valueOf(404));
         }
 
-        LocalTime startTime = slot.getStartTime();
-        LocalTime endTime = slot.getEndTime();
+        LocalTime startTime = slot.startTime();
+        LocalTime endTime = slot.endTime();
 
         LocalDateTime startDate = LocalDateTime.of(date, startTime);
         LocalDateTime endDate = LocalDateTime.of(date, endTime);

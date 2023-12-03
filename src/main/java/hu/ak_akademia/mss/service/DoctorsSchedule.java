@@ -2,6 +2,7 @@ package hu.ak_akademia.mss.service;
 
 import hu.ak_akademia.mss.dto.DoctorsWorkingHoursDTO;
 import hu.ak_akademia.mss.model.AreaOfExpertise;
+import hu.ak_akademia.mss.model.ScheduleStartAndEndTime;
 import hu.ak_akademia.mss.model.Slot;
 
 import java.time.LocalTime;
@@ -10,28 +11,23 @@ import java.util.List;
 
 public class DoctorsSchedule {
 
-    private final AreaOfExpertise areaOfExpertise;
+    private DoctorsWorkingHoursService workingHoursService;
 
-    public DoctorsSchedule(AreaOfExpertise areaOfExpertise) {
-        this.areaOfExpertise = areaOfExpertise;
-    }
+    private AreaOfExpertise areaOfExpertise;
 
-    public List<Slot> generateSlots(DoctorsWorkingHoursService doctorsWorkingHours) {
+    public List<Slot> generateSlots() {
+        var list = workingHoursService.getAreaOfExpertiseSchedule(areaOfExpertise.getAreaOfExpertiseId());
         List<Slot> slots = new ArrayList<>();
-        List<LocalTime> startAndEndWorkingTime = findStartAndEndWorkingTime(doctorsWorkingHours);
-        LocalTime start = startAndEndWorkingTime.get(0);
-        for (int i = 1; start.isBefore(startAndEndWorkingTime.get(1)); i++) {
-            Slot slot = new Slot();
-            slot.setSlotId(i);
-            slot.setStartTime(start);
-            slot.setEndTime(start = start.plusMinutes(doctorsWorkingHours.getSlotInterval()));
+        var scheduleStartAndEndTime = findStartAndEndWorkingTime(list);
+        LocalTime start = scheduleStartAndEndTime.startTime();
+        for (int i = 1; start.isBefore(scheduleStartAndEndTime.endTime()); i++) {
+            Slot slot = new Slot(i, start, start = start.plusMinutes(workingHoursService.getSlotInterval()));
             slots.add(slot);
         }
         return slots;
     }
 
-    private List<LocalTime> findStartAndEndWorkingTime(DoctorsWorkingHoursService doctorsWorkingHours) {
-        List<DoctorsWorkingHoursDTO> list = doctorsWorkingHours.getAreaOfExpertiseSchedule(areaOfExpertise.getAreaOfExpertiseId());
+    private ScheduleStartAndEndTime findStartAndEndWorkingTime(List<DoctorsWorkingHoursDTO> list) {
         var startTime = list.stream()
                 .map(DoctorsWorkingHoursDTO::getStartTime)
                 .min(LocalTime::compareTo)
@@ -40,7 +36,14 @@ public class DoctorsSchedule {
                 .map(DoctorsWorkingHoursDTO::getEndTime)
                 .max(LocalTime::compareTo)
                 .orElseThrow();
-        return List.of(startTime, endTime);
+        return new ScheduleStartAndEndTime(startTime, endTime);
     }
 
+    public void setAreaOfExpertise(AreaOfExpertise areaOfExpertise) {
+        this.areaOfExpertise = areaOfExpertise;
+    }
+
+    public void setWorkingHoursService(DoctorsWorkingHoursService workingHoursService) {
+        this.workingHoursService = workingHoursService;
+    }
 }
