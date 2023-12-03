@@ -47,8 +47,8 @@ public class AppointmentService {
 
 
 
-    public ResponseEntity saveAppointment(String drId, String userId, Slot slot, String name, LocalDate date) {
-        ResponseEntity response = createAppointment(drId, userId, slot, name, date);
+    public ResponseEntity saveAppointment(int drId, String username, Slot slot, String name, LocalDate date) {
+        ResponseEntity response = createAppointment(drId, username, slot, name, date);
         if (response.getStatusCode()!= HttpStatus.valueOf(200)){
             return response;
         }
@@ -91,24 +91,24 @@ public class AppointmentService {
         return appointments;
     }
 
-    public ResponseEntity createAppointment(String drId, String userId, Slot slot, String name, LocalDate date) {
+    public ResponseEntity createAppointment(int drId, String username, Slot slot, String name, LocalDate date) {
         Client client;
         Doctor doctor;
         AppointmentStatus appointmentStatus;
         AreaOfExpertise areaOfExpertise;
         try {
-            Optional<? extends MssUser> optionalClient = mssUserRepository.findByEmail(userId);
+            Optional<? extends MssUser> optionalClient = mssUserRepository.findByEmail(username);
             if (optionalClient.isPresent()) {
                 client = (Client) optionalClient.get();
             } else {
                 return new ResponseEntity<>("Client was not found", HttpStatus.valueOf(404));
             }
         } catch (ClassCastException e){
-            return new ResponseEntity<>("The user id: " + userId + " doesn't belong to a client!", HttpStatus.valueOf(400));
+            return new ResponseEntity<>("The user id: " + username + " doesn't belong to a client!", HttpStatus.valueOf(400));
         }
 
         try {
-            Optional<? extends MssUser> optionalDoctor = mssUserRepository.findByEmail(drId);
+            Optional<? extends MssUser> optionalDoctor = mssUserRepository.findById(drId);
             if (optionalDoctor.isPresent()) {
                 doctor = (Doctor) optionalDoctor.get();
             } else {
