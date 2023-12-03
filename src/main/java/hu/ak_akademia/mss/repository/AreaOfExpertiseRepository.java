@@ -13,5 +13,5 @@ import java.util.Optional;
 public interface AreaOfExpertiseRepository extends JpaRepository<AreaOfExpertise, Integer> {
 
     @Query("SELECT a FROM AreaOfExpertise a WHERE a.name = :name")
-    Optional<AreaOfExpertise> getByname(@Param("name") String name);
+    Optional<AreaOfExpertise> getByName(@Param("name") String name);
 }

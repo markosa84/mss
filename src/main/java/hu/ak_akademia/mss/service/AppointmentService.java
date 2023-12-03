@@ -80,19 +80,26 @@ public class AppointmentService {
         Doctor doctor;
         AppointmentStatus appointmentStatus;
         AreaOfExpertise areaOfExpertise;
-
-        Optional<? extends MssUser> optionalClient = mssUserRepository.findByEmail(userId);
-        if (optionalClient.isPresent()) {
-            client = (Client) optionalClient.get();
-        } else {
-            return new ResponseEntity<>("Client was not found", HttpStatus.valueOf(404));
+        try {
+            Optional<? extends MssUser> optionalClient = mssUserRepository.findByEmail(userId);
+            if (optionalClient.isPresent()) {
+                client = (Client) optionalClient.get();
+            } else {
+                return new ResponseEntity<>("Client was not found", HttpStatus.valueOf(404));
+            }
+        } catch (ClassCastException e){
+            return new ResponseEntity<>("The user id: " + userId + " doesn't belong to a client!", HttpStatus.valueOf(400));
         }
 
-        Optional<? extends MssUser> optionalDoctor = mssUserRepository.findByEmail(drId);
-        if (optionalDoctor.isPresent()) {
-            doctor= (Doctor) optionalDoctor.get();
-        } else {
-            return new ResponseEntity<>("Doctor was not found", HttpStatus.valueOf(404));
+        try {
+            Optional<? extends MssUser> optionalDoctor = mssUserRepository.findByEmail(drId);
+            if (optionalDoctor.isPresent()) {
+                doctor = (Doctor) optionalDoctor.get();
+            } else {
+                return new ResponseEntity<>("Doctor was not found", HttpStatus.valueOf(404));
+            }
+        } catch (ClassCastException e){
+            return new ResponseEntity<>("The doctor id: " + drId + " doesn't belong to a doctor!", HttpStatus.valueOf(400));
         }
 
         Optional<AppointmentStatus> optionalAppointmentStatus = appointmentStatusRepository.findById(3);
@@ -102,7 +109,7 @@ public class AppointmentService {
             return new ResponseEntity<>("Appointment status was not found", HttpStatus.valueOf(404));
         }
 
-        Optional<AreaOfExpertise> optionalAreaOfExpertise  = areaOfExpertiseRepository.getByname(name);
+        Optional<AreaOfExpertise> optionalAreaOfExpertise  = areaOfExpertiseRepository.getByName(name);
         if (optionalAreaOfExpertise.isPresent()){
             areaOfExpertise = optionalAreaOfExpertise.get();
         } else {
