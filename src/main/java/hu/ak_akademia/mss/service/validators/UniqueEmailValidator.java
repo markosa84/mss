@@ -15,8 +15,7 @@ public class UniqueEmailValidator implements Validator<String> {
 
     @Override
     public void validate(String uniqueEmail) throws IncorrectEnteredDataException {
-        var g = registrationService.checkUniqueEmail(uniqueEmail);
-        if (g) {
+        if (registrationService.checkUniqueEmail(uniqueEmail)) {
             throw new IncorrectEnteredDataException("emailError", "This email already exists! Please choose another one.");
         }
     }

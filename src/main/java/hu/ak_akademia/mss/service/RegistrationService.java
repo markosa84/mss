@@ -1,5 +1,8 @@
 package hu.ak_akademia.mss.service;
 
+import hu.ak_akademia.mss.dto.GenderDto;
+import hu.ak_akademia.mss.dto.LanguageAndGenderToRegistrationDto;
+import hu.ak_akademia.mss.dto.LanguageDto;
 import hu.ak_akademia.mss.login_security_service.PasswordEncryption;
 import hu.ak_akademia.mss.model.AreaOfExpertise;
 import hu.ak_akademia.mss.model.Gender;
@@ -107,6 +110,18 @@ public class RegistrationService {
 
     public void encryptPassword(MssUser mssUsers) {
         mssUsers.setPassword(new PasswordEncryption(mssUsers.getPassword()).encryptWithMD5());
+    }
+
+    public LanguageAndGenderToRegistrationDto provideLanguageAndGenderDto() {
+        return new LanguageAndGenderToRegistrationDto(generateGenderDto(), generateLanguageDto());
+    }
+
+    private List<LanguageDto> generateLanguageDto() {
+        return languageRepository.findAll().stream().map(l -> new LanguageDto(l.getId(), l.getName())).toList();
+    }
+
+    private List<GenderDto> generateGenderDto() {
+        return genderRepository.findAll().stream().map(g -> new GenderDto(g.getId(), g.getGender())).toList();
     }
 
 }
