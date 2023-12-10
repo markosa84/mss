@@ -1,0 +1,34 @@
+{
+  "languagesDto": [
+    {
+      "languageId": 1,
+      "language": "Magyar"
+    },
+    {
+      "languageId": 2,
+      "language": "Deutsch"
+    },
+    {
+      "languageId": 3,
+      "language": "English"
+    },
+    {
+      "languageId": 4,
+      "language": "中文"
+    }
+  ],
+  "gendersDto": [
+    {
+      "genderId": 1,
+      "gender": "male"
+    },
+    {
+      "genderId": 2,
+      "gender": "female"
+    },
+    {
+      "genderId": 3,
+      "gender": "other"
+    }
+  ]
+}

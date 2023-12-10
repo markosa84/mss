@@ -18,8 +18,8 @@ export const ClientLayout = () => {
 
   function getMenuItems() {
     return auth.roles.map((role) =>
-      ROLES_FUNCTIONALITIES[role].map((_role) => (
-        <li>
+      ROLES_FUNCTIONALITIES[role].map((_role, i) => (
+        <li key={i}>
           <NavLink to={_role.url}>{_role.name}</NavLink>
         </li>
       ))

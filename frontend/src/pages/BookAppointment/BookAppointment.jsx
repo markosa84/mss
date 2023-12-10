@@ -4,8 +4,9 @@ import axios from "axios";
 import { SelectDateAndTime } from "./SelectDateAndTime";
 import { SelectDateAndTimeRevised } from "./SelectDateAndTimeRevised";
 import { useAppointmentSelector } from "./useAppointmentSelector";
+import { AppointmentProvider } from "./AppointmentProvider";
 
-export const BookAppointment = () => {
+const InnerComponent = () => {
   const {
     departments,
     setDepartments,
@@ -29,5 +30,13 @@ export const BookAppointment = () => {
           .name
       }
     />
+  );
+};
+
+export const BookAppointment = () => {
+  return (
+    <AppointmentProvider>
+      <InnerComponent />
+    </AppointmentProvider>
   );
 };

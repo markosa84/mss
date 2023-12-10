@@ -2,10 +2,12 @@ import axios from "axios";
 import { addDays, format, isWeekend, nextMonday, setMinutes } from "date-fns";
 import { createContext, useEffect, useState } from "react";
 import { axios1 } from "../../api/axios";
+import { useAuth } from "../../Context/useAuth";
 
 export const AppointmentContext = createContext();
 
 export const AppointmentProvider = ({ children }) => {
+  const { auth } = useAuth();
   const [departments, setDepartments] = useState([]);
   const [departmentDoctors, setDepartmentDoctors] = useState([]);
   const [dailyUnavailableSlots, setDailyUnavaliableSlots] = useState([]);
@@ -33,7 +35,7 @@ export const AppointmentProvider = ({ children }) => {
           const apiDoctorRes = await axios1.get(
             `/doctors/area-of-expertise/${selectedDepartmentId}`,
             {
-              headers: { Authorization: localStorage.getItem("mssAuth") },
+              headers: { Authorization: auth.accessToken },
             }
           );
           console.log(apiDoctorRes.data);

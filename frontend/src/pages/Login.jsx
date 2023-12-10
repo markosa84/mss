@@ -3,11 +3,14 @@ import { axios1, axiosDummy } from "../api/axios";
 import { FormControl } from "../components/FormControl";
 import { useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../Context/useAuth";
 
 export const Login = () => {
   const navigate = useNavigate();
-
+  const { setAuth } = useAuth();
+  const location = useLocation();
+  const from = location.state?.from || "/dashboard";
   const {
     register,
     handleSubmit,
@@ -26,16 +29,19 @@ export const Login = () => {
   // --------------------------------
 
   const onSubmit = async ({ email, password }) => {
-    // const params = new URLSearchParams();
-    // params.append("username", email);
-    // params.append("password", password);
-    // console.log(params.get("password"));
     try {
       const res = await axios1.post("/login", { username: email, password });
       console.log("Zseniális!!! Megvan a user!");
-      console.log("User: ", res.headers.authorization);
-      navigate("/client");
-      localStorage.setItem("mssAuth", res.headers.authorization);
+      console.log("User: ", res);
+      setAuth({
+        username: email,
+        password,
+        name: res.data.name,
+        roles: [...res.data.roles],
+        accessToken: res.headers.authorization,
+      });
+      navigate(from, { replace: true });
+      // localStorage.setItem("mssAuth", res.headers.authorization);
     } catch (error) {
       console.log("Valami nem jó...");
       console.log("Error: ", error);
