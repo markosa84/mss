@@ -1,12 +1,10 @@
 package hu.ak_akademia.mss.service;
 
 
+import hu.ak_akademia.mss.dto.AppointmentDetailsDTO;
 import hu.ak_akademia.mss.dto.AppointmentDto;
 import hu.ak_akademia.mss.dto.DoctorTimeSlotDto;
-import hu.ak_akademia.mss.model.Appointment;
-import hu.ak_akademia.mss.model.AppointmentStatus;
-import hu.ak_akademia.mss.model.AreaOfExpertise;
-import hu.ak_akademia.mss.model.Slot;
+import hu.ak_akademia.mss.model.*;
 import hu.ak_akademia.mss.model.user.Client;
 import hu.ak_akademia.mss.model.user.Doctor;
 import hu.ak_akademia.mss.model.user.MssUser;
@@ -16,6 +14,7 @@ import hu.ak_akademia.mss.repository.AreaOfExpertiseRepository;
 import hu.ak_akademia.mss.repository.MSSUserRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.util.Pair;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -56,15 +55,15 @@ public class AppointmentService {
             return endTime;
         }
     }
-    @Autowired
+
     private DoctorsWorkingHoursService doctorsWorkingHoursService;
-    @Autowired
+
     private  AppointmentRepository appointmentRepository;
-    @Autowired
+
     private  MSSUserRepository mssUserRepository;
-    @Autowired
+
     private  AreaOfExpertiseRepository areaOfExpertiseRepository;
-   @Autowired
+
     private  AppointmentStatusRepository appointmentStatusRepository;
 
     private AreaOfExpertise getAreaOfExpertise(int specialtyId) {
@@ -75,32 +74,44 @@ public class AppointmentService {
     public AppointmentService(AppointmentRepository appointmentRepository,
                               MSSUserRepository mssUserRepository,
                               AreaOfExpertiseRepository areaOfExpertiseRepository,
-                              AppointmentStatusRepository appointmentStatusRepository) {
+                              AppointmentStatusRepository appointmentStatusRepository,
+                                DoctorsWorkingHoursService doctorsWorkingHoursService
+    ) {
         this.appointmentRepository = appointmentRepository;
         this.mssUserRepository = mssUserRepository;
         this.areaOfExpertiseRepository = areaOfExpertiseRepository;
         this.appointmentStatusRepository = appointmentStatusRepository;
+        this.doctorsWorkingHoursService = doctorsWorkingHoursService;
     }
 
 
-    public ResponseEntity saveAppointment(int drId, String username, Slot slot, String name, LocalDate date) {
-        ResponseEntity response = createAppointment(drId, username, slot, name, date);
-        if (response.getStatusCode() != HttpStatus.valueOf(200)) {
-            return response;
+
+    public ResponseEntity<AppointmentDetailsDTO> saveAppointment(int drId, String username, Slot slot, String name, LocalDate date) {
+        ResponseEntity<Appointment> response = createAppointment(drId, username, slot, name, date);
+        if (response.getStatusCode()!= HttpStatus.valueOf(200)){
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.add("info", response.getHeaders().get("info").get(0));
+            return ResponseEntity.status(response.getStatusCode().value()).headers(httpHeaders).body(null);
         }
 
-        Appointment appointment = (Appointment) response.getBody();
-
-        List<Appointment> existingAppointmentInTheSameTimeByDoctor = appointmentRepository.getAppointmentsByDateAndDoctor(appointment.getStartDate(), appointment.getEndDate(), appointment.getMssUserDoctor().getUserId());
-        if (!existingAppointmentInTheSameTimeByDoctor.isEmpty()) {
-            return new ResponseEntity<>("Sorry!! This appointment is already booked", HttpStatus.valueOf(400));
+        Appointment appointment = response.getBody();
+        List<Appointment> existingAppointmentInTheSameTimeByDoctor = appointmentRepository.getAppointmentsByDateAndDoctor(appointment.getStartDate(),appointment.getEndDate() , appointment.getMssUserDoctor().getUserId());
+        if (!existingAppointmentInTheSameTimeByDoctor.isEmpty()){
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.add("info", "Sorry!! This appointment is already booked");
+            return new ResponseEntity<>(null, httpHeaders, HttpStatus.valueOf(400));
         }
-        List<Appointment> existingAppointmentInTheSameTimeByClient = appointmentRepository.getAppointmentsByDateAndClient(appointment.getStartDate(), appointment.getEndDate(), appointment.getMssUserClient().getUserId());
-        if (!existingAppointmentInTheSameTimeByClient.isEmpty()) {
-            return new ResponseEntity<>("Sorry!! You already have another booked appointment at this time", HttpStatus.valueOf(400));
+        List<Appointment> existingAppointmentInTheSameTimeByClient = appointmentRepository.getAppointmentsByDateAndClient(appointment.getStartDate(),appointment.getEndDate() , appointment.getMssUserClient().getUserId());
+        if (!existingAppointmentInTheSameTimeByClient.isEmpty()){
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.add("info", "Sorry!! You already have another booked appointment at this time");
+            return new ResponseEntity<>(null, httpHeaders, HttpStatus.valueOf(400));
         }
-        appointmentRepository.save(appointment);
-        return new ResponseEntity<>("The appointment was successfully booked", HttpStatus.valueOf(200));
+        Appointment result = appointmentRepository.save(appointment);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("info", "The appointment was successfully booked");
+        AppointmentDetailsDTO responseBody = new AppointmentDetailsDTO(result.getId() ,result.getMssUserDoctor().getUserId(), result.getMssUserClient().getEmail(), result.getStartDate().toString(), result.getEndDate().toString(), result.getAreaOfExpertise().getName());
+        return new ResponseEntity<>(responseBody, httpHeaders, HttpStatus.valueOf(200));
     }
 
     public Optional<Appointment> getAppointmentById(int id) {
@@ -111,36 +122,59 @@ public class AppointmentService {
         return appointmentRepository.findAll();
     }
 
-    public void deleteAppointmentById(int id) {
-        appointmentRepository.deleteById(id);
+    public ResponseEntity<String> deleteAppointmentById(int id, String userEmail) {
+        Optional<Appointment> optionalAppointment = appointmentRepository.findById(id);
+        if (optionalAppointment.isEmpty()){
+            return ResponseEntity.status(404).body("Appointment was not found!");
+        } else {
+            if (optionalAppointment.get().getMssUserDoctor().getEmail().equals(userEmail) ||optionalAppointment.get().getMssUserClient().getEmail().equals(userEmail)){
+                appointmentRepository.deleteById(id);
+                return ResponseEntity.status(200).body("Delete was successful");
+            }
+            return ResponseEntity.status(403).body("You don't have role to delete!");
+        }
+    }
+
+    public ResponseEntity<String> deleteAppointmentById(int id) {
+        Optional<Appointment> optionalAppointment = appointmentRepository.findById(id);
+        if (optionalAppointment.isEmpty()){
+            return ResponseEntity.status(404).body("Appointment was not found!");
+        } else {
+            appointmentRepository.deleteById(id);
+            return ResponseEntity.status(200).body("Delete was successful");
+        }
     }
 
     public List<Appointment> getAppointmentsByDateAndArea(LocalDateTime startDate, LocalDateTime endDate, int areaOfExpertiseId) {
-        List<Appointment> appointments = appointmentRepository.getAppointmentsByDateAndArea(startDate, endDate, areaOfExpertiseId);
+        List<Appointment> appointments = appointmentRepository.getAppointmentsByDateAndArea(startDate, endDate,  areaOfExpertiseId);
         appointments.removeIf(appointment -> appointment.getEndDate().isEqual(endDate));
         return appointments;
     }
 
     public List<Appointment> getAppointmentsByDateAndDoctor(LocalDateTime startDate, LocalDateTime endDate, int doctorId) {
-        List<Appointment> appointments = appointmentRepository.getAppointmentsByDateAndDoctor(startDate, endDate, doctorId);
+        List<Appointment> appointments = appointmentRepository.getAppointmentsByDateAndDoctor(startDate, endDate,  doctorId);
         appointments.removeIf(appointment -> appointment.getEndDate().isEqual(endDate));
         return appointments;
     }
 
-    public ResponseEntity createAppointment(int drId, String username, Slot slot, String name, LocalDate date) {
+    public ResponseEntity<Appointment> createAppointment(int drId, String username, Slot slot, String name, LocalDate date) {
         Client client;
         Doctor doctor;
         AppointmentStatus appointmentStatus;
         AreaOfExpertise areaOfExpertise;
+        HttpHeaders httpHeaders = new HttpHeaders();
         try {
             Optional<? extends MssUser> optionalClient = mssUserRepository.findByEmail(username);
             if (optionalClient.isPresent()) {
                 client = (Client) optionalClient.get();
             } else {
-                return new ResponseEntity<>("Client was not found", HttpStatus.valueOf(404));
+                httpHeaders.add("info", "Client was not found");
+                return ResponseEntity.status(404).headers(httpHeaders).body(null);
+                //return new ResponseEntity<>(null, httpHeaders, HttpStatus.valueOf(404));
             }
-        } catch (ClassCastException e) {
-            return new ResponseEntity<>("The user id: " + username + " doesn't belong to a client!", HttpStatus.valueOf(400));
+        } catch (ClassCastException e){
+            httpHeaders.add("info", "The user id: " + username + " doesn't belong to a client!");
+            return new ResponseEntity<>(null, httpHeaders, HttpStatus.valueOf(400));
         }
 
         try {
@@ -148,24 +182,28 @@ public class AppointmentService {
             if (optionalDoctor.isPresent()) {
                 doctor = (Doctor) optionalDoctor.get();
             } else {
-                return new ResponseEntity<>("Doctor was not found", HttpStatus.valueOf(404));
+                httpHeaders.add("info", "Doctor was not found");
+                return new ResponseEntity<>(null, httpHeaders, HttpStatus.valueOf(404));
             }
-        } catch (ClassCastException e) {
-            return new ResponseEntity<>("The doctor id: " + drId + " doesn't belong to a doctor!", HttpStatus.valueOf(400));
+        } catch (ClassCastException e){
+            httpHeaders.add("info", "The doctor id: " + drId + " doesn't belong to a doctor!");
+            return new ResponseEntity<>(null, httpHeaders, HttpStatus.valueOf(400));
         }
 
         Optional<AppointmentStatus> optionalAppointmentStatus = appointmentStatusRepository.findById(3);
-        if (optionalAppointmentStatus.isPresent()) {
+        if (optionalAppointmentStatus.isPresent()){
             appointmentStatus = optionalAppointmentStatus.get();
         } else {
-            return new ResponseEntity<>("Appointment status was not found", HttpStatus.valueOf(404));
+            httpHeaders.add("info", "Appointment status was not found");
+            return new ResponseEntity<>(null, httpHeaders, HttpStatus.valueOf(404));
         }
 
-        Optional<AreaOfExpertise> optionalAreaOfExpertise = areaOfExpertiseRepository.getByName(name);
-        if (optionalAreaOfExpertise.isPresent()) {
+        Optional<AreaOfExpertise> optionalAreaOfExpertise  = areaOfExpertiseRepository.getByName(name);
+        if (optionalAreaOfExpertise.isPresent()){
             areaOfExpertise = optionalAreaOfExpertise.get();
         } else {
-            return new ResponseEntity<>("Area of expertise was not found", HttpStatus.valueOf(404));
+            httpHeaders.add("info", "Area of expertise was not found");
+            return new ResponseEntity<>(null, httpHeaders, HttpStatus.valueOf(404));
         }
 
         LocalTime startTime = slot.startTime();
@@ -177,6 +215,56 @@ public class AppointmentService {
         Appointment appointment = new Appointment(client, doctor, appointmentStatus, areaOfExpertise, startDate, endDate);
         return new ResponseEntity<>(appointment, HttpStatus.valueOf(200));
     }
+
+    public ResponseEntity<List<AppointmentDetailsDTO>> getAppointmentByClient(String clientEmail) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        try {
+            Optional<? extends MssUser> optionalClient = mssUserRepository.findByEmail(clientEmail);
+            if (optionalClient.isPresent()) {
+                Client client = (Client) optionalClient.get();
+                List<Appointment> appointments = appointmentRepository.getAppointmentsByClient(client.getUserId());
+                return ResponseEntity.status(200).body(convertToAppointmentDTO(appointments));
+            } else {
+                httpHeaders.add("info", "Client was not found");
+                return ResponseEntity.status(404).headers(httpHeaders).body(null);
+                //return new ResponseEntity<>(null, httpHeaders, HttpStatus.valueOf(404));
+            }
+        } catch (ClassCastException e){
+            httpHeaders.add("info", "The user id: " + clientEmail + " doesn't belong to a client!");
+            return new ResponseEntity<>(null, httpHeaders, HttpStatus.valueOf(400));
+        }
+    }
+
+    public List<AppointmentDetailsDTO> convertToAppointmentDTO(List<Appointment> appointments){
+        List <AppointmentDetailsDTO> result = appointments.stream().map(a -> new AppointmentDetailsDTO(a.getId() ,a.getMssUserDoctor().getUserId(), a.getMssUserClient().getEmail(), a.getStartDate().toString(), a.getEndDate().toString(), a.getAreaOfExpertise().getName())).collect(Collectors.toList());
+        return result;
+    }
+
+    public ResponseEntity<List<AppointmentDetailsDTO>> getAppointmentsByDoctor(String doctorEmail) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        try {
+            Optional<? extends MssUser> optionalDoctor = mssUserRepository.findByEmail(doctorEmail);
+            if (optionalDoctor.isPresent()) {
+                Doctor doctor = (Doctor) optionalDoctor.get();
+                List<Appointment> appointments = appointmentRepository.getAppointmentsByDoctor(doctor.getUserId());
+                return ResponseEntity.status(200).body(convertToAppointmentDTO(appointments));
+            } else {
+                httpHeaders.add("info", "Client was not found");
+                return ResponseEntity.status(404).headers(httpHeaders).body(null);
+                //return new ResponseEntity<>(null, httpHeaders, HttpStatus.valueOf(404));
+            }
+        } catch (ClassCastException e){
+            httpHeaders.add("info", "The user id: " + doctorEmail + " doesn't belong to a client!");
+            return new ResponseEntity<>(null, httpHeaders, HttpStatus.valueOf(400));
+        }
+    }
+
+
+    public List<AppointmentDetailsDTO> getAppointmentsByDoctors(List<Integer> doctorsIds) {
+        List<Appointment> appointments = appointmentRepository.getAppointmentsByDoctors(doctorsIds);
+        return convertToAppointmentDTO(appointments);
+    }
+
 // Csaba dolgai
 public List<AppointmentDto> getAppointmentsBySpecialtyAndDoctors(int specialtyId, List<Integer> doctorIds) {
     DoctorsSchedule scheduleService = new DoctorsSchedule();

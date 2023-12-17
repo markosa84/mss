@@ -22,16 +22,28 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
 
 
     @Query("SELECT a FROM Appointment a WHERE a.startDate BETWEEN :start AND :end AND a.endDate BETWEEN :start AND :end AND a.mssUserClient.id = :clientId")
-    List<Appointment> getAppointmentsByDateAndClient(@Param("start") LocalDateTime startDate, @Param("end") LocalDateTime endDate, @Param("clientId") int doctorId);
+    List<Appointment> getAppointmentsByDateAndClient(@Param("start") LocalDateTime startDate, @Param("end") LocalDateTime endDate, @Param("clientId") int clientId);
+
+    @Query("SELECT a FROM Appointment a WHERE a.mssUserClient.id = :clientId")
+    List<Appointment> getAppointmentsByClient(@Param("clientId") int clientId);
+
+    @Query("SELECT a FROM Appointment a WHERE a.mssUserDoctor.id = :doctorId")
+    List<Appointment> getAppointmentsByDoctor(@Param("doctorId") int doctorId);
+
+    @Query("SELECT a FROM Appointment a WHERE a.mssUserDoctor.id IN :doctorIds")
+    List<Appointment> getAppointmentsByDoctors(@Param("doctorIds") List<Integer> doctorIds);
+
 
     @Query("SELECT a FROM Appointment a JOIN FETCH a.mssUserDoctor d " +
             "WHERE a.startDate BETWEEN :start AND :end " +
             "AND a.endDate BETWEEN :start AND :end " +
             "AND a.areaOfExpertise.id = :areaId " +
             "AND a.status.id <> 5 " +
-            "ORDER BY a.startDate, d.doctorName")
+            "ORDER BY a.startDate, d.userId")
     List<Appointment> getAppointmentsByDateAndAreaModefied(@Param("start") LocalDateTime startDate,
                                                            @Param("end") LocalDateTime endDate,
                                                            @Param("areaId") int areaOfExpertiseId);
+
+
 
 }
