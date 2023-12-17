@@ -260,3 +260,4 @@ VALUES (CONCAT(DATEADD('DAY', 1, CURRENT_DATE), ' 11:30:00.569823'), CONCAT(DATE
 
 INSERT INTO appointment (end_date, start_date, area_of_expertise_id, client_id, doctor_id, status_id)
 VALUES (CONCAT(DATEADD('DAY', 3, CURRENT_DATE), ' 11:15:00.569823'), CONCAT(DATEADD('DAY', 1, CURRENT_DATE), ' 11:00:00.569823'), 4,8, 5, 1);
+

@@ -2,7 +2,6 @@ package hu.ak_akademia.mss.repository;
 
 import hu.ak_akademia.mss.model.Appointment;
 
-import hu.ak_akademia.mss.model.user.MssUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -10,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
+
 
 @Repository
 public interface AppointmentRepository extends JpaRepository<Appointment, Integer> {
@@ -24,4 +23,15 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
 
     @Query("SELECT a FROM Appointment a WHERE a.startDate BETWEEN :start AND :end AND a.endDate BETWEEN :start AND :end AND a.mssUserClient.id = :clientId")
     List<Appointment> getAppointmentsByDateAndClient(@Param("start") LocalDateTime startDate, @Param("end") LocalDateTime endDate, @Param("clientId") int doctorId);
+
+    @Query("SELECT a FROM Appointment a JOIN FETCH a.mssUserDoctor d " +
+            "WHERE a.startDate BETWEEN :start AND :end " +
+            "AND a.endDate BETWEEN :start AND :end " +
+            "AND a.areaOfExpertise.id = :areaId " +
+            "AND a.status.id <> 5 " +
+            "ORDER BY a.startDate, d.doctorName")
+    List<Appointment> getAppointmentsByDateAndAreaModefied(@Param("start") LocalDateTime startDate,
+                                                           @Param("end") LocalDateTime endDate,
+                                                           @Param("areaId") int areaOfExpertiseId);
+
 }

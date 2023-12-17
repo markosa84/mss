@@ -1,21 +1,20 @@
 package hu.ak_akademia.mss.controller;
 
 
+import hu.ak_akademia.mss.dto.AppointmentDto;
 import hu.ak_akademia.mss.model.Slot;
 import hu.ak_akademia.mss.service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -53,5 +52,14 @@ public class AppointmentController {
         } catch (ClassCastException e) {
             return new ResponseEntity<>("drId parameter must be an integer", HttpStatus.valueOf(400));
         }
+    }
+
+    @PostMapping("/getAppointments")
+    public ResponseEntity<List<AppointmentDto>> getAppointments(@RequestParam(name = "specialtyId") int specialtyId,
+                                                                @RequestParam(name = "doctorId") List<Integer> doctorIds) {
+        // Adatbázisból történő lekérdezés a specialtyId és doctorIds alapján
+        List<AppointmentDto> appointments = appointmentService.getAppointmentsBySpecialtyAndDoctors(specialtyId, doctorIds);
+        // Visszaadhatod a megfelelő választ a kliensnek
+        return ResponseEntity.ok(appointments);
     }
 }
