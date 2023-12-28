@@ -1,18 +1,15 @@
 package hu.ak_akademia.mss.controller;
 
-import hu.ak_akademia.mss.dto.LanguageAndGenderToRegistrationDto;
-import hu.ak_akademia.mss.model.user.Client;
+import hu.ak_akademia.mss.dto.ClientRegistrationDto;
+import hu.ak_akademia.mss.dto.GenderDto;
+import hu.ak_akademia.mss.dto.LanguageDto;
 import hu.ak_akademia.mss.service.RegistrationService;
-import hu.ak_akademia.mss.service.RegistrationVerificationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import javax.mail.MessagingException;
-import java.util.Map;
+import java.util.Collection;
+import java.util.List;
 
 @RestController
 @RequestMapping("/register")
@@ -21,29 +18,19 @@ public class ClientController {
     @Autowired
     private RegistrationService registrationService;
 
-    @Autowired
-    private RegistrationVerificationService registrationVerificationService;
+    @GetMapping("/languages")
+    public List<LanguageDto> languageRegistration() {
+        return registrationService.generateLanguageDto();
+    }
 
-
-    @GetMapping()
-    public LanguageAndGenderToRegistrationDto registration(Client client, Model model) {
-        return registrationService.provideLanguageAndGenderDto();
+    @GetMapping("/genders")
+    public List<GenderDto> genderRegistration() {
+        return registrationService.generateGenderDto();
     }
 
     @PostMapping("/client")
-    public String registrationForm(Client client, String passwordAgain, Model model) throws MessagingException {
-        Map<String, String> errorList = registrationService.testMSSUserData(client, passwordAgain);
-        if (errorList.isEmpty()) {
-            client.setRoles("ROLE_CLIENT");
-            registrationService.encryptPassword(client);
-            registrationService.save(client);
-            return registrationVerificationService.performRegistrationVerification(client, model);
-        }
-        model.addAttribute("genderList", registrationService.getAllGender());
-        model.addAttribute("languageList", registrationService.getLanguages());
-        model.addAttribute("passwordAgain", "");
-        model.addAllAttributes(errorList);
-        return "registration";
+    public ResponseEntity<Collection<String>> registrationForm(@RequestBody ClientRegistrationDto registrationClient) {
+        return registrationService.validateClientInRegistrationProcess(registrationClient);
     }
 
 

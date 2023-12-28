@@ -5,14 +5,13 @@ import hu.ak_akademia.mss.model.Language;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public abstract class MssUser{
+public abstract class MssUser {
 
 
     @Id
@@ -36,7 +35,7 @@ public abstract class MssUser{
     private String phoneNumber;
     @Column(nullable = false)
     private String roles;
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany()
     @JoinTable(name = "mss_user_to_language",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "language_id"))

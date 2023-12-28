@@ -20,9 +20,8 @@ public class DoctorsSchedule {
         List<Slot> slots = new ArrayList<>();
         var scheduleStartAndEndTime = findStartAndEndWorkingTime(list);
         LocalTime start = scheduleStartAndEndTime.startTime();
-        for (int i = 1; start.isBefore(scheduleStartAndEndTime.endTime()); i++) {
-            Slot slot = new Slot(i, start, start = start.plusMinutes(workingHoursService.getSlotInterval()));
-            slots.add(slot);
+        for (int i = 1; start.isBefore(scheduleStartAndEndTime.endTime()); ) {
+            slots.add(new Slot(i++, start, start = start.plusMinutes(workingHoursService.getSlotInterval())));
         }
         return slots;
     }

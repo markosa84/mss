@@ -1,7 +1,7 @@
 package hu.ak_akademia.mss.service;
 
+import hu.ak_akademia.mss.dto.ClientRegistrationDto;
 import hu.ak_akademia.mss.dto.GenderDto;
-import hu.ak_akademia.mss.dto.LanguageAndGenderToRegistrationDto;
 import hu.ak_akademia.mss.dto.LanguageDto;
 import hu.ak_akademia.mss.login_security_service.PasswordEncryption;
 import hu.ak_akademia.mss.model.AreaOfExpertise;
@@ -15,12 +15,12 @@ import hu.ak_akademia.mss.repository.MSSUserRepository;
 import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;
 import hu.ak_akademia.mss.service.validators.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Service
 public class RegistrationService {
@@ -45,42 +45,61 @@ public class RegistrationService {
         mssUserRepository.delete(mssUsers);
     }
 
-    public Map<String, String> comparePassword(MssUser mssUser, String passwordAgain) {
-        return !mssUser.getPassword().equals(passwordAgain)
-                ? Collections.singletonMap("samePasswordError", "Incorrect! The two passwords must be the same")
-                : Collections.emptyMap();
-    }
-
     public Map<String, String> testMSSUserData(Assistant assistant) {
-        var assistantValidator = new CompositeAssistantValidator(this);
+        var assistantValidator = new CompositeAssistantValidator();
+        setUniqueChecker(assistant.getEmail());
         assistantValidator.validate(assistant);
         return assistantValidator.getValidatorErrorList();
     }
 
     public Map<String, String> testMSSUserData(Doctor doctor, String passwordAgain) {
-        var doctorValidator = new CompositeDoctorValidator(this);
+        var doctorValidator = new CompositeDoctorValidator();
+        setUniqueChecker(doctor.getEmail());
         doctorValidator.validate(doctor);
-
-        var instance = MSSUserValidatorFactory.getInstance();
-        instance.collectValidationError(new ConfirmationPasswordValidator(), doctor.getPassword(), passwordAgain, doctorValidator.getValidatorErrorList());
-
         return doctorValidator.getValidatorErrorList();
     }
 
     public Map<String, String> testMSSUserData(FinancialColleague colleague) {
-        var colleagueValidator = new CompositeColleagueValidator(this);
+        var colleagueValidator = new CompositeColleagueValidator();
+        setUniqueChecker(colleague.getEmail());
         colleagueValidator.validate(colleague);
         return colleagueValidator.getValidatorErrorList();
     }
 
-    public Map<String, String> testMSSUserData(Client client, String passwordAgain) {
-        var clientValidator = new CompositeClientValidator(this);
+    public ResponseEntity<Collection<String>> validateClientInRegistrationProcess(ClientRegistrationDto RegClient) {
+        var client = mappingRegClientToMssUserClient(RegClient);
+        setUniqueChecker(client.getEmail());
+        var clientValidator = new CompositeClientValidator();
         clientValidator.validate(client);
+        if (clientValidator.getValidatorErrorList().isEmpty()) {
+            encryptPassword(client);
+            save(client);
+            return ResponseEntity.ok().body(Collections.emptyList());
+        }
+        return ResponseEntity.ok(clientValidator.getValidatorErrorList().values());
+    }
 
-        var clientCompareValidator = new ClientCompareValidator(this, clientValidator.getValidatorErrorList());
-        clientCompareValidator.validate(client.getPassword(), passwordAgain);
+    private Client mappingRegClientToMssUserClient(ClientRegistrationDto regClient) {
+        var client = new Client();
+        client.setEmail(regClient.getEmail());
+        client.setPassword(regClient.getPassword());
+        client.setActive(false);
+        client.setRegistrationDate(LocalDateTime.now());
+        client.setDateOfBirth(regClient.getDateOfBirth());
+        client.setMothersName(regClient.getMothersName());
+        client.setPlaceOfBirth(regClient.getPlaceOfBirth());
+        client.setTAJNumber(regClient.getTAJNumber());
+        client.setFirstName(regClient.getFirstName());
+        client.setLastName(regClient.getLastName());
+        client.setLanguages(getLanguages(regClient.getLanguageId()));
+        client.setGender(regClient.getGenderId());
+        client.setRoles("ROLE_CLIENT");
+        client.setPhoneNumber(regClient.getPhoneNumber());
+        return client;
+    }
 
-        return clientValidator.getValidatorErrorList();
+    private List<Language> getLanguages(List<Integer> languageId) {
+        return languageRepository.findAllById(languageId);
     }
 
     public MssUser getUser(String email, String password) throws IncorrectEnteredDataException {
@@ -104,23 +123,19 @@ public class RegistrationService {
         return languageRepository.findAll();
     }
 
-    public boolean checkUniqueEmail(String email) {
-        return mssUserRepository.findByEmail(email).isPresent();
+    public void setUniqueChecker(String email) {
+        UniqueChecker.setUniqueEmail(mssUserRepository.findByEmail(email).isPresent());
     }
 
     public void encryptPassword(MssUser mssUsers) {
         mssUsers.setPassword(new PasswordEncryption(mssUsers.getPassword()).encryptWithMD5());
     }
 
-    public LanguageAndGenderToRegistrationDto provideLanguageAndGenderDto() {
-        return new LanguageAndGenderToRegistrationDto(generateGenderDto(), generateLanguageDto());
-    }
-
-    private List<LanguageDto> generateLanguageDto() {
+    public List<LanguageDto> generateLanguageDto() {
         return languageRepository.findAll().stream().map(l -> new LanguageDto(l.getId(), l.getName())).toList();
     }
 
-    private List<GenderDto> generateGenderDto() {
+    public List<GenderDto> generateGenderDto() {
         return genderRepository.findAll().stream().map(g -> new GenderDto(g.getId(), g.getGender())).toList();
     }
 
