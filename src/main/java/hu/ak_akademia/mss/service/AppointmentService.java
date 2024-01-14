@@ -13,7 +13,6 @@ import hu.ak_akademia.mss.repository.AppointmentStatusRepository;
 import hu.ak_akademia.mss.repository.AreaOfExpertiseRepository;
 import hu.ak_akademia.mss.repository.MSSUserRepository;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.util.Pair;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -119,14 +119,32 @@ public class AppointmentService {
         return appointmentRepository.findAll();
     }
 
-    public ResponseEntity<String> deleteAppointmentById(int id, String userEmail) {
+    public ResponseEntity<String> deleteAppointmentByIdWithDoctor(int id, String userEmail) {
         Optional<Appointment> optionalAppointment = appointmentRepository.findById(id);
         if (optionalAppointment.isEmpty()){
             return ResponseEntity.status(404).body("Appointment was not found!");
         } else {
-            if (optionalAppointment.get().getMssUserDoctor().getEmail().equals(userEmail) ||optionalAppointment.get().getMssUserClient().getEmail().equals(userEmail)){
+            if (optionalAppointment.get().getMssUserDoctor().getEmail().equals(userEmail)){
                 appointmentRepository.deleteById(id);
                 return ResponseEntity.status(200).body("Delete was successful");
+            }
+            return ResponseEntity.status(403).body("You don't have role to delete!");
+        }
+    }
+
+    public ResponseEntity<String> deleteAppointmentByIdWithClient(int id, String userEmail) {
+        Optional<Appointment> optionalAppointment = appointmentRepository.findById(id);
+        LocalDate date = optionalAppointment.get().getStartDate().toLocalDate();
+        if (optionalAppointment.isEmpty()){
+            return ResponseEntity.status(404).body("Appointment was not found!");
+        } else {
+            if (optionalAppointment.get().getMssUserClient().getEmail().equals(userEmail)){
+                if (LocalDate.now().until(date, ChronoUnit.DAYS) > 1) {
+                    appointmentRepository.deleteById(id);
+                    return ResponseEntity.status(200).body("Delete was successful");
+                } else {
+                    return ResponseEntity.status(403).body("You cannot cancel the appointment the day before!");
+                }
             }
             return ResponseEntity.status(403).body("You don't have role to delete!");
         }
@@ -237,18 +255,19 @@ public class AppointmentService {
         return result;
     }
 
-    public ResponseEntity<List<AppointmentDetailsDTO>> getAppointmentsByDoctor(String doctorEmail) {
+    public ResponseEntity<List<AppointmentDetailsDTO>> getAppointmentsByDoctor(String doctorEmail, LocalDate start, LocalDate end) {
         HttpHeaders httpHeaders = new HttpHeaders();
         try {
             Optional<? extends MssUser> optionalDoctor = mssUserRepository.findByEmail(doctorEmail);
             if (optionalDoctor.isPresent()) {
                 Doctor doctor = (Doctor) optionalDoctor.get();
-                List<Appointment> appointments = appointmentRepository.getAppointmentsByDoctor(doctor.getUserId());
+                LocalDateTime startDate = start.atStartOfDay();
+                LocalDateTime endDate = end.atTime(23, 59, 59);
+                List<Appointment> appointments = appointmentRepository.getAppointmentsByDoctor(doctor.getUserId(), startDate, endDate);
                 return ResponseEntity.status(200).body(convertToAppointmentDTO(appointments));
             } else {
                 httpHeaders.add("info", "Client was not found");
                 return ResponseEntity.status(404).headers(httpHeaders).body(null);
-                //return new ResponseEntity<>(null, httpHeaders, HttpStatus.valueOf(404));
             }
         } catch (ClassCastException e){
             httpHeaders.add("info", "The user id: " + doctorEmail + " doesn't belong to a client!");

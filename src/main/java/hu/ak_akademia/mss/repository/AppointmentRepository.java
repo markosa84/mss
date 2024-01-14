@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -27,8 +28,8 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
     @Query("SELECT a FROM Appointment a WHERE a.mssUserClient.id = :clientId")
     List<Appointment> getAppointmentsByClient(@Param("clientId") int clientId);
 
-    @Query("SELECT a FROM Appointment a WHERE a.mssUserDoctor.id = :doctorId")
-    List<Appointment> getAppointmentsByDoctor(@Param("doctorId") int doctorId);
+    @Query("SELECT a FROM Appointment a WHERE a.mssUserDoctor.id = :doctorId AND a.startDate >= :start AND a.startDate <= :end")
+    List<Appointment> getAppointmentsByDoctor(@Param("doctorId") int doctorId,@Param("start") LocalDateTime startDate, @Param("end") LocalDateTime endDate);
 
     @Query("SELECT a FROM Appointment a WHERE a.mssUserDoctor.id IN :doctorIds")
     List<Appointment> getAppointmentsByDoctors(@Param("doctorIds") List<Integer> doctorIds);
