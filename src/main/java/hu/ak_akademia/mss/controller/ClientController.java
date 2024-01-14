@@ -3,6 +3,7 @@ package hu.ak_akademia.mss.controller;
 import hu.ak_akademia.mss.dto.ClientRegistrationDto;
 import hu.ak_akademia.mss.dto.GenderDto;
 import hu.ak_akademia.mss.dto.LanguageDto;
+import hu.ak_akademia.mss.dto.UniqueEmailDto;
 import hu.ak_akademia.mss.service.RegistrationService;
 import hu.ak_akademia.mss.service.RegistrationVerificationCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,11 @@ public class ClientController {
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @PostMapping("/unique/email")
+    public ResponseEntity<Boolean> isUniqueEmail(@RequestBody UniqueEmailDto uniqueEmailDto) {
+        return ResponseEntity.ok().body(registrationService.isUniqueEmail(uniqueEmailDto.email()));
     }
 
     @PostMapping("/verify")

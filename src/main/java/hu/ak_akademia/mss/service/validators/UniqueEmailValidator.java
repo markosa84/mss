@@ -13,7 +13,6 @@ public class UniqueEmailValidator implements Validator<String> {
 
     @Override
     public void validate(String uniqueEmail) throws IncorrectEnteredDataException {
-//        if (u) {
         if (inspectionUniqueEmail(uniqueEmail)) {
             throw new IncorrectEnteredDataException("emailError", "This email already exists! Please choose another one.");
         }
@@ -22,6 +21,5 @@ public class UniqueEmailValidator implements Validator<String> {
     private boolean inspectionUniqueEmail(String email) {
         return mssUserRepository.findByEmail(email).isPresent();
     }
-
 
 }

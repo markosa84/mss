@@ -136,4 +136,8 @@ public class RegistrationService {
         return genderRepository.findAll().stream().map(g -> new GenderDto(g.getId(), g.getGender())).toList();
     }
 
+    public boolean isUniqueEmail(String email) {
+        return mssUserRepository.findByEmail(email).isPresent();
+    }
+
 }
