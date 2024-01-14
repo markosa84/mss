@@ -247,17 +247,16 @@ VALUES (30, '09:00:00', '16:00:00', 2, 5, 6);
 --appointment proba
 
 INSERT INTO appointment (end_date, start_date, area_of_expertise_id, client_id, doctor_id, status_id)
-VALUES (CONCAT(DATEADD('DAY', 1, CURRENT_DATE), ' 09:15:00.569823'), CONCAT(DATEADD('DAY', 1, CURRENT_DATE), ' 09:00:00.569823'), 3, 7, 1, 1);
+VALUES (CONCAT(DATEADD('DAY', 1, CURRENT_DATE), ' 09:15:00'), CONCAT(DATEADD('DAY', 1, CURRENT_DATE), ' 09:00:00'), 3, 7, 1, 1);
 
 INSERT INTO appointment (end_date, start_date, area_of_expertise_id, client_id, doctor_id, status_id)
-VALUES (CONCAT(DATEADD('DAY', 0, CURRENT_DATE), ' 10:15:00.569823'), CONCAT(DATEADD('DAY', 0, CURRENT_DATE), ' 10:00:00.569823'), 2, 8, 5, 1);
+VALUES (CONCAT(DATEADD('DAY', 0, CURRENT_DATE), ' 10:15:00'), CONCAT(DATEADD('DAY', 0, CURRENT_DATE), ' 10:00:00'), 2, 8, 5, 1);
 
 INSERT INTO appointment (end_date, start_date, area_of_expertise_id, client_id, doctor_id, status_id)
-VALUES (CONCAT(DATEADD('DAY', 10, CURRENT_DATE), ' 11:15:00.569823'), CONCAT(DATEADD('DAY', 1, CURRENT_DATE), ' 11:00:00.569823'), 3, 9, 2, 1);
+VALUES (CONCAT(DATEADD('DAY', 13, CURRENT_DATE), ' 11:15:00'), CONCAT(DATEADD('DAY', 13, CURRENT_DATE), ' 11:00:00'), 3, 9, 2, 1);
 
 INSERT INTO appointment (end_date, start_date, area_of_expertise_id, client_id, doctor_id, status_id)
-VALUES (CONCAT(DATEADD('DAY', 1, CURRENT_DATE), ' 11:30:00.569823'), CONCAT(DATEADD('DAY', 1, CURRENT_DATE), ' 11:15:00.569823'), 3, 10, 2, 1);
+VALUES (CONCAT(DATEADD('DAY', 1, CURRENT_DATE), ' 11:30:00'), CONCAT(DATEADD('DAY', 1, CURRENT_DATE), ' 11:15:00'), 3, 10, 2, 1);
 
 INSERT INTO appointment (end_date, start_date, area_of_expertise_id, client_id, doctor_id, status_id)
-VALUES (CONCAT(DATEADD('DAY', 3, CURRENT_DATE), ' 11:15:00.569823'), CONCAT(DATEADD('DAY', 1, CURRENT_DATE), ' 11:00:00.569823'), 4,8, 5, 1);
-
+VALUES (CONCAT(DATEADD('DAY', 3, CURRENT_DATE), ' 11:15:00'), CONCAT(DATEADD('DAY', 3, CURRENT_DATE), ' 11:00:00'), 4,8, 5, 1);

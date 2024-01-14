@@ -30,9 +30,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class AppointmentService {
-  //  @Value("${time.intervals}")
-   // private String timeIntervals;
-
     private Map<Integer, List<String>> intervalMap;
 
     @Value("${appointment.endDateOffset}")
