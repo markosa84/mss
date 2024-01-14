@@ -16,6 +16,7 @@ import java.util.UUID;
 
 @Service
 public class EmailService {
+
     private String uniqueCode;
     private final JavaMailSender emailSender;
 

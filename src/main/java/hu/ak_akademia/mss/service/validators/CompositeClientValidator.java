@@ -1,6 +1,7 @@
 package hu.ak_akademia.mss.service.validators;
 
 import hu.ak_akademia.mss.model.user.Client;
+import hu.ak_akademia.mss.repository.MSSUserRepository;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,7 +10,10 @@ public class CompositeClientValidator implements Validator<Client> {
 
     private final Map<String, String> validatorErrorList = new HashMap<>();
 
-    public CompositeClientValidator() {
+    private final MSSUserRepository mssUserRepository;
+
+    public CompositeClientValidator(MSSUserRepository mssUserRepository) {
+        this.mssUserRepository = mssUserRepository;
     }
 
     @Override
@@ -24,12 +28,11 @@ public class CompositeClientValidator implements Validator<Client> {
         instance.collectValidationError(new PlaceOfBirthValidator(), client.getPlaceOfBirth(), validatorErrorList);
         instance.collectValidationError(new DateOfBirthValidator(), client.getDateOfBirth(), validatorErrorList);
         instance.collectValidationError(new TAJNumberValidator(), client.getTAJNumber(), validatorErrorList);
-        instance.collectValidationError(new UniqueEmailValidator(), client.getEmail(), validatorErrorList);
+        instance.collectValidationError(new UniqueEmailValidator(mssUserRepository), client.getEmail(), validatorErrorList);
     }
 
     public Map<String, String> getValidatorErrorList() {
         return validatorErrorList;
     }
-
 
 }

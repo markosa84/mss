@@ -29,9 +29,9 @@ import java.time.LocalDate;
         public boolean isRegistrationCodeValid(String verificationCode) {
             RegistrationVerificationCode code = registrationVerificationRepository.findByVerificationCode(verificationCode);
             if (code != null) {
-                LocalDate experodate = code.getExpirydate();
+                LocalDate expiredDate = code.getExpirydate();
                 LocalDate currentDate = LocalDate.now();
-                return experodate.plusDays(1).isAfter(currentDate);
+                return expiredDate.plusDays(1).isAfter(currentDate);
             }
             return false;
         }

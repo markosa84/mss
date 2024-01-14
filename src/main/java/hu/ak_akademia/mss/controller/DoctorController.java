@@ -7,11 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import javax.mail.MessagingException;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/register")
@@ -30,18 +26,18 @@ public class DoctorController {
         return "doctor_registration";
     }
 
-    @PostMapping("/doctor")
-    public String doctorRegistrationForm(Doctor doctor, Model model) throws MessagingException {
-        Map<String, String> errorList = registrationService.testMSSUserData(doctor, "");
-        if (errorList.isEmpty()) {
-            doctor.setRoles("ROLE_DOCTOR");
-            registrationService.encryptPassword(doctor);
-            registrationService.save(doctor);
-            return registrationVerificationService.performRegistrationVerification(doctor, model);
-        }
-        model.addAttribute("genderList", registrationService.getAllGender());
-        model.addAttribute("areaOfExpertiseList", registrationService.getAllAreaOfExpertises());
-        model.addAllAttributes(errorList);
-        return "doctor_registration";
-    }
+//    @PostMapping("/doctor")
+//    public String doctorRegistrationForm(Doctor doctor, Model model) throws MessagingException {
+//        Map<String, String> errorList = registrationService.testMSSUserData(doctor, "");
+//        if (errorList.isEmpty()) {
+//            doctor.setRoles("ROLE_DOCTOR");
+//            registrationService.encryptPassword(doctor);
+//            registrationService.save(doctor);
+//            return registrationVerificationService.performRegistrationVerification(doctor, model);
+//        }
+//        model.addAttribute("genderList", registrationService.getAllGender());
+//        model.addAttribute("areaOfExpertiseList", registrationService.getAllAreaOfExpertises());
+//        model.addAllAttributes(errorList);
+//        return "doctor_registration";
+//    }
 }

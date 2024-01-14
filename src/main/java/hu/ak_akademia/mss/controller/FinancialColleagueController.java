@@ -7,11 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import javax.mail.MessagingException;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/register")
@@ -27,17 +23,17 @@ public class FinancialColleagueController {
         return "financialColleague_registration";
     }
 
-    @PostMapping("/financialColleague")
-    public String financialColleagueRegistrationForm(FinancialColleague financialColleague, Model model) throws MessagingException {
-        Map<String, String> errorList = registrationService.testMSSUserData(financialColleague);
-        if (errorList.isEmpty()) {
-            financialColleague.setRoles("ROLE_FINANCIALCOLLEAGUE");
-            registrationService.encryptPassword(financialColleague);
-            registrationService.save(financialColleague);
-            return registrationVerificationService.performRegistrationVerification(financialColleague, model);
-        }
-        model.addAttribute("genderList", registrationService.getAllGender());
-        model.addAllAttributes(errorList);
-        return "financialColleague_registration";
-    }
+//    @PostMapping("/financialColleague")
+//    public String financialColleagueRegistrationForm(FinancialColleague financialColleague, Model model) throws MessagingException {
+//        Map<String, String> errorList = registrationService.testMSSUserData(financialColleague);
+//        if (errorList.isEmpty()) {
+//            financialColleague.setRoles("ROLE_FINANCIALCOLLEAGUE");
+//            registrationService.encryptPassword(financialColleague);
+//            registrationService.save(financialColleague);
+//            return registrationVerificationService.performRegistrationVerification(financialColleague, model);
+//        }
+//        model.addAttribute("genderList", registrationService.getAllGender());
+//        model.addAllAttributes(errorList);
+//        return "financialColleague_registration";
+//    }
 }

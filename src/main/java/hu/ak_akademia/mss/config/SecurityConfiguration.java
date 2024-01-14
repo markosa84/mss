@@ -48,7 +48,7 @@ public class SecurityConfiguration {
                 .addFilterAfter(new JwtTokenVerifier(jwtConfig), JwtUsernameAndPasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(a -> a
                         .antMatchers("/h2-console/**", "/resources/**").permitAll()
-                        .antMatchers("/register", "/login/**").permitAll()
+                        .antMatchers("/register/**", "/login/**").permitAll()
                         .antMatchers("/home/**").hasAnyAuthority("ROLE_CLIENT", "ROLE_DOCTOR", "ROLE_ASSISTANT", "ROLE_ADMIN")
                         .antMatchers("/register/doctor", "/register/assistant", "/register/financialColleague")
                         .hasAnyAuthority("ROLE_ASSISTANT", "ROLE_ADMIN")

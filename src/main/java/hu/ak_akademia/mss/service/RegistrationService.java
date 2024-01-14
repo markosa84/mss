@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -35,6 +36,9 @@ public class RegistrationService {
     private GenderRepository genderRepository;
 
     @Autowired
+    private RegistrationVerificationService registrationVerificationService;
+
+    @Autowired
     private AreaOfExpertiseRepository areaOfExpertiseRepository;
 
     public void save(MssUser mssUsers) {
@@ -46,34 +50,31 @@ public class RegistrationService {
     }
 
     public Map<String, String> testMSSUserData(Assistant assistant) {
-        var assistantValidator = new CompositeAssistantValidator();
-        setUniqueChecker(assistant.getEmail());
+        var assistantValidator = new CompositeAssistantValidator(mssUserRepository);
         assistantValidator.validate(assistant);
         return assistantValidator.getValidatorErrorList();
     }
 
     public Map<String, String> testMSSUserData(Doctor doctor, String passwordAgain) {
-        var doctorValidator = new CompositeDoctorValidator();
-        setUniqueChecker(doctor.getEmail());
+        var doctorValidator = new CompositeDoctorValidator(mssUserRepository);
         doctorValidator.validate(doctor);
         return doctorValidator.getValidatorErrorList();
     }
 
     public Map<String, String> testMSSUserData(FinancialColleague colleague) {
-        var colleagueValidator = new CompositeColleagueValidator();
-        setUniqueChecker(colleague.getEmail());
+        var colleagueValidator = new CompositeColleagueValidator(mssUserRepository);
         colleagueValidator.validate(colleague);
         return colleagueValidator.getValidatorErrorList();
     }
 
-    public ResponseEntity<Collection<String>> validateClientInRegistrationProcess(ClientRegistrationDto RegClient) {
+    public ResponseEntity<Collection<String>> validateClientInRegistrationProcess(ClientRegistrationDto RegClient) throws MessagingException {
         var client = mappingRegClientToMssUserClient(RegClient);
-        setUniqueChecker(client.getEmail());
-        var clientValidator = new CompositeClientValidator();
+        var clientValidator = new CompositeClientValidator(mssUserRepository);
         clientValidator.validate(client);
         if (clientValidator.getValidatorErrorList().isEmpty()) {
             encryptPassword(client);
             save(client);
+            registrationVerificationService.performRegistrationVerification(client);
             return ResponseEntity.ok().body(Collections.emptyList());
         }
         return ResponseEntity.ok(clientValidator.getValidatorErrorList().values());
@@ -121,10 +122,6 @@ public class RegistrationService {
 
     public List<Language> getLanguages() {
         return languageRepository.findAll();
-    }
-
-    public void setUniqueChecker(String email) {
-        UniqueChecker.setUniqueEmail(mssUserRepository.findByEmail(email).isPresent());
     }
 
     public void encryptPassword(MssUser mssUsers) {
