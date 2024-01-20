@@ -66,43 +66,58 @@ public class AppointmentController {
     @PreAuthorize("#authentication.name == #payload['clientEmail'] or hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_ASSISTANT')")
     @GetMapping("/get/client")
     public ResponseEntity<List<AppointmentDetailsDTO>> getAppointmentsByClient(@RequestBody  Map<String, String> payload, Authentication authentication){
-        try {
-            String clientEmail = payload.get("clientEmail");
-            if (clientEmail == null){
-                throw new  NullPointerException();
-            }
-            return appointmentService.getAppointmentByClient(clientEmail);
-        } catch (NullPointerException e){
-            HttpHeaders httpHeaders = new HttpHeaders();
+        HttpHeaders httpHeaders = new HttpHeaders();
+        if (!payload.containsKey("clientId")){
             httpHeaders.add("info", "client email param can not be a null, ot empty string!");
             return ResponseEntity.status(400).headers(httpHeaders).body(null);
         }
-    }
+
+        int clientId = Integer.parseInt(payload.get("clientId"));
+        return appointmentService.getAppointmentByClient(clientId);
+        }
+
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/get/doctors")
-    public ResponseEntity<List<AppointmentDetailsDTO>> getAppointmentsByDoctors(@RequestBody List<Integer> doctorsIds){
-        List<AppointmentDetailsDTO> appointmentDTO = appointmentService.getAppointmentsByDoctors(doctorsIds);
-        return ResponseEntity.status(200).body(appointmentDTO);
+    public ResponseEntity<List<AppointmentDetailsDTO>> getAppointmentsByDoctors(@RequestBody List<Integer> doctorsIds, @RequestBody Map<String,String> payload) {
+        if (!payload.containsKey("startDate") || !payload.containsKey("endDate")){
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.add("info", "startDate or endDate Param is missing!");
+            return ResponseEntity.status(400).headers(httpHeaders).body(null);
+        }
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        try {
+            LocalDate startDate = LocalDate.parse(payload.get("startDate"), dateFormatter);
+            LocalDate endDate = LocalDate.parse(payload.get("endDate"), dateFormatter);
+
+            return ResponseEntity.status(200).body(appointmentService.getAppointmentsByDoctors(doctorsIds, startDate, endDate));
+
+            //List<AppointmentDetailsDTO> appointmentDTO = appointmentService.getAppointmentsByDoctors(doctorsIds);
+            //return ResponseEntity.status(200).body(appointmentDTO);
+        } catch (DateTimeParseException e) {
+            httpHeaders.add("info", "You entered the wrong date format!! Try the Date in this format: yyyy-MM-dd, and the times in this format: HH:mm:ss!!");
+            return new ResponseEntity<>(null, httpHeaders, HttpStatus.valueOf(400));
+        }
     }
 
     @PreAuthorize("#authentication.name == #payload['doctorEmail'] or hasAuthority('ROLE_ADMIN')")
     @GetMapping("/get/doctor")
     public ResponseEntity<List<AppointmentDetailsDTO>> getAppointmentsByDoctor(@RequestBody Map<String,String> payload, Authentication authentication){
         HttpHeaders httpHeaders = new HttpHeaders();
+
+        if (!payload.containsKey("doctorId")){
+            httpHeaders.add("info", "client email param can not be a null, ot empty string!");
+            return ResponseEntity.status(400).headers(httpHeaders).body(null);
+        }
+
         try {
             LocalDate startDate = LocalDate.parse(payload.get("startDate"), dateFormatter);
             LocalDate endDate = LocalDate.parse(payload.get("endDate"), dateFormatter);
-            String doctorEmail = payload.get("doctorEmail");
-            if (doctorEmail == null){
-                throw new NullPointerException();
-            }
-            return appointmentService.getAppointmentsByDoctor(doctorEmail, startDate, endDate);
+            int doctorId = Integer.parseInt(payload.get("doctorId"));
+            return appointmentService.getAppointmentsByDoctor(doctorId, startDate, endDate);
         }  catch (DateTimeParseException e) {
             httpHeaders.add("info", "You entered the wrong date format!! Try the Date in this format: yyyy-MM-dd, and the times in this format: HH:mm:ss!!");
             return new ResponseEntity<>(null, httpHeaders, HttpStatus.valueOf(400));
-        } catch (NullPointerException e){
-            httpHeaders.add("info", "client email param can not be a null, ot empty string!");
-            return ResponseEntity.status(400).headers(httpHeaders).body(null);
         }
     }
 

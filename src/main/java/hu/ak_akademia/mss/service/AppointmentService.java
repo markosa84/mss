@@ -231,10 +231,10 @@ public class AppointmentService {
         return new ResponseEntity<>(appointment, HttpStatus.valueOf(200));
     }
 
-    public ResponseEntity<List<AppointmentDetailsDTO>> getAppointmentByClient(String clientEmail) {
+    public ResponseEntity<List<AppointmentDetailsDTO>> getAppointmentByClient(int clientId) {
         HttpHeaders httpHeaders = new HttpHeaders();
         try {
-            Optional<? extends MssUser> optionalClient = mssUserRepository.findByEmail(clientEmail);
+            Optional<? extends MssUser> optionalClient = mssUserRepository.findById(clientId);
             if (optionalClient.isPresent()) {
                 Client client = (Client) optionalClient.get();
                 List<Appointment> appointments = appointmentRepository.getAppointmentsByClient(client.getUserId());
@@ -245,7 +245,7 @@ public class AppointmentService {
                 //return new ResponseEntity<>(null, httpHeaders, HttpStatus.valueOf(404));
             }
         } catch (ClassCastException e){
-            httpHeaders.add("info", "The user id: " + clientEmail + " doesn't belong to a client!");
+            httpHeaders.add("info", "The user id: " + clientId + " doesn't belong to a client!");
             return new ResponseEntity<>(null, httpHeaders, HttpStatus.valueOf(400));
         }
     }
@@ -255,10 +255,10 @@ public class AppointmentService {
         return result;
     }
 
-    public ResponseEntity<List<AppointmentDetailsDTO>> getAppointmentsByDoctor(String doctorEmail, LocalDate start, LocalDate end) {
+    public ResponseEntity<List<AppointmentDetailsDTO>> getAppointmentsByDoctor(int doctorId, LocalDate start, LocalDate end) {
         HttpHeaders httpHeaders = new HttpHeaders();
         try {
-            Optional<? extends MssUser> optionalDoctor = mssUserRepository.findByEmail(doctorEmail);
+            Optional<? extends MssUser> optionalDoctor = mssUserRepository.findById(doctorId);
             if (optionalDoctor.isPresent()) {
                 Doctor doctor = (Doctor) optionalDoctor.get();
                 LocalDateTime startDate = start.atStartOfDay();
@@ -270,14 +270,19 @@ public class AppointmentService {
                 return ResponseEntity.status(404).headers(httpHeaders).body(null);
             }
         } catch (ClassCastException e){
-            httpHeaders.add("info", "The user id: " + doctorEmail + " doesn't belong to a client!");
+            httpHeaders.add("info", "The user id: " + doctorId + " doesn't belong to a client!");
             return new ResponseEntity<>(null, httpHeaders, HttpStatus.valueOf(400));
         }
     }
 
 
-    public List<AppointmentDetailsDTO> getAppointmentsByDoctors(List<Integer> doctorsIds) {
-        List<Appointment> appointments = appointmentRepository.getAppointmentsByDoctors(doctorsIds);
+    public List<AppointmentDetailsDTO> getAppointmentsByDoctors(List<Integer> doctorsIds, LocalDate start, LocalDate end) {
+
+        List<Integer> checkedIdList = doctorsIds.stream().map(id -> mssUserRepository.getMSSUserByUserId(id)).filter(user -> user.getRoles().equals("Doctor")).map(dr -> dr.getUserId()).collect(Collectors.toList());
+        List<Appointment> appointments = new ArrayList<>();
+        LocalDateTime startDate = start.atStartOfDay();
+        LocalDateTime endDate = end.atTime(23, 59, 59);
+        checkedIdList.stream().forEach(id-> appointments.addAll(appointmentRepository.getAppointmentsByDoctor(id, startDate, endDate)));
         return convertToAppointmentDTO(appointments);
     }
 
