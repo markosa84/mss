@@ -246,17 +246,149 @@ VALUES (30, '09:00:00', '16:00:00', 2, 5, 6);
 
 --appointment proba
 
+--INSERT INTO appointment (end_date, start_date, area_of_expertise_id, client_id, doctor_id, status_id)
+--VALUES (CONCAT(DATEADD('DAY', 1, CURRENT_DATE), ' 09:15:00'), CONCAT(DATEADD('DAY', 1, CURRENT_DATE), ' 09:00:00'), 3, 7, 1, 1);
+
+--INSERT INTO appointment (end_date, start_date, area_of_expertise_id, client_id, doctor_id, status_id)
+--VALUES (CONCAT(DATEADD('DAY', 0, CURRENT_DATE), ' 10:15:00'), CONCAT(DATEADD('DAY', 0, CURRENT_DATE), ' 10:00:00'), 2, 8, 5, 1);
+
+--INSERT INTO appointment (end_date, start_date, area_of_expertise_id, client_id, doctor_id, status_id)
+--VALUES (CONCAT(DATEADD('DAY', 13, CURRENT_DATE), ' 11:15:00'), CONCAT(DATEADD('DAY', 13, CURRENT_DATE), ' 11:00:00'), 3, 9, 2, 1);
+
+--INSERT INTO appointment (end_date, start_date, area_of_expertise_id, client_id, doctor_id, status_id)
+--VALUES (CONCAT(DATEADD('DAY', 1, CURRENT_DATE), ' 11:30:00'), CONCAT(DATEADD('DAY', 1, CURRENT_DATE), ' 11:15:00'), 3, 10, 2, 1);
+
+--INSERT INTO appointment (end_date, start_date, area_of_expertise_id, client_id, doctor_id, status_id)
+--VALUES (CONCAT(DATEADD('DAY', 3, CURRENT_DATE), ' 11:15:00'), CONCAT(DATEADD('DAY', 3, CURRENT_DATE), ' 11:00:00'), 4,8, 5, 1);
+
+--appointment proba v.2
 INSERT INTO appointment (end_date, start_date, area_of_expertise_id, client_id, doctor_id, status_id)
-VALUES (CONCAT(DATEADD('DAY', 1, CURRENT_DATE), ' 09:15:00'), CONCAT(DATEADD('DAY', 1, CURRENT_DATE), ' 09:00:00'), 3, 7, 1, 1);
+VALUES (
+  CONCAT(
+    DATEADD('DAY', CASE
+        WHEN DAY_OF_WEEK(DATEADD('DAY', 9, CURRENT_DATE)) IN (6, 7) THEN 12 ELSE 10  END, CURRENT_DATE),
+    ' 09:15:00' ),
+  CONCAT(
+    DATEADD('DAY', CASE
+        WHEN DAY_OF_WEEK(DATEADD('DAY', 9, CURRENT_DATE)) IN (6, 7) THEN 12 ELSE 10 END,CURRENT_DATE),
+    ' 09:00:00'),3, 7, 1, 1);
 
 INSERT INTO appointment (end_date, start_date, area_of_expertise_id, client_id, doctor_id, status_id)
-VALUES (CONCAT(DATEADD('DAY', 0, CURRENT_DATE), ' 10:15:00'), CONCAT(DATEADD('DAY', 0, CURRENT_DATE), ' 10:00:00'), 2, 8, 5, 1);
+VALUES (
+  CONCAT(
+    DATEADD('DAY', CASE
+        WHEN DAY_OF_WEEK(DATEADD('DAY', 9, CURRENT_DATE)) IN (6, 7) THEN 12 ELSE 9  END, CURRENT_DATE),
+    ' 11:15:00' ),
+  CONCAT(
+    DATEADD('DAY', CASE
+        WHEN DAY_OF_WEEK(DATEADD('DAY', 9, CURRENT_DATE)) IN (6, 7) THEN 12 ELSE 9 END,CURRENT_DATE),
+    ' 11:00:00'),3, 7, 1, 1);
+
+ INSERT INTO appointment (end_date, start_date, area_of_expertise_id, client_id, doctor_id, status_id)
+ VALUES (
+   CONCAT(
+     DATEADD('DAY', CASE
+         WHEN DAY_OF_WEEK(DATEADD('DAY', 9, CURRENT_DATE)) IN (6, 7) THEN 12 ELSE 10  END, CURRENT_DATE),
+     ' 10:15:00' ),
+   CONCAT(
+     DATEADD('DAY', CASE
+         WHEN DAY_OF_WEEK(DATEADD('DAY', 9, CURRENT_DATE)) IN (6, 7) THEN 12 ELSE 10 END,CURRENT_DATE),
+     ' 10:00:00'),2, 8, 5, 1);
 
 INSERT INTO appointment (end_date, start_date, area_of_expertise_id, client_id, doctor_id, status_id)
-VALUES (CONCAT(DATEADD('DAY', 13, CURRENT_DATE), ' 11:15:00'), CONCAT(DATEADD('DAY', 13, CURRENT_DATE), ' 11:00:00'), 3, 9, 2, 1);
+VALUES (
+  CONCAT(
+    DATEADD('DAY', CASE
+        WHEN DAY_OF_WEEK(DATEADD('DAY', 9, CURRENT_DATE)) IN (6, 7) THEN 12 ELSE 9  END, CURRENT_DATE),
+    ' 13:15:00' ),
+  CONCAT(
+    DATEADD('DAY', CASE
+        WHEN DAY_OF_WEEK(DATEADD('DAY', 9, CURRENT_DATE)) IN (6, 7) THEN 12 ELSE 9 END,CURRENT_DATE),
+    ' 13:00:00'),3, 10, 4, 1);
 
-INSERT INTO appointment (end_date, start_date, area_of_expertise_id, client_id, doctor_id, status_id)
-VALUES (CONCAT(DATEADD('DAY', 1, CURRENT_DATE), ' 11:30:00'), CONCAT(DATEADD('DAY', 1, CURRENT_DATE), ' 11:15:00'), 3, 10, 2, 1);
+    INSERT INTO appointment (end_date, start_date, area_of_expertise_id, client_id, doctor_id, status_id)
+    VALUES (
+      CONCAT(
+        DATEADD('DAY', CASE
+            WHEN DAY_OF_WEEK(DATEADD('DAY', 9, CURRENT_DATE)) IN (6, 7) THEN 12 ELSE 5  END, CURRENT_DATE),
+        ' 13:45:00' ),
+      CONCAT(
+        DATEADD('DAY', CASE
+            WHEN DAY_OF_WEEK(DATEADD('DAY', 9, CURRENT_DATE)) IN (6, 7) THEN 12 ELSE 5 END,CURRENT_DATE),
+        ' 13:30:00'),3, 8, 4, 1);
 
-INSERT INTO appointment (end_date, start_date, area_of_expertise_id, client_id, doctor_id, status_id)
-VALUES (CONCAT(DATEADD('DAY', 3, CURRENT_DATE), ' 11:15:00'), CONCAT(DATEADD('DAY', 3, CURRENT_DATE), ' 11:00:00'), 4,8, 5, 1);
+    INSERT INTO appointment (end_date, start_date, area_of_expertise_id, client_id, doctor_id, status_id)
+    VALUES (
+      CONCAT(
+        DATEADD('DAY', CASE
+            WHEN DAY_OF_WEEK(DATEADD('DAY', 9, CURRENT_DATE)) IN (6, 7) THEN 12 ELSE 5  END, CURRENT_DATE),
+        ' 14:45:00' ),
+      CONCAT(
+        DATEADD('DAY', CASE
+            WHEN DAY_OF_WEEK(DATEADD('DAY', 9, CURRENT_DATE)) IN (6, 7) THEN 12 ELSE 5 END,CURRENT_DATE),
+        ' 14:30:00'),4, 8, 4, 1);
+
+    INSERT INTO appointment (end_date, start_date, area_of_expertise_id, client_id, doctor_id, status_id)
+     VALUES (
+        CONCAT(
+          DATEADD('DAY', CASE
+             WHEN DAY_OF_WEEK(DATEADD('DAY', 9, CURRENT_DATE)) IN (6, 7) THEN 12 ELSE 5  END, CURRENT_DATE),
+          ' 15:45:00' ),
+        CONCAT(
+          DATEADD('DAY', CASE
+             WHEN DAY_OF_WEEK(DATEADD('DAY', 9, CURRENT_DATE)) IN (6, 7) THEN 12 ELSE 5 END,CURRENT_DATE),
+          ' 15:30:00'),4, 10, 4, 1);
+
+     INSERT INTO appointment (end_date, start_date, area_of_expertise_id, client_id, doctor_id, status_id)
+       VALUES (
+        CONCAT(
+          DATEADD('DAY', CASE
+            WHEN DAY_OF_WEEK(DATEADD('DAY', 1, CURRENT_DATE)) IN (6, 7) THEN 3 ELSE 5  END, CURRENT_DATE),
+        ' 16:45:00' ),
+        CONCAT(
+          DATEADD('DAY', CASE
+            WHEN DAY_OF_WEEK(DATEADD('DAY', 1, CURRENT_DATE)) IN (6, 7) THEN 3 ELSE 5 END,CURRENT_DATE),
+        ' 16:30:00'),4, 7, 5, 1);
+
+
+      INSERT INTO appointment (end_date, start_date, area_of_expertise_id, client_id, doctor_id, status_id)
+        VALUES (
+           CONCAT(
+             DATEADD('DAY', CASE
+                WHEN DAY_OF_WEEK(DATEADD('DAY', 1, CURRENT_DATE)) IN (6, 7) THEN 4 ELSE 6  END, CURRENT_DATE),
+             ' 11:45:00' ),
+           CONCAT(
+             DATEADD('DAY', CASE
+                WHEN DAY_OF_WEEK(DATEADD('DAY', 1, CURRENT_DATE)) IN (6, 7) THEN 4 ELSE 6 END,CURRENT_DATE),
+                   ' 11:30:00'),3, 11, 1, 1);
+  INSERT INTO appointment (end_date, start_date, area_of_expertise_id, client_id, doctor_id, status_id)
+        VALUES (
+           CONCAT(
+             DATEADD('DAY', CASE
+                WHEN DAY_OF_WEEK(DATEADD('DAY', 1, CURRENT_DATE)) IN (6, 7) THEN 4 ELSE 6  END, CURRENT_DATE),
+             ' 09:45:00' ),
+           CONCAT(
+             DATEADD('DAY', CASE
+                WHEN DAY_OF_WEEK(DATEADD('DAY', 1, CURRENT_DATE)) IN (6, 7) THEN 4 ELSE 6 END,CURRENT_DATE),
+                   ' 09:30:00'),3, 6, 4, 1);
+  INSERT INTO appointment (end_date, start_date, area_of_expertise_id, client_id, doctor_id, status_id)
+        VALUES (
+           CONCAT(
+             DATEADD('DAY', CASE
+                WHEN DAY_OF_WEEK(DATEADD('DAY', 3, CURRENT_DATE)) IN (6, 7) THEN 3 ELSE 6  END, CURRENT_DATE),
+             ' 11:45:00' ),
+           CONCAT(
+             DATEADD('DAY', CASE
+                WHEN DAY_OF_WEEK(DATEADD('DAY', 3, CURRENT_DATE)) IN (6, 7) THEN 3 ELSE 6 END,CURRENT_DATE),
+                   ' 11:30:00'),2, 6, 5, 1);
+
+  INSERT INTO appointment (end_date, start_date, area_of_expertise_id, client_id, doctor_id, status_id)
+        VALUES (
+           CONCAT(
+             DATEADD('DAY', CASE
+                WHEN DAY_OF_WEEK(DATEADD('DAY', 0, CURRENT_DATE)) IN (6, 7) THEN 4 ELSE 6  END, CURRENT_DATE),
+             ' 11:45:00' ),
+           CONCAT(
+             DATEADD('DAY', CASE
+                WHEN DAY_OF_WEEK(DATEADD('DAY', 0, CURRENT_DATE)) IN (6, 7) THEN 4 ELSE 6 END,CURRENT_DATE),
+                   ' 11:30:00'),2, 10, 6, 1);
