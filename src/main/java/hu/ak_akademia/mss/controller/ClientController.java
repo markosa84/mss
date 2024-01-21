@@ -1,9 +1,6 @@
 package hu.ak_akademia.mss.controller;
 
-import hu.ak_akademia.mss.dto.ClientRegistrationDto;
-import hu.ak_akademia.mss.dto.GenderDto;
-import hu.ak_akademia.mss.dto.LanguageDto;
-import hu.ak_akademia.mss.dto.UniqueEmailDto;
+import hu.ak_akademia.mss.dto.*;
 import hu.ak_akademia.mss.service.RegistrationService;
 import hu.ak_akademia.mss.service.RegistrationVerificationCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +37,15 @@ public class ClientController {
     public ResponseEntity<Collection<String>> registrationForm(@RequestBody ClientRegistrationDto registrationClient) {
         try {
             return registrationService.validateClientInRegistrationProcess(registrationClient);
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @PostMapping("/doctor")
+    public ResponseEntity<Collection<String>> registrationWithDoctor(@RequestBody DoctorRegistrationDto registrationDoctor) {
+        try {
+            return registrationService.validateDoctorInRegistrationProcess(registrationDoctor);
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }

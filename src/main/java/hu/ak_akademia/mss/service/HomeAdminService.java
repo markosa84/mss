@@ -84,4 +84,8 @@ public class HomeAdminService {
     public void deleteById(int id) {
         mssUserRepository.deleteById(id);
     }
+
+    public List<MssUser> getAll() {
+        return mssUserRepository.findAll();
+    }
 }

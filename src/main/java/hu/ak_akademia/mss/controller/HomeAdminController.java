@@ -2,6 +2,7 @@ package hu.ak_akademia.mss.controller;
 
 import hu.ak_akademia.mss.model.user.Client;
 import hu.ak_akademia.mss.model.user.Doctor;
+import hu.ak_akademia.mss.model.user.MssUser;
 import hu.ak_akademia.mss.service.HomeAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collections;
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/")
 public class HomeAdminController {
 
@@ -188,6 +189,13 @@ public class HomeAdminController {
         }
 
         return "home_admin";
+    }
+
+    @GetMapping("/getAll")
+    public String getAll(){
+        List<MssUser> users = adminService.getAll();
+        users.stream().forEach(u -> System.out.println(u.getFirstName() + " " + u.getLastName()));
+        return "működik";
     }
 
 

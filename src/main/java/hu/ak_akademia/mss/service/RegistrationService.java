@@ -1,6 +1,7 @@
 package hu.ak_akademia.mss.service;
 
 import hu.ak_akademia.mss.dto.ClientRegistrationDto;
+import hu.ak_akademia.mss.dto.DoctorRegistrationDto;
 import hu.ak_akademia.mss.dto.GenderDto;
 import hu.ak_akademia.mss.dto.LanguageDto;
 import hu.ak_akademia.mss.login_security_service.PasswordEncryption;
@@ -80,6 +81,19 @@ public class RegistrationService {
         return ResponseEntity.ok(clientValidator.getValidatorErrorList().values());
     }
 
+    public ResponseEntity<Collection<String>> validateDoctorInRegistrationProcess(DoctorRegistrationDto RegDoctor) throws MessagingException {
+        var doctor = mappingRegDoctorToMssUserClient(RegDoctor);
+        var doctorValidator = new CompositeDoctorValidator(mssUserRepository);
+        doctorValidator.validate(doctor);
+        if (doctorValidator.getValidatorErrorList().isEmpty()) {
+            encryptPassword(doctor);
+            save(doctor);
+            registrationVerificationService.performRegistrationVerification(doctor);
+            return ResponseEntity.ok().body(Collections.emptyList());
+        }
+        return ResponseEntity.ok(doctorValidator.getValidatorErrorList().values());
+    }
+
     private Client mappingRegClientToMssUserClient(ClientRegistrationDto regClient) {
         var client = new Client();
         client.setEmail(regClient.getEmail());
@@ -97,6 +111,22 @@ public class RegistrationService {
         client.setRoles("ROLE_CLIENT");
         client.setPhoneNumber(regClient.getPhoneNumber());
         return client;
+    }
+
+    private Doctor mappingRegDoctorToMssUserClient(DoctorRegistrationDto regDoctor) {
+        var doctor = new Doctor();
+        doctor.setEmail(regDoctor.getEmail());
+        doctor.setPassword(regDoctor.getPassword());
+        doctor.setActive(false);
+        doctor.setRegistrationDate(LocalDateTime.now());
+        doctor.setFirstName(regDoctor.getFirstName());
+        doctor.setLastName(regDoctor.getLastName());
+        doctor.setLanguages(getLanguages(regDoctor.getLanguageId()));
+        doctor.setAreaOfExpertise(getAreaOfExpertises(regDoctor.getAreaOfExpertiseId()));
+        doctor.setGender(regDoctor.getGenderId());
+        doctor.setRoles("ROLE_DOCTOR");
+        doctor.setPhoneNumber(regDoctor.getPhoneNumber());
+        return doctor;
     }
 
     private List<Language> getLanguages(List<Integer> languageId) {
@@ -118,6 +148,10 @@ public class RegistrationService {
 
     public List<AreaOfExpertise> getAllAreaOfExpertises() {
         return areaOfExpertiseRepository.findAll();
+    }
+
+    public List<AreaOfExpertise> getAreaOfExpertises(List<Integer> areaOfExpertiseId){
+        return areaOfExpertiseRepository.findAllById(areaOfExpertiseId);
     }
 
     public List<Language> getLanguages() {
