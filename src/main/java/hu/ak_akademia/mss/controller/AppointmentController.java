@@ -168,13 +168,11 @@ public class AppointmentController {
 
 
 
-
+//csak a szakirány.Id je jön paraméterként, javitva Balász kérésére
     @PostMapping("/getAppointments")
-    public ResponseEntity<List<AppointmentDto>> getAppointments(@RequestParam(name = "specialtyId") int specialtyId,
-
-                                                                @RequestParam(name = "doctorId") List<Integer> doctorIds) {
-        // Adatbázisból történő lekérdezés a specialtyId és doctorIds alapján
-        List<AppointmentDto> appointments = appointmentService.getAppointmentsBySpecialtyAndDoctors(specialtyId, doctorIds);
+    public ResponseEntity<List<AppointmentDto>> getAppointments(@RequestParam(name = "specialtyId") int specialtyId) {
+        // Adatbázisból történő lekérdezés a specialtyId és
+        List<AppointmentDto> appointments = appointmentService.getAppointmentsBySpecialtyAndDoctors(specialtyId);
         // Visszaadhatod a megfelelő választ a kliensnek
         return ResponseEntity.ok(appointments);
     }

@@ -15,7 +15,7 @@ public class DoctorService {
     @Autowired
     private MSSUserRepository mssUserRepository;
 
-    private List<MssUser> findDoctorsByAreaOfExpertise(int areaId) {
+   private  List<MssUser> findDoctorsByAreaOfExpertise(int areaId) {
         return mssUserRepository.findDoctorsByAreaOfExpertise(areaId);
     }
 
@@ -33,4 +33,19 @@ public class DoctorService {
         //        .collect(Collectors.toList());
         return doctorDtos;
     }
+    public List<Integer> getDoctorIdsByAreaOfExpertise(int areaId) {
+        List<MssUser> doctors = findDoctorsByAreaOfExpertise(areaId);
+        List<Integer> doctorIds = new ArrayList<>();
+
+        for (MssUser doctor : doctors) {
+            doctorIds.add(doctor.getUserId());
+        }
+        // rövidített változata:
+        // List<Integer> doctorIds = doctors.stream()
+        //         .map(MssUser::getUserId)
+        //         .collect(Collectors.toList());
+
+        return doctorIds;
+    }
+
 }

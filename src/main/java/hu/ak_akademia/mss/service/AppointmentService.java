@@ -62,6 +62,7 @@ public class AppointmentService {
     private  AreaOfExpertiseRepository areaOfExpertiseRepository;
 
     private  AppointmentStatusRepository appointmentStatusRepository;
+    private DoctorService doctorService;
 
     private AreaOfExpertise getAreaOfExpertise(int specialtyId) {
     return null;
@@ -287,13 +288,13 @@ public class AppointmentService {
     }
 
 // Csaba dolgai
-public List<AppointmentDto> getAppointmentsBySpecialtyAndDoctors(int specialtyId, List<Integer> doctorIds) {
+public List<AppointmentDto> getAppointmentsBySpecialtyAndDoctors(int specialtyId) {
     DoctorsSchedule scheduleService = new DoctorsSchedule();
     scheduleService.setWorkingHoursService(doctorsWorkingHoursService);
     scheduleService.setAreaOfExpertise(getAreaOfExpertise(specialtyId));
     List<Slot> generatedSlots = scheduleService.generateSlots();
-
-
+// orvook listája a szakirányok alapján itt kell elkésziteni
+ List<Integer> doctorIds = doctorService.getDoctorIdsByAreaOfExpertise( specialtyId);
 
     List<Appointment> appointmentsFromDatabase = appointmentRepository.getAppointmentsByDateAndAreaModefied(
             LocalDateTime.now(), LocalDateTime.now().plusDays(endDateOffset), specialtyId);
