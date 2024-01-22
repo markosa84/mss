@@ -17,7 +17,7 @@ public class ClientRegistrationDto implements Serializable {
     private LocalDate dateOfBirth;
     private String placeOfBirth;
     private String mothersName;
-    private String TAJNumber;
+    private String tajNumber;
 
 
     public ClientRegistrationDto() {
@@ -103,12 +103,12 @@ public class ClientRegistrationDto implements Serializable {
         this.mothersName = mothersName;
     }
 
-    public String getTAJNumber() {
-        return TAJNumber;
+    public String getTajNumber() {
+        return tajNumber;
     }
 
-    public void setTAJNumber(String TAJNumber) {
-        this.TAJNumber = TAJNumber;
+    public void setTajNumber(String tajNumber) {
+        this.tajNumber = tajNumber;
     }
 
     @Override
@@ -124,7 +124,7 @@ public class ClientRegistrationDto implements Serializable {
                 .add("dateOfBirth=" + dateOfBirth)
                 .add("placeOfBirth='" + placeOfBirth + "'")
                 .add("mothersName='" + mothersName + "'")
-                .add("TAJNumber='" + TAJNumber + "'")
+                .add("tajNumber='" + tajNumber + "'")
                 .toString();
     }
 }

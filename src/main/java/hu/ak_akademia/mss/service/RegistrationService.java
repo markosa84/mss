@@ -78,7 +78,7 @@ public class RegistrationService {
             registrationVerificationService.performRegistrationVerification(client);
             return ResponseEntity.ok().body(Collections.emptyList());
         }
-        return ResponseEntity.ok(clientValidator.getValidatorErrorList().values());
+        return ResponseEntity.status(403).body(clientValidator.getValidatorErrorList().values());
     }
 
     public ResponseEntity<Collection<String>> validateDoctorInRegistrationProcess(DoctorRegistrationDto RegDoctor) throws MessagingException {
@@ -91,7 +91,7 @@ public class RegistrationService {
             registrationVerificationService.performRegistrationVerification(doctor);
             return ResponseEntity.ok().body(Collections.emptyList());
         }
-        return ResponseEntity.ok(doctorValidator.getValidatorErrorList().values());
+        return  ResponseEntity.status(403).body(doctorValidator.getValidatorErrorList().values());
     }
 
     private Client mappingRegClientToMssUserClient(ClientRegistrationDto regClient) {
@@ -103,7 +103,7 @@ public class RegistrationService {
         client.setDateOfBirth(regClient.getDateOfBirth());
         client.setMothersName(regClient.getMothersName());
         client.setPlaceOfBirth(regClient.getPlaceOfBirth());
-        client.setTAJNumber(regClient.getTAJNumber());
+        client.setTAJNumber(regClient.getTajNumber());
         client.setFirstName(regClient.getFirstName());
         client.setLastName(regClient.getLastName());
         client.setLanguages(getLanguages(regClient.getLanguageId()));
@@ -150,7 +150,7 @@ public class RegistrationService {
         return areaOfExpertiseRepository.findAll();
     }
 
-    public List<AreaOfExpertise> getAreaOfExpertises(List<Integer> areaOfExpertiseId){
+    public List<AreaOfExpertise> getAreaOfExpertises(List<Integer> areaOfExpertiseId) {
         return areaOfExpertiseRepository.findAllById(areaOfExpertiseId);
     }
 
