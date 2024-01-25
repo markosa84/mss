@@ -16,8 +16,11 @@ public class DoctorService {
     private MSSUserRepository mssUserRepository;
 
    private  List<MssUser> findDoctorsByAreaOfExpertise(int areaId) {
-        return mssUserRepository.findDoctorsByAreaOfExpertise(areaId);
-    }
+
+       List<MssUser> doctorsByAreaOfExpertise = mssUserRepository.findDoctorsByAreaOfExpertise(areaId);
+       System.out.println("a lista mérete" + doctorsByAreaOfExpertise.size());
+       return doctorsByAreaOfExpertise;
+   }
 
     //Előállitsa a doktorDto-t
     public List<DoctorForAreaOfExpertiseDto> getDoctorDtosByAreaOfExpertise(int areaId) {

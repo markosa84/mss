@@ -65,7 +65,13 @@ public class AppointmentService {
     private DoctorService doctorService;
 
     private AreaOfExpertise getAreaOfExpertise(int specialtyId) {
-    return null;
+
+        Optional<AreaOfExpertise> byId = areaOfExpertiseRepository.findById(specialtyId);
+        if (byId.isPresent()){
+            return byId.get();
+        } else {
+            return null;
+        }
     }
  private  AreaOfExpertise areaOfExpertise;
     @Autowired
@@ -73,13 +79,15 @@ public class AppointmentService {
                               MSSUserRepository mssUserRepository,
                               AreaOfExpertiseRepository areaOfExpertiseRepository,
                               AppointmentStatusRepository appointmentStatusRepository,
-                                DoctorsWorkingHoursService doctorsWorkingHoursService
+                                DoctorsWorkingHoursService doctorsWorkingHoursService,
+                              DoctorService doctorService
     ) {
         this.appointmentRepository = appointmentRepository;
         this.mssUserRepository = mssUserRepository;
         this.areaOfExpertiseRepository = areaOfExpertiseRepository;
         this.appointmentStatusRepository = appointmentStatusRepository;
         this.doctorsWorkingHoursService = doctorsWorkingHoursService;
+        this.doctorService = doctorService;
     }
 
 
@@ -291,10 +299,13 @@ public class AppointmentService {
 public List<AppointmentDto> getAppointmentsBySpecialtyAndDoctors(int specialtyId) {
     DoctorsSchedule scheduleService = new DoctorsSchedule();
     scheduleService.setWorkingHoursService(doctorsWorkingHoursService);
+    System.out.println(specialtyId);
+
     scheduleService.setAreaOfExpertise(getAreaOfExpertise(specialtyId));
+
     List<Slot> generatedSlots = scheduleService.generateSlots();
 // orvook listája a szakirányok alapján itt kell elkésziteni
- List<Integer> doctorIds = doctorService.getDoctorIdsByAreaOfExpertise( specialtyId);
+ List<Integer> doctorIds = doctorService.getDoctorIdsByAreaOfExpertise(specialtyId);
 
     List<Appointment> appointmentsFromDatabase = appointmentRepository.getAppointmentsByDateAndAreaModefied(
             LocalDateTime.now(), LocalDateTime.now().plusDays(endDateOffset), specialtyId);
