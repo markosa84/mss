@@ -19,6 +19,8 @@ import RequireAuth from "./layouts/RequireAuth";
 import RequireLogin from "./layouts/RequireLogin";
 import Unauthorized from "./pages/unauthorized";
 import StartingPage from "./pages/StartingPage";
+import { ActivationEmailSent } from "./pages/ActivationEmailSent";
+import Activate from "./pages/Activate";
 
 export default function App() {
   return (
@@ -29,6 +31,9 @@ export default function App() {
             <Route index element={<StartingPage />}></Route>
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
+            <Route path="email-sent" element={<ActivationEmailSent />} />
+            <Route path="activate" element={<Activate />} />
+
             <Route element={<RequireLogin />}>
               <Route path="dashboard" element={<ClientLayout />}>
                 <Route index element={<WelcomePage />} />

@@ -21,35 +21,61 @@ export const AppointmentProvider = ({ children }) => {
   const [selectedDoctorIds, setSelectedDoctorIds] = useState([]);
   const [selectedAppointment, setSelectedAppointment] = useState();
 
+  console.log(selectedDepartmentId);
   // Date and time picker date initialization
   useEffect(() => {
     if (selectedDepartmentId) {
       const fetchData = async () => {
         console.log(selectedDepartmentId);
+
         let endpoints = [
-          "/dummyDb/doctorsCardiology.json",
-          "/dummyDb/allUnavailableTimeSlotsSmall.json",
-          "/dummyDb/dailySchedule.json",
+          // "/dummyDb/doctorsCardiology.json",
+          // "/dummyDb/allUnavailableTimeSlotsSmall.json",
+          // "/dummyDb/dailySchedule.json",
+          `/doctors/area-of-expertise/${selectedDepartmentId}`,
+          `/appointment/getAppointments?specialtyId=${selectedDepartmentId}`,
+          `/slots/${selectedDepartmentId}`,
         ];
         try {
-          const apiDoctorRes = await axios1.get(
-            `/doctors/area-of-expertise/${selectedDepartmentId}`,
-            {
-              headers: { Authorization: auth.accessToken },
-            }
-          );
-          console.log(apiDoctorRes.data);
-          const [doctors, unavailableSlots, schedule] = await Promise.all(
-            endpoints.map((endpoint) => axios.get(endpoint))
-          );
-          setDepartmentDoctors(apiDoctorRes.data);
-          setSelectedDoctorIds(
-            apiDoctorRes.data.map((doctor) => doctor.doctorId)
-          );
-          // setDepartmentDoctors(apiDoctorRes.data);
-          // setSelectedDoctorIds(
-          //   apiDoctorRes.data.map((doctor) => doctor.doctorId)
+          // Setting up department doctors
+          // const doctorsResp = await axios1.get(
+          //   `/doctors/area-of-expertise/${selectedDepartmentId}`,
+          //   {
+          //     headers: { Authorization: auth.accessToken },
+          //   }
           // );
+
+          // setDepartmentDoctors(doctorsResp.data);
+          // setSelectedDoctorIds(
+          //   doctorsResp.data.map((doctor) => doctor.doctorId)
+          // );
+
+          // Setting up schedule and unavailable slots
+          // const scheduleResp = axios1.get(`/slots/${selectedDepartmentId}`, {
+          //   headers: { Authorization: auth.accessToken },
+          // });
+          // const deptDocIds = JSON.stringify(
+          //   doctorsResp.data.map((d) => d.doctorId)
+          // );
+          // const unavailableSlots = axios1.get(
+          //   `/appointment/getAppointments?specialtyId=${selectedDepartmentId}&doctorId=1`,
+          //   {
+          //     headers: { Authorization: auth.accessToken },
+          //   }
+          // );
+          // setDailySchedule(await scheduleResp.data);
+          // setDailySchedule(await unavailableSlots);
+
+          // Setting it up together
+          const [doctors, unavailableSlots, schedule] = await Promise.all(
+            endpoints.map((endpoint) =>
+              axios1.get(endpoint, {
+                headers: { Authorization: auth.accessToken },
+              })
+            )
+          );
+          setDepartmentDoctors(doctors.data);
+          setSelectedDoctorIds(doctors.data.map((doctor) => doctor.doctorId));
           setDailyUnavaliableSlots(unavailableSlots.data);
           setDailySchedule(schedule.data);
         } catch (error) {
@@ -65,6 +91,7 @@ export const AppointmentProvider = ({ children }) => {
   useEffect(() => {
     setSelectedDate(getFirstAvailableDate());
   }, [dailyUnavailableSlots, selectedDoctorIds]);
+
   let disabledDateStrings = [];
   if (dailyUnavailableSlots && selectedDoctorIds.length > 0) {
     const disabledDays = dailyUnavailableSlots.filter((day) => {
@@ -84,8 +111,8 @@ export const AppointmentProvider = ({ children }) => {
     });
     disabledDateStrings = disabledDays.map((dayObj) => dayObj.date);
   }
-  console.log(selectedDoctorIds);
-  console.log(disabledDateStrings);
+  // console.log(selectedDoctorIds);
+  // console.log(disabledDateStrings);
 
   function getFirstAvailableDate() {
     let candidateDate = new Date();

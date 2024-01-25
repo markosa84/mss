@@ -3,10 +3,18 @@ import { useForm } from "react-hook-form";
 import { FormControl } from "../components/FormControl";
 import { DevTool } from "@hookform/devtools";
 import { axios1 } from "../api/axios";
-import axios from "axios";
 import { addYears, format } from "date-fns";
+import { useNavigate } from "react-router-dom";
+import {
+  dateOfBirthValidator,
+  emailValidator,
+  firstnameValidator,
+  lastnameValidator,
+  passwordValidator,
+} from "../utils/validators";
 
 export const Register = () => {
+  const navigate = useNavigate();
   const [genders, setGenders] = useState([]);
   const [languages, setLanguages] = useState([]);
   const {
@@ -30,18 +38,25 @@ export const Register = () => {
       placeOfBirth: "",
       language: "",
       phoneNumber: "",
-      TAJNumber: "",
+      tajNumber: "",
     },
     mode: "onTouched",
   });
 
+  console.log(languages);
+
   useEffect(() => {
     async function fetchChoices() {
+      const baseUrl = "/register";
+      const urls = [`${baseUrl}/genders`, `${baseUrl}/languages`];
+
       try {
-        const response = await axios1.get("/register");
-        setGenders(response.data.gendersDto);
-        setLanguages(response.data.languagesDto);
-        setValue("language", response.data.languagesDto[0].language);
+        const [genders, languages] = await Promise.all(
+          urls.map((url) => axios1.get(url))
+        );
+        setGenders(genders.data);
+        setLanguages(languages.data);
+        setValue("language", languages.data[0].language);
       } catch (error) {
         console.log(error);
       }
@@ -49,11 +64,21 @@ export const Register = () => {
     fetchChoices();
   }, []);
 
-  async function onSubmit({ confirmPassword, ...rest }) {
+  async function onSubmit({ confirmPassword, gender, language, ...rest }) {
+    rest.firstName = rest.firstName
+      .trim()
+      .replace(/\s+/, " ")
+      .toLowerCase()
+      .replace(/\b\w/g, (match) => match.toUpperCase());
+    rest.genderId = genders.find((gen) => gen.gender === gender).genderId;
+    rest.languageId = [
+      languages.find((lan) => lan.language === language).languageId,
+    ];
     console.log(rest);
     try {
       const response = await axios1.post("/register/client", rest);
       console.log(response);
+      navigate("../email-sent");
     } catch (error) {
       console.log(error);
     }
@@ -71,21 +96,7 @@ export const Register = () => {
           <input
             type="text"
             id="firstName"
-            {...register("firstName", {
-              required: {
-                value: true,
-                message: "First name is required!",
-              },
-              minLength: {
-                value: 2,
-                message: "First name cannot be shorter than 2 letters!",
-              },
-              pattern: {
-                value: /^[A-ZÁÉÍÓÖŐÚÜŰ][a-záéíóöőúüű]+$/,
-                message:
-                  "First name must start with a capital letter and can only contain letters!",
-              },
-            })}
+            {...register("firstName", firstnameValidator)}
           />
           <p className="error-msg">{errors.firstName?.message}</p>
         </FormControl>
@@ -95,21 +106,7 @@ export const Register = () => {
           <input
             type="text"
             id="lastName"
-            {...register("lastName", {
-              required: {
-                value: true,
-                message: "Last name is required!",
-              },
-              minLength: {
-                value: 2,
-                message: "Last name cannot be shorter than 2 letters!",
-              },
-              pattern: {
-                value: /^[A-ZÁÉÍÓÖŐÚÜŰ][a-záéíóöőúüű]+$/,
-                message:
-                  "Last name must start with a capital letter and can only contain letters!",
-              },
-            })}
+            {...register("lastName", lastnameValidator)}
           />
           <p className="error-msg">{errors.lastName?.message}</p>
         </FormControl>
@@ -118,7 +115,6 @@ export const Register = () => {
           <label htmlFor="gender">Gender</label>
           <select
             id="gender"
-            value={getValues("gender")}
             {...register("gender", {
               required: {
                 value: true,
@@ -141,18 +137,7 @@ export const Register = () => {
           <input
             type="date"
             id="dob"
-            {...register("dateOfBirth", {
-              onChange: (e) => console.log(getValues("dateOfBirth")),
-              required: {
-                value: true,
-                message: "Date of birth is required for registration!",
-              },
-              max: {
-                value: format(addYears(new Date(), -18), "yyyy-MM-dd"),
-                message:
-                  "Only adult clients can use the services of the clinic!",
-              },
-            })}
+            {...register("dateOfBirth", dateOfBirthValidator)}
           />
           <p className="error-msg">{errors.dateOfBirth?.message}</p>
         </FormControl>
@@ -189,11 +174,7 @@ export const Register = () => {
 
         <FormControl>
           <label htmlFor="language">Preferred language</label>
-          <select
-            id="language"
-            value={getValues("language")}
-            {...register("language")}
-          >
+          <select id="language" {...register("language")}>
             {languages.map((language) => (
               <option key={language.languageId} value={language.language}>
                 {language.language}
@@ -223,11 +204,11 @@ export const Register = () => {
         </FormControl>
 
         <FormControl>
-          <label htmlFor="TAJNumber">Social Security Code (TAJ)</label>
+          <label htmlFor="tajNumber">Social Security Code (TAJ)</label>
           <input
             type="tel"
-            id="TAJNumber"
-            {...register("TAJNumber", {
+            id="tajNumber"
+            {...register("tajNumber", {
               required: {
                 value: true,
                 message:
@@ -239,7 +220,7 @@ export const Register = () => {
               },
             })}
           />
-          <p className="error-msg">{errors.TAJNumber?.message}</p>
+          <p className="error-msg">{errors.tajNumber?.message}</p>
         </FormControl>
 
         <FormControl>
@@ -247,17 +228,7 @@ export const Register = () => {
           <input
             type="text"
             id="email"
-            {...register("email", {
-              required: {
-                value: true,
-                message: "Email is required for registration!",
-              },
-              pattern: {
-                value:
-                  /^([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z]{2,7})$/,
-                message: "Email format is incorrect",
-              },
-            })}
+            {...register("email", emailValidator)}
           />
           <p className="error-msg">{errors.email?.message}</p>
         </FormControl>
@@ -267,16 +238,7 @@ export const Register = () => {
           <input
             type="password"
             id="password"
-            {...register("password", {
-              onChange: () => {
-                if (getValues("confirmPassword") !== "")
-                  trigger("confirmPassword");
-              },
-              required: {
-                value: true,
-                message: "Password is required for login",
-              },
-            })}
+            {...register("password", passwordValidator)}
           />
           <p className="error-msg">{errors.password?.message}</p>
         </FormControl>
@@ -300,7 +262,7 @@ export const Register = () => {
         </FormControl>
 
         <button disabled={!isDirty || !isValid} className="submit-btn">
-          Log in
+          Register
         </button>
       </form>
       <DevTool control={control} />

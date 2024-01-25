@@ -5,6 +5,8 @@ import { useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../Context/useAuth";
+import { af } from "date-fns/locale";
+import { emailValidator, passwordValidator } from "../utils/validators";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -33,6 +35,7 @@ export const Login = () => {
       const res = await axios1.post("/login", { username: email, password });
       console.log("Zseniális!!! Megvan a user!");
       console.log("User: ", res);
+      console.log(res.headers.authorization);
       setAuth({
         username: email,
         password,
@@ -56,17 +59,7 @@ export const Login = () => {
           <input
             type="text"
             id="email"
-            {...register("email", {
-              required: {
-                value: true,
-                message: "Email is required for login",
-              },
-              pattern: {
-                value:
-                  /^([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z]{2,7})$/,
-                message: "Email format is incorrect",
-              },
-            })}
+            {...register("email", emailValidator)}
           />
           <p className="error-msg">{errors.email?.message}</p>
         </FormControl>
@@ -74,14 +67,9 @@ export const Login = () => {
         <FormControl>
           <label htmlFor="password">Password</label>
           <input
-            type="password"
+            type="text"
             id="password"
-            {...register("password", {
-              required: {
-                value: true,
-                message: "Password is required for login",
-              },
-            })}
+            {...register("password", passwordValidator)}
           />
           <p className="error-msg">{errors.password?.message}</p>
         </FormControl>
