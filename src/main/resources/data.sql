@@ -392,3 +392,14 @@ VALUES (
              DATEADD('DAY', CASE
                 WHEN DAY_OF_WEEK(DATEADD('DAY', 0, CURRENT_DATE)) IN (6, 7) THEN 4 ELSE 6 END,CURRENT_DATE),
                    ' 11:30:00'),2, 10, 6, 1);
+
+  INSERT INTO appointment (end_date, start_date, area_of_expertise_id, client_id, doctor_id, status_id)
+        VALUES (
+         CONCAT(
+             DATEADD('DAY', CASE
+             WHEN DAY_OF_WEEK(DATEADD('DAY', 0, CURRENT_DATE)) IN (6, 7) THEN 4 ELSE 6  END, CURRENT_DATE),
+           ' 12:45:00' ),
+          CONCAT(
+            DATEADD('DAY', CASE
+               WHEN DAY_OF_WEEK(DATEADD('DAY', 0, CURRENT_DATE)) IN (6, 7) THEN 4 ELSE 6 END,CURRENT_DATE),
+                 ' 12:30:00'),2, 10, 6, 1);

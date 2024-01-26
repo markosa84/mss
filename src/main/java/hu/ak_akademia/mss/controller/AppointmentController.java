@@ -172,6 +172,8 @@ public class AppointmentController {
     public ResponseEntity<List<AppointmentDto>> getAppointments(@RequestParam(name = "specialtyId") int specialtyId) {
         // Adatbázisból történő lekérdezés a specialtyId és
         List<AppointmentDto> appointments = appointmentService.getAppointmentsBySpecialtyAndDoctors(specialtyId);
+
+
         // Visszaadhatod a megfelelő választ a kliensnek
         return ResponseEntity.ok(appointments);
     }
