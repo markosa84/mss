@@ -65,35 +65,20 @@ public class AppointmentController {
 
     @PreAuthorize("#authentication.name == #payload['clientEmail'] or hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_ASSISTANT')")
     @GetMapping("/get/client")
-    public ResponseEntity<List<AppointmentDetailsDTO>> getAppointmentsByClient(@RequestBody  Map<String, String> payload, Authentication authentication){
+    public ResponseEntity<List<AppointmentDetailsDTO>> getAppointmentsByClient(@RequestParam int clientId, Authentication authentication) {
         HttpHeaders httpHeaders = new HttpHeaders();
-        if (!payload.containsKey("clientId")){
-            httpHeaders.add("info", "client email param can not be a null, ot empty string!");
-            return ResponseEntity.status(400).headers(httpHeaders).body(null);
-        }
-
-        int clientId = Integer.parseInt(payload.get("clientId"));
         return appointmentService.getAppointmentByClient(clientId);
-        }
+    }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/get/doctors")
-    public ResponseEntity<List<AppointmentDetailsDTO>> getAppointmentsByDoctors(@RequestBody List<Integer> doctorsIds, @RequestBody Map<String,String> payload) {
-        if (!payload.containsKey("startDate") || !payload.containsKey("endDate")){
-            HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.add("info", "startDate or endDate Param is missing!");
-            return ResponseEntity.status(400).headers(httpHeaders).body(null);
-        }
+    public ResponseEntity<List<AppointmentDetailsDTO>> getAppointmentsByDoctors(@RequestParam List<Integer> doctorsIds, @RequestParam String startDate, @RequestParam String endDate) {
 
         HttpHeaders httpHeaders = new HttpHeaders();
         try {
-            LocalDate startDate = LocalDate.parse(payload.get("startDate"), dateFormatter);
-            LocalDate endDate = LocalDate.parse(payload.get("endDate"), dateFormatter);
-
-            return ResponseEntity.status(200).body(appointmentService.getAppointmentsByDoctors(doctorsIds, startDate, endDate));
-
-            //List<AppointmentDetailsDTO> appointmentDTO = appointmentService.getAppointmentsByDoctors(doctorsIds);
-            //return ResponseEntity.status(200).body(appointmentDTO);
+            LocalDate stDate = LocalDate.parse(startDate, dateFormatter);
+            LocalDate enDate = LocalDate.parse(endDate, dateFormatter);
+            return ResponseEntity.status(200).body(appointmentService.getAppointmentsByDoctors(doctorsIds, stDate, enDate));
         } catch (DateTimeParseException e) {
             httpHeaders.add("info", "You entered the wrong date format!! Try the Date in this format: yyyy-MM-dd, and the times in this format: HH:mm:ss!!");
             return new ResponseEntity<>(null, httpHeaders, HttpStatus.valueOf(400));
@@ -102,20 +87,14 @@ public class AppointmentController {
 
     @PreAuthorize("#authentication.name == #payload['doctorEmail'] or hasAuthority('ROLE_ADMIN')")
     @GetMapping("/get/doctor")
-    public ResponseEntity<List<AppointmentDetailsDTO>> getAppointmentsByDoctor(@RequestBody Map<String,String> payload, Authentication authentication){
+    public ResponseEntity<List<AppointmentDetailsDTO>> getAppointmentsByDoctor(@RequestParam int doctorId, @RequestParam String startDate, @RequestParam String endDate, Authentication authentication) {
         HttpHeaders httpHeaders = new HttpHeaders();
 
-        if (!payload.containsKey("doctorId")){
-            httpHeaders.add("info", "client email param can not be a null, ot empty string!");
-            return ResponseEntity.status(400).headers(httpHeaders).body(null);
-        }
-
         try {
-            LocalDate startDate = LocalDate.parse(payload.get("startDate"), dateFormatter);
-            LocalDate endDate = LocalDate.parse(payload.get("endDate"), dateFormatter);
-            int doctorId = Integer.parseInt(payload.get("doctorId"));
-            return appointmentService.getAppointmentsByDoctor(doctorId, startDate, endDate);
-        }  catch (DateTimeParseException e) {
+            LocalDate stDate = LocalDate.parse(startDate, dateFormatter);
+            LocalDate enDate = LocalDate.parse(endDate, dateFormatter);
+            return appointmentService.getAppointmentsByDoctor(doctorId, stDate, enDate);
+        } catch (DateTimeParseException e) {
             httpHeaders.add("info", "You entered the wrong date format!! Try the Date in this format: yyyy-MM-dd, and the times in this format: HH:mm:ss!!");
             return new ResponseEntity<>(null, httpHeaders, HttpStatus.valueOf(400));
         }
@@ -123,47 +102,37 @@ public class AppointmentController {
 
     @PreAuthorize("hasAuthority('ROLE_CLIENT') or hasAuthority('ROLE_DOCTOR') or hasAuthority('ROLE_ADMIN')")
     @GetMapping("/delete/doctor")
-    public ResponseEntity<List<AppointmentDetailsDTO>> deleteByIdWithDoctor(@RequestParam int id, Authentication authentication){
+    public ResponseEntity<String> deleteByIdWithDoctor(@RequestParam int id, Authentication authentication) {
         String userEmail = authentication.getName();
         HttpHeaders httpHeaders = new HttpHeaders();
-        Map<String, String> payload = new HashMap<>();
 
-            ResponseEntity response = appointmentService.deleteAppointmentByIdWithDoctor(id, userEmail);
-            if (response.getStatusCode().value() != 200){
-                httpHeaders.add("info", (String) response.getBody());
-                return ResponseEntity.status(response.getStatusCode()).headers(httpHeaders).body(null);
-            } else {
-                payload.put("doctorEmail", userEmail);
-                return getAppointmentsByDoctor(payload ,authentication);
-            }
+        ResponseEntity response = appointmentService.deleteAppointmentByIdWithDoctor(id, userEmail);
+
+        httpHeaders.add("info", (String) response.getBody());
+        return ResponseEntity.status(response.getStatusCode()).headers(httpHeaders).body(null);
     }
 
     @PreAuthorize("hasAuthority('ROLE_CLIENT') or hasAuthority('ROLE_ADMIN')")
     @GetMapping("/delete/byClient")
-    public ResponseEntity<List<AppointmentDetailsDTO>> deleteByIdWithClient(@RequestParam int id, Authentication authentication) {
+    public ResponseEntity<String> deleteByIdWithClient(@RequestParam int id, Authentication authentication) {
         HttpHeaders httpHeaders = new HttpHeaders();
         Map<String, String> payload = new HashMap<>();
         String userEmail = authentication.getName();
 
         ResponseEntity response = appointmentService.deleteAppointmentByIdWithClient(id, userEmail);
 
-        if (response.getStatusCode().value() != 200) {
-            httpHeaders.add("info", (String) response.getBody());
-            return ResponseEntity.status(response.getStatusCode()).headers(httpHeaders).body(null);
-        }else {
-            payload.put("clientEmail", userEmail);
-            return getAppointmentsByClient(payload ,authentication);
-        }
+        httpHeaders.add("info", (String) response.getBody());
+        return ResponseEntity.status(response.getStatusCode()).headers(httpHeaders).body(null);
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/delete/admin")
-    public ResponseEntity<List<AppointmentDetailsDTO>> deleteByIdWithAdmin(@RequestParam int id){
+    public ResponseEntity<List<AppointmentDetailsDTO>> deleteByIdWithAdmin(@RequestParam int id) {
         HttpHeaders httpHeaders = new HttpHeaders();
 
         ResponseEntity response = appointmentService.deleteAppointmentById(id);
-            httpHeaders.add("info", (String) response.getBody());
-            return ResponseEntity.status(response.getStatusCode()).headers(httpHeaders).body(null);
+        httpHeaders.add("info", (String) response.getBody());
+        return ResponseEntity.status(response.getStatusCode()).headers(httpHeaders).body(null);
     }
 
 
@@ -172,7 +141,6 @@ public class AppointmentController {
     public ResponseEntity<List<AppointmentDto>> getAppointments(@RequestParam(name = "specialtyId") int specialtyId) {
         // Adatbázisból történő lekérdezés a specialtyId és
         List<AppointmentDto> appointments = appointmentService.getAppointmentsBySpecialtyAndDoctors(specialtyId);
-
 
         // Visszaadhatod a megfelelő választ a kliensnek
         return ResponseEntity.ok(appointments);
