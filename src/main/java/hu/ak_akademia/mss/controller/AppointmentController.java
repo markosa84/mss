@@ -63,10 +63,9 @@ public class AppointmentController {
         }
     }
 
-    @PreAuthorize("#authentication.name == #payload['clientEmail'] or hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_ASSISTANT')")
+    @PreAuthorize("hasAuthority('ROLE_CLIENT') or hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_ASSISTANT')")
     @GetMapping("/get/client")
     public ResponseEntity<List<AppointmentDetailsDTO>> getAppointmentsByClient(@RequestParam int clientId, Authentication authentication) {
-        HttpHeaders httpHeaders = new HttpHeaders();
         return appointmentService.getAppointmentByClient(clientId);
     }
 
@@ -85,7 +84,7 @@ public class AppointmentController {
         }
     }
 
-    @PreAuthorize("#authentication.name == #payload['doctorEmail'] or hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_DOCTOR') or hasAuthority('ROLE_ADMIN')")
     @GetMapping("/get/doctor")
     public ResponseEntity<List<AppointmentDetailsDTO>> getAppointmentsByDoctor(@RequestParam int doctorId, @RequestParam String startDate, @RequestParam String endDate, Authentication authentication) {
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -116,7 +115,6 @@ public class AppointmentController {
     @GetMapping("/delete/byClient")
     public ResponseEntity<String> deleteByIdWithClient(@RequestParam int id, Authentication authentication) {
         HttpHeaders httpHeaders = new HttpHeaders();
-        Map<String, String> payload = new HashMap<>();
         String userEmail = authentication.getName();
 
         ResponseEntity response = appointmentService.deleteAppointmentByIdWithClient(id, userEmail);

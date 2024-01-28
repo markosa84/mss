@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.mail.MessagingException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -57,12 +58,13 @@ public class ClientController {
     }
 
     @PostMapping("/verify")
-    public ResponseEntity<Collection<String>> registrationVerifyCode(String code) {
+    public ResponseEntity<String> registrationVerifyCode(@RequestBody Map<String, String> payload) {
+        String code = payload.get("code");
         if (!registrationVerificationCodeService.isRegistrationCodeValid(code)) {
-            return ResponseEntity.of(Optional.of(List.of("Not Ok")));
+            return ResponseEntity.status(400).body(null);
         }
         registrationVerificationCodeService.findUserByVerificationCode(code);
-        return ResponseEntity.of(Optional.of(List.of("Ok")));
+        return ResponseEntity.status(200).body(null);
     }
 
 }
