@@ -8,21 +8,28 @@ import hu.ak_akademia.mss.login_security_service.PasswordEncryption;
 import hu.ak_akademia.mss.model.AreaOfExpertise;
 import hu.ak_akademia.mss.model.Gender;
 import hu.ak_akademia.mss.model.Language;
-import hu.ak_akademia.mss.model.user.*;
+import hu.ak_akademia.mss.model.user.Assistant;
+import hu.ak_akademia.mss.model.user.Doctor;
+import hu.ak_akademia.mss.model.user.FinancialColleague;
+import hu.ak_akademia.mss.model.user.MssUser;
+import hu.ak_akademia.mss.mss_user_validation_process.ClientValidationRegistrationProcess;
 import hu.ak_akademia.mss.repository.AreaOfExpertiseRepository;
 import hu.ak_akademia.mss.repository.GenderRepository;
 import hu.ak_akademia.mss.repository.LanguageRepository;
 import hu.ak_akademia.mss.repository.MSSUserRepository;
 import hu.ak_akademia.mss.service.exceptions.IncorrectEnteredDataException;
-import hu.ak_akademia.mss.service.validators.*;
+import hu.ak_akademia.mss.service.validators.CompositeAssistantValidator;
+import hu.ak_akademia.mss.service.validators.CompositeColleagueValidator;
+import hu.ak_akademia.mss.service.validators.CompositeDoctorValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
-import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class RegistrationService {
@@ -68,68 +75,16 @@ public class RegistrationService {
         return colleagueValidator.getValidatorErrorList();
     }
 
-    public ResponseEntity<Collection<String>> validateClientInRegistrationProcess(ClientRegistrationDto RegClient) throws MessagingException {
-        var client = mappingRegClientToMssUserClient(RegClient);
-        var clientValidator = new CompositeClientValidator(mssUserRepository);
-        clientValidator.validate(client);
-        if (clientValidator.getValidatorErrorList().isEmpty()) {
-            encryptPassword(client);
-            save(client);
-            registrationVerificationService.performRegistrationVerification(client);
-            return ResponseEntity.ok().body(Collections.emptyList());
-        }
-        return ResponseEntity.status(403).body(clientValidator.getValidatorErrorList().values());
+    public ResponseEntity<Collection<String>> validateRegistrationClient(ClientRegistrationDto regClient) throws MessagingException {
+        var clientValProcess = new ClientValidationRegistrationProcess(this, mssUserRepository, registrationVerificationService);
+        return clientValProcess.controlMssUserRegistrationProcess(regClient);
+    }
+    public ResponseEntity<Collection<String>> validateRegistrationDoctor(DoctorRegistrationDto regDoctor) throws MessagingException {
+        var clientValProcess = new ClientValidationRegistrationProcess(this, mssUserRepository, registrationVerificationService);
+        return clientValProcess.controlMssUserRegistrationProcess(regDoctor);
     }
 
-    public ResponseEntity<Collection<String>> validateDoctorInRegistrationProcess(DoctorRegistrationDto RegDoctor) throws MessagingException {
-        var doctor = mappingRegDoctorToMssUserClient(RegDoctor);
-        var doctorValidator = new CompositeDoctorValidator(mssUserRepository);
-        doctorValidator.validate(doctor);
-        if (doctorValidator.getValidatorErrorList().isEmpty()) {
-            encryptPassword(doctor);
-            save(doctor);
-            registrationVerificationService.performRegistrationVerification(doctor);
-            return ResponseEntity.ok().body(Collections.emptyList());
-        }
-        return  ResponseEntity.status(403).body(doctorValidator.getValidatorErrorList().values());
-    }
-
-    private Client mappingRegClientToMssUserClient(ClientRegistrationDto regClient) {
-        var client = new Client();
-        client.setEmail(regClient.getEmail());
-        client.setPassword(regClient.getPassword());
-        client.setActive(false);
-        client.setRegistrationDate(LocalDateTime.now());
-        client.setDateOfBirth(regClient.getDateOfBirth());
-        client.setMothersName(regClient.getMothersName());
-        client.setPlaceOfBirth(regClient.getPlaceOfBirth());
-        client.setTAJNumber(regClient.getTajNumber());
-        client.setFirstName(regClient.getFirstName());
-        client.setLastName(regClient.getLastName());
-        client.setLanguages(getLanguages(regClient.getLanguageId()));
-        client.setGender(regClient.getGenderId());
-        client.setRoles("ROLE_CLIENT");
-        client.setPhoneNumber(regClient.getPhoneNumber());
-        return client;
-    }
-
-    private Doctor mappingRegDoctorToMssUserClient(DoctorRegistrationDto regDoctor) {
-        var doctor = new Doctor();
-        doctor.setEmail(regDoctor.getEmail());
-        doctor.setPassword(regDoctor.getPassword());
-        doctor.setActive(false);
-        doctor.setRegistrationDate(LocalDateTime.now());
-        doctor.setFirstName(regDoctor.getFirstName());
-        doctor.setLastName(regDoctor.getLastName());
-        doctor.setLanguages(getLanguages(regDoctor.getLanguageId()));
-        doctor.setAreaOfExpertise(getAreaOfExpertises(regDoctor.getAreaOfExpertiseId()));
-        doctor.setGender(regDoctor.getGenderId());
-        doctor.setRoles("ROLE_DOCTOR");
-        doctor.setPhoneNumber(regDoctor.getPhoneNumber());
-        return doctor;
-    }
-
-    private List<Language> getLanguages(List<Integer> languageId) {
+    public List<Language> getLanguages(List<Integer> languageId) {
         return languageRepository.findAllById(languageId);
     }
 

@@ -10,30 +10,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/register")
+@RequestMapping("/financialColleague")
 public class FinancialColleagueController {
 
     @Autowired
     RegistrationService registrationService;
     @Autowired
     private RegistrationVerificationService registrationVerificationService;
-    @GetMapping("/financialColleague")
+    @GetMapping("/registration")
     public String financialColleague_registration(FinancialColleague financialColleague, Model model) {
         model.addAttribute("genderList", registrationService.getAllGender());
         return "financialColleague_registration";
     }
 
-//    @PostMapping("/financialColleague")
-//    public String financialColleagueRegistrationForm(FinancialColleague financialColleague, Model model) throws MessagingException {
-//        Map<String, String> errorList = registrationService.testMSSUserData(financialColleague);
-//        if (errorList.isEmpty()) {
-//            financialColleague.setRoles("ROLE_FINANCIALCOLLEAGUE");
-//            registrationService.encryptPassword(financialColleague);
-//            registrationService.save(financialColleague);
-//            return registrationVerificationService.performRegistrationVerification(financialColleague, model);
-//        }
-//        model.addAttribute("genderList", registrationService.getAllGender());
-//        model.addAllAttributes(errorList);
-//        return "financialColleague_registration";
-//    }
 }

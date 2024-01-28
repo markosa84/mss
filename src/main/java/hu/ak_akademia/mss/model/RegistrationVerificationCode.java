@@ -22,15 +22,15 @@ public class RegistrationVerificationCode {
     @JoinColumn(nullable = false, name = "user_id")
     private MssUser user;
 
-    private LocalDate expirydate;
+    private LocalDate expiryDate;
 
     public RegistrationVerificationCode() {
-        // Alapértelmezett konstruktor
     }
-    public RegistrationVerificationCode(String verificationCode, MssUser user, LocalDate expirydate) {
+
+    public RegistrationVerificationCode(String verificationCode, MssUser user, LocalDate expiryDate) {
         this.verificationCode = verificationCode;
         this.user = user;
-        this.expirydate = expirydate;
+        this.expiryDate = expiryDate;
     }
 
     public String getVerificationCode() {
@@ -49,12 +49,12 @@ public class RegistrationVerificationCode {
         this.user = user;
     }
 
-    public LocalDate getExpirydate() {
-        return expirydate;
+    public LocalDate getExpiryDate() {
+        return expiryDate;
     }
 
-    public void setExpirydate(LocalDate expirydate) {
-        this.expirydate = expirydate;
+    public void setExpiryDate(LocalDate expiryDate) {
+        this.expiryDate = expiryDate;
     }
 
     @Override
@@ -62,12 +62,12 @@ public class RegistrationVerificationCode {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RegistrationVerificationCode that = (RegistrationVerificationCode) o;
-        return Objects.equals(verificationCode, that.verificationCode) && Objects.equals(user, that.user) && Objects.equals(expirydate, that.expirydate);
+        return Objects.equals(verificationCode, that.verificationCode) && Objects.equals(user, that.user) && Objects.equals(expiryDate, that.expiryDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(verificationCode, user, expirydate);
+        return Objects.hash(verificationCode, user, expiryDate);
     }
 
     @Override
@@ -75,7 +75,7 @@ public class RegistrationVerificationCode {
         return "RegistrationVerificationCode{" +
                 "verificationCode='" + verificationCode + '\'' +
                 ", user=" + user +
-                ", expirydate=" + expirydate +
+                ", expiryDate=" + expiryDate +
                 '}';
     }
 }

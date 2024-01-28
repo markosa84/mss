@@ -57,7 +57,7 @@ public class EmailService {
         RegistrationVerificationCode verificationCode = new RegistrationVerificationCode();
         verificationCode.setVerificationCode(uniqueCode);
         verificationCode.setUser(user);
-        verificationCode.setExpirydate(LocalDate.now().plusDays(1));
+        verificationCode.setExpiryDate(LocalDate.now().plusDays(1));
         registrationVerificationCodeService.saveVerificationCode(verificationCode);
     }
 }

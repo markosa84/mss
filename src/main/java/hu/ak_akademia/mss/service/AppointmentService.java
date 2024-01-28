@@ -56,16 +56,17 @@ public class AppointmentService {
 
     }
 
-    private DoctorsWorkingHoursService doctorsWorkingHoursService;
+    private final DoctorsWorkingHoursService doctorsWorkingHoursService;
 
-    private AppointmentRepository appointmentRepository;
+    private final AppointmentRepository appointmentRepository;
 
-    private MSSUserRepository mssUserRepository;
+    private final MSSUserRepository mssUserRepository;
 
-    private AreaOfExpertiseRepository areaOfExpertiseRepository;
+    private final AreaOfExpertiseRepository areaOfExpertiseRepository;
 
-    private AppointmentStatusRepository appointmentStatusRepository;
-    private DoctorService doctorService;
+    private final AppointmentStatusRepository appointmentStatusRepository;
+
+    private final DoctorService doctorService;
 
     private AreaOfExpertise getAreaOfExpertise(int specialtyId) {
 

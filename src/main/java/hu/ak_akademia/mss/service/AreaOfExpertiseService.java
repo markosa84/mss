@@ -5,6 +5,7 @@ import hu.ak_akademia.mss.model.AreaOfExpertise;
 import hu.ak_akademia.mss.model.Slot;
 import hu.ak_akademia.mss.repository.AreaOfExpertiseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -32,16 +33,16 @@ public class AreaOfExpertiseService {
         return areaOfExpertiseOptional.map(AreaOfExpertise::getName).orElse("Unknown area of expertise");
     }
 
-    public AreaOfExpertise getAreaById(int areaId) {
-        return areaOfExpertiseRepository.getReferenceById(areaId);
+    public Optional<AreaOfExpertise> getAreaById(int areaId) {
+        return Optional.of(areaOfExpertiseRepository.getReferenceById(areaId));
     }
 
-    public List<Slot> getSlots(int areaOfExpertiseId) {
+    public ResponseEntity<List<Slot>> getSlots(int areaOfExpertiseId) {
         var areaOfExpertise = getAreaById(areaOfExpertiseId);
         DoctorsSchedule doctorsSchedule = new DoctorsSchedule();
-        doctorsSchedule.setAreaOfExpertise(areaOfExpertise);
+        doctorsSchedule.setAreaOfExpertise(areaOfExpertise.orElseThrow());
         doctorsSchedule.setWorkingHoursService(doctorsWorkingHoursService);
-        return doctorsSchedule.generateSlots();
+        return ResponseEntity.ok(doctorsSchedule.generateSlots());
     }
 
     public List<AreaOfExpertiseDTO> getAreOfExpertiseDTO() {

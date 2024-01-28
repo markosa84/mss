@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/register")
+@RequestMapping("/assistant")
 public class AssistantController {
 
     @Autowired
@@ -21,23 +21,10 @@ public class AssistantController {
     @Autowired
     private RegistrationVerificationService registrationVerificationService;
 
-    @GetMapping("/assistant")
+    @GetMapping("/registration")
     public List<Gender> assistant_registration(Assistant assistant, Model model) {
         model.addAttribute("genderList", registrationService.getAllGender());
         return registrationService.getAllGender();
     }
 
-//    @PostMapping("/assistant")
-//    public String assistantRegistrationForm(Assistant assistant, Model model) throws MessagingException {
-//        Map<String, String> errorList = registrationService.testMSSUserData(assistant);
-//        if (errorList.isEmpty()) {
-//            assistant.setRoles("ROLE_ASSISTANT");
-//            registrationService.encryptPassword(assistant);
-//            registrationService.save(assistant);
-//            return registrationVerificationService.performRegistrationVerification(assistant);
-//        }
-//        model.addAttribute("genderList", registrationService.getAllGender());
-//        model.addAllAttributes(errorList);
-//        return "assistant_registration";
-//    }
 }

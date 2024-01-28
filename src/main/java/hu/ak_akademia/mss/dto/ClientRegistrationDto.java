@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.StringJoiner;
 
-public class ClientRegistrationDto implements Serializable {
+public class ClientRegistrationDto implements Serializable, MssUserDto {
 
     private String email;
     private String password;

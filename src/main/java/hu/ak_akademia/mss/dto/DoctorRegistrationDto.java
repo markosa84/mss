@@ -1,18 +1,15 @@
 package hu.ak_akademia.mss.dto;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.List;
 
-public class DoctorRegistrationDto implements Serializable {
+public class DoctorRegistrationDto implements Serializable, MssUserDto {
     private String email;
     private String password;
     private String firstName;
     private String lastName;
     private int genderId;
-
     private String phoneNumber;
-
     private List<Integer> languageId;
     private List<Integer> areaOfExpertiseId;
 
@@ -51,7 +48,7 @@ public class DoctorRegistrationDto implements Serializable {
         this.lastName = lastName;
     }
 
-    public int getGenderId() {
+    public Integer getGenderId() {
         return genderId;
     }
 
@@ -96,4 +93,5 @@ public class DoctorRegistrationDto implements Serializable {
                 ", areaOfExpertiseId=" + areaOfExpertiseId +
                 '}';
     }
+
 }
