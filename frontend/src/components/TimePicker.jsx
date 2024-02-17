@@ -98,13 +98,9 @@ export default function TimePicker() {
                   isSlotAvailable(slot.slotId, slot.startTime, selectedDoctorId)
                     ? () =>
                         setSelectedAppointment({
-                          doctorID: selectedDoctorId,
+                          drID: selectedDoctorId,
                           username: auth.username,
                           slotId: slot.slotId,
-                          // doctorName: departmentDoctors.find(
-                          //   (doc) => doc.doctorId === selectedDoctorId
-                          // ).name,
-                          // appointmentDateTime: slot.startTime,
                           startTime: format(slot.startTime, "HH:mm:ss"),
                           endTime: format(slot.endTime, "HH:mm:ss"),
                           areaOfExpertise: departments.find(
@@ -120,7 +116,7 @@ export default function TimePicker() {
                   selectedDoctorId
                 )}
               >
-                {selectedAppointment?.doctorID === selectedDoctorId &&
+                {selectedAppointment?.drID === selectedDoctorId &&
                   selectedAppointment?.slotId === slot.slotId &&
                   "Selected"}
               </div>

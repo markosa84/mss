@@ -10,7 +10,6 @@ export function ConfirmSection({ appointment }) {
   const { departmentDoctors } = useAppointmentSelector();
   const navigate = useNavigate();
   console.log("appointment to save: ", appointment);
-  đ;
   async function confirm() {
     try {
       await axios1.post("/appointment/save", appointment, {
@@ -26,8 +25,7 @@ export function ConfirmSection({ appointment }) {
     <div>
       <SectionHeader>4. Please confirm your appointment</SectionHeader>
       <h4 className="appointment-summary">{`Your appointment is with ${
-        departmentDoctors.find((doc) => doc.doctorId === appointment.doctorID)
-          .name
+        departmentDoctors.find((doc) => doc.doctorId === appointment.drID).name
       }, on ${format(
         parse(appointment.date, "yyyy-MM-dd", new Date()),
         "cccc, do LLLL yyyy"
