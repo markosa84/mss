@@ -74,9 +74,11 @@ export const AppointmentProvider = ({ children }) => {
               })
             )
           );
+          console.log(schedule);
           setDepartmentDoctors(doctors.data);
           setSelectedDoctorIds(doctors.data.map((doctor) => doctor.doctorId));
           setDailyUnavaliableSlots(unavailableSlots.data);
+          console.log(unavailableSlots.data);
           setDailySchedule(schedule.data);
         } catch (error) {
           console.log(error);

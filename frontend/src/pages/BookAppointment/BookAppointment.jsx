@@ -5,8 +5,11 @@ import { SelectDateAndTime } from "./SelectDateAndTime";
 import { SelectDateAndTimeRevised } from "./SelectDateAndTimeRevised";
 import { useAppointmentSelector } from "./useAppointmentSelector";
 import { AppointmentProvider } from "./AppointmentProvider";
+import { axios1 } from "../../api/axios";
+import { useAuth } from "../../Context/useAuth";
 
 const InnerComponent = () => {
+  const { auth } = useAuth();
   const {
     departments,
     setDepartments,
@@ -15,8 +18,10 @@ const InnerComponent = () => {
   } = useAppointmentSelector();
 
   useEffect(() => {
-    axios
-      .get("/dummyDb/departments.json")
+    axios1
+      .get("/components/departmentcard", {
+        headers: { Authorization: auth.accessToken },
+      })
       .then((res) => setDepartments(res.data))
       .catch((err) => console.log(err));
   }, []);

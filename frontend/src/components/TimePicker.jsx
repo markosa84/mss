@@ -2,8 +2,10 @@ import { addMinutes } from "date-fns";
 import format from "date-fns/format";
 import { useMemo } from "react";
 import { useAppointmentSelector } from "../pages/BookAppointment/useAppointmentSelector";
+import { useAuth } from "../Context/useAuth";
 
 export default function TimePicker() {
+  const { auth } = useAuth();
   const {
     selectedDate,
     selectedDoctorIds,
@@ -12,8 +14,10 @@ export default function TimePicker() {
     selectedAppointment,
     setSelectedAppointment,
     dailySchedule,
+    departments,
+    selectedDepartmentId,
   } = useAppointmentSelector();
-
+  console.log("selecte deptId: " + selectedDepartmentId);
   const dailySlots = useMemo(() => {
     return dailySchedule.map((slot) => ({
       slotId: slot.slotId,
@@ -94,13 +98,19 @@ export default function TimePicker() {
                   isSlotAvailable(slot.slotId, slot.startTime, selectedDoctorId)
                     ? () =>
                         setSelectedAppointment({
-                          doctorId: selectedDoctorId,
-                          doctorName: departmentDoctors.find(
-                            (doc) => doc.doctorId === selectedDoctorId
-                          ).name,
-                          appointmentDateTime: slot.startTime,
+                          doctorID: selectedDoctorId,
+                          username: auth.username,
                           slotId: slot.slotId,
-                          user: "Júz Erzsébet",
+                          // doctorName: departmentDoctors.find(
+                          //   (doc) => doc.doctorId === selectedDoctorId
+                          // ).name,
+                          // appointmentDateTime: slot.startTime,
+                          startTime: format(slot.startTime, "HH:mm:ss"),
+                          endTime: format(slot.endTime, "HH:mm:ss"),
+                          areaOfExpertise: departments.find(
+                            (d) => d.areaOfExpertiseId === selectedDepartmentId
+                          ).name,
+                          date: format(slot.startTime, "yyyy-MM-dd"),
                         })
                     : () => {}
                 }
@@ -110,7 +120,7 @@ export default function TimePicker() {
                   selectedDoctorId
                 )}
               >
-                {selectedAppointment?.doctorId === selectedDoctorId &&
+                {selectedAppointment?.doctorID === selectedDoctorId &&
                   selectedAppointment?.slotId === slot.slotId &&
                   "Selected"}
               </div>
