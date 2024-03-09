@@ -2,7 +2,6 @@ package hu.ak_akademia.mss.controller;
 
 import hu.ak_akademia.mss.dto.DoctorRegistrationDto;
 import hu.ak_akademia.mss.service.RegistrationService;
-import hu.ak_akademia.mss.service.RegistrationVerificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -19,11 +18,8 @@ public class DoctorController {
     @Autowired
     private RegistrationService registrationService;
 
-    @Autowired
-    private RegistrationVerificationService registrationVerificationService;
-
     @GetMapping("/registration")
-    public ResponseEntity<Collection<String>> validateRegistrationDoctor(DoctorRegistrationDto registrationDto) {
+    public ResponseEntity<Collection<String>> registrationFormDoctor(DoctorRegistrationDto registrationDto) {
         try {
             return registrationService.validateRegistrationDoctor(registrationDto);
         } catch (MessagingException e) {

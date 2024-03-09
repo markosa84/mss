@@ -6,49 +6,24 @@ import hu.ak_akademia.mss.repository.MSSUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class DoctorService {
-    // lehet ide jön még más is
+
     @Autowired
     private MSSUserRepository mssUserRepository;
 
-   private  List<MssUser> findDoctorsByAreaOfExpertise(int areaId) {
-
-       List<MssUser> doctorsByAreaOfExpertise = mssUserRepository.findDoctorsByAreaOfExpertise(areaId);
-       System.out.println("a lista mérete" + doctorsByAreaOfExpertise.size());
-       return doctorsByAreaOfExpertise;
-   }
-
-    //Előállitsa a doktorDto-t
-    public List<DoctorForAreaOfExpertiseDto> getDoctorDtosByAreaOfExpertise(int areaId) {
-        List<MssUser> doctors = findDoctorsByAreaOfExpertise(areaId);
-        List<DoctorForAreaOfExpertiseDto> doctorDtos = new ArrayList<>();
-        for (MssUser doctor : doctors) {
-            doctorDtos.add(new DoctorForAreaOfExpertiseDto(doctor));
-        }
-
-// röviditett változata
-        //    List<DoctorForAreaOfExpertiseDto> doctorDtos = doctors.stream()
-        //          .map(DoctorForAreaOfExpertiseDto::new)
-        //        .collect(Collectors.toList());
-        return doctorDtos;
+    private List<MssUser> findDoctorsByAreaOfExpertise(int areaId) {
+        return mssUserRepository.findDoctorsByAreaOfExpertise(areaId);
     }
+
+    public List<DoctorForAreaOfExpertiseDto> getDoctorDtosByAreaOfExpertise(int areaId) {
+        return findDoctorsByAreaOfExpertise(areaId).stream().map(DoctorForAreaOfExpertiseDto::new).toList();
+    }
+
     public List<Integer> getDoctorIdsByAreaOfExpertise(int areaId) {
-        List<MssUser> doctors = findDoctorsByAreaOfExpertise(areaId);
-        List<Integer> doctorIds = new ArrayList<>();
-
-        for (MssUser doctor : doctors) {
-            doctorIds.add(doctor.getUserId());
-        }
-        // rövidített változata:
-        // List<Integer> doctorIds = doctors.stream()
-        //         .map(MssUser::getUserId)
-        //         .collect(Collectors.toList());
-
-        return doctorIds;
+        return findDoctorsByAreaOfExpertise(areaId).stream().map(MssUser::getUserId).toList();
     }
 
 }

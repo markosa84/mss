@@ -19,7 +19,7 @@ public class DoctorValidationRegistrationProcess implements MssUserValidationReg
     private final RegistrationService registrationService;
     private final RegistrationVerificationService registrationVerificationService;
 
-    public DoctorValidationRegistrationProcess(MSSUserRepository mssUserRepository, RegistrationService registrationService, RegistrationVerificationService registrationVerificationService) {
+    public DoctorValidationRegistrationProcess(RegistrationService registrationService, MSSUserRepository mssUserRepository, RegistrationVerificationService registrationVerificationService) {
         this.mssUserRepository = mssUserRepository;
         this.registrationService = registrationService;
         this.registrationVerificationService = registrationVerificationService;

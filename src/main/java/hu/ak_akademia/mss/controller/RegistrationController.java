@@ -1,6 +1,5 @@
 package hu.ak_akademia.mss.controller;
 
-import hu.ak_akademia.mss.dto.ClientRegistrationDto;
 import hu.ak_akademia.mss.dto.GenderDto;
 import hu.ak_akademia.mss.dto.LanguageDto;
 import hu.ak_akademia.mss.dto.UniqueEmailDto;
@@ -10,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.mail.MessagingException;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -33,15 +30,6 @@ public class RegistrationController {
     @GetMapping("/genders")
     public List<GenderDto> genderRegistration() {
         return registrationService.generateGenderDto();
-    }
-
-    @PostMapping("/client")
-    public ResponseEntity<Collection<String>> registrationForm(@RequestBody ClientRegistrationDto registrationClient) {
-        try {
-            return registrationService.validateRegistrationClient(registrationClient);
-        } catch (MessagingException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     @PostMapping("/unique/email")
