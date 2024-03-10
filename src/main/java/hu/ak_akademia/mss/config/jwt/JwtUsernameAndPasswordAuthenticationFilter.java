@@ -15,8 +15,12 @@ import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
@@ -33,22 +37,13 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         try {
-            UsernameAndPasswordAuthenticationRequest authenticationRequest = new ObjectMapper()
+            UsernameAndPasswordAuthenticationRequest authReq = new ObjectMapper()
                     .readValue(request.getInputStream(), UsernameAndPasswordAuthenticationRequest.class);
-
-            Authentication authentication = new UsernamePasswordAuthenticationToken(
-                    authenticationRequest.getUsername(),
-                    authenticationRequest.getPassword()
-            );
+            Authentication authentication = new UsernamePasswordAuthenticationToken(authReq.getUsername(), authReq.getPassword());
             return authenticationManager.authenticate(authentication);
-//            MssSecurityUser securityUser = (MssSecurityUser) authenticate.getPrincipal();
-
-//            return authenticate;
-
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-
         return super.attemptAuthentication(request, response);
     }
 
@@ -62,33 +57,30 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
 
         MssSecurityUser securityUser = (MssSecurityUser) authResult.getPrincipal();
         MssUser mssUser = securityUser.getUser();
-        String name = mssUser.getFirstName() + " " + mssUser.getLastName();
-        String role = mssUser.getRoles();
-        List<String> roles = new ArrayList<>();
-        roles.add(role);
         Map<String, Object> responseObject = new LinkedHashMap<>();
-        responseObject.put("name", name);
-        responseObject.put("roles", roles);
-
-
+        responseObject.put("name", String.format("%s %s", mssUser.getLastName(), mssUser.getFirstName()));
+        responseObject.put("roles", List.of(mssUser.getRoles()));
         String jsonResponse = new ObjectMapper().writeValueAsString(responseObject);
-
-        String token = Jwts.builder().subject(authResult.getName())
-                .claim("authorities", authResult.getAuthorities())
-                .claim("name", authResult.getName())
-                .issuedAt(new Date())
-                .expiration(java.sql.Date.valueOf(LocalDate.now().plusDays(jwtConfig.getTokenExpiration())))
-                .signWith(jwtConfig.getSecretKeyForSigning())
-                .compact();
-
+        String token = getTokenFromAuth(authResult);
         if (securityUser.getUser().isActive()) {
             response.addHeader(jwtConfig.getAuthorizationHeader(), jwtConfig.getTokenPrefix() + token);
+            response.setCharacterEncoding(StandardCharsets.UTF_8.name());
             response.getWriter().write(jsonResponse);
         } else {
             response.setStatus(403);
             response.getWriter().write("Your account isn't active!");
         }
 
+    }
+
+    private String getTokenFromAuth(Authentication authResult) {
+        return Jwts.builder().subject(authResult.getName())
+                .claim("authorities", authResult.getAuthorities())
+                .claim("name", authResult.getName())
+                .issuedAt(new Date())
+                .expiration(java.sql.Date.valueOf(LocalDate.now().plusDays(jwtConfig.getTokenExpiration())))
+                .signWith(jwtConfig.getSecretKeyForSigning())
+                .compact();
     }
 }
 

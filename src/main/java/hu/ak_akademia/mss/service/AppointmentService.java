@@ -1,10 +1,12 @@
 package hu.ak_akademia.mss.service;
 
-
 import hu.ak_akademia.mss.dto.AppointmentDetailsDTO;
 import hu.ak_akademia.mss.dto.AppointmentDto;
 import hu.ak_akademia.mss.dto.DoctorTimeSlotDto;
-import hu.ak_akademia.mss.model.*;
+import hu.ak_akademia.mss.model.Appointment;
+import hu.ak_akademia.mss.model.AppointmentStatus;
+import hu.ak_akademia.mss.model.AreaOfExpertise;
+import hu.ak_akademia.mss.model.Slot;
 import hu.ak_akademia.mss.model.user.Client;
 import hu.ak_akademia.mss.model.user.Doctor;
 import hu.ak_akademia.mss.model.user.MssUser;
@@ -12,14 +14,12 @@ import hu.ak_akademia.mss.repository.AppointmentRepository;
 import hu.ak_akademia.mss.repository.AppointmentStatusRepository;
 import hu.ak_akademia.mss.repository.AreaOfExpertiseRepository;
 import hu.ak_akademia.mss.repository.MSSUserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -35,25 +35,7 @@ public class AppointmentService {
     @Value("${appointment.endDateOffset}")
     private int endDateOffset;
 
-
-    public static class TimeRange {
-        private LocalTime startTime;
-        private LocalTime endTime;
-
-        public TimeRange(LocalTime startTime, LocalTime endTime) {
-            this.startTime = startTime;
-            this.endTime = endTime;
-        }
-
-        public LocalTime getStartTime() {
-            return startTime;
-        }
-
-        public LocalTime getEndTime() {
-            return endTime;
-        }
-
-
+    public record TimeRange(LocalTime startTime, LocalTime endTime) {
     }
 
     private final DoctorsWorkingHoursService doctorsWorkingHoursService;
@@ -69,13 +51,7 @@ public class AppointmentService {
     private final DoctorService doctorService;
 
     private AreaOfExpertise getAreaOfExpertise(int specialtyId) {
-
-        Optional<AreaOfExpertise> byId = areaOfExpertiseRepository.findById(specialtyId);
-        if (byId.isPresent()) {
-            return byId.get();
-        } else {
-            return null;
-        }
+        return areaOfExpertiseRepository.findById(specialtyId).orElseThrow();
     }
 
     private AreaOfExpertise areaOfExpertise;
@@ -246,27 +222,26 @@ public class AppointmentService {
     }
 
     public ResponseEntity<List<AppointmentDetailsDTO>> getAppointmentByClient(int clientId) {
-        HttpHeaders httpHeaders = new HttpHeaders();
         try {
-            Optional<? extends MssUser> optionalClient = mssUserRepository.findById(clientId);
-            if (optionalClient.isPresent()) {
-                Client client = (Client) optionalClient.get();
-                List<Appointment> appointments = appointmentRepository.getAppointmentsByClient(client.getUserId());
-                return ResponseEntity.status(200).body(convertToAppointmentDTO(appointments));
-            } else {
-                httpHeaders.add("info", "Client was not found");
-                return ResponseEntity.status(404).headers(httpHeaders).body(null);
-                //return new ResponseEntity<>(null, httpHeaders, HttpStatus.valueOf(404));
-            }
+            var client = (Client) mssUserRepository.findById(clientId).orElseThrow();
+            List<Appointment> appointments = appointmentRepository.getAppointmentsByClient(client.getUserId());
+            return ResponseEntity.status(200).body(convertToAppointmentDTO(appointments));
         } catch (ClassCastException e) {
-            httpHeaders.add("info", "The user id: " + clientId + " doesn't belong to a client!");
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.add("Warning-info", "The user id: " + clientId + " doesn't belong to a client!");
             return new ResponseEntity<>(null, httpHeaders, HttpStatus.valueOf(400));
         }
     }
 
-    public List<AppointmentDetailsDTO> convertToAppointmentDTO(List<Appointment> appointments) {
-        List<AppointmentDetailsDTO> result = appointments.stream().map(a -> new AppointmentDetailsDTO(a.getId(), a.getMssUserDoctor().getUserId(), a.getMssUserClient().getEmail(), a.getStartDate().toString(), a.getEndDate().toString(), a.getAreaOfExpertise().getName())).collect(Collectors.toList());
-        return result;
+    private List<AppointmentDetailsDTO> convertToAppointmentDTO(List<Appointment> appointments) {
+        return appointments.stream().map(a -> new AppointmentDetailsDTO(
+                        a.getId(),
+                        a.getMssUserDoctor().getUserId(),
+                        a.getMssUserClient().getEmail(),
+                        a.getStartDate().toString(),
+                        a.getEndDate().toString(),
+                        a.getAreaOfExpertise().getName()))
+                .collect(Collectors.toList());
     }
 
     public ResponseEntity<List<AppointmentDetailsDTO>> getAppointmentsByDoctor(int doctorId, LocalDate start, LocalDate end) {
@@ -291,11 +266,14 @@ public class AppointmentService {
 
 
     public List<AppointmentDetailsDTO> getAppointmentsByDoctors(List<Integer> doctorsIds, LocalDate start, LocalDate end) {
-        List<Integer> checkedIdList = doctorsIds.stream().map(id -> mssUserRepository.getMSSUserByUserId(id)).filter(user -> user.getRoles().equals("Doctor")).map(dr -> dr.getUserId()).collect(Collectors.toList());
+        List<Integer> checkedIdList = doctorsIds.stream().map(mssUserRepository::findById)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .map(MssUser::getUserId)
+                .toList();
         List<Appointment> appointments = new ArrayList<>();
-        LocalDateTime startDate = start.atStartOfDay();
-        LocalDateTime endDate = end.atTime(23, 59, 59);
-        checkedIdList.stream().forEach(id -> appointments.addAll(appointmentRepository.getAppointmentsByDoctor(id, startDate, endDate)));
+        checkedIdList.forEach(id -> appointments.
+                addAll(appointmentRepository.getAppointmentsByDoctor(id, start.atStartOfDay(), end.atTime(23, 59, 59))));
         return convertToAppointmentDTO(appointments);
     }
 
@@ -340,7 +318,7 @@ public class AppointmentService {
                 List<TimeRange> timeRanges = doctorEntry.getValue();
                 List<Integer> unavailableSlotIds = new ArrayList<>();
                 for (TimeRange timeRange : timeRanges) {
-                    unavailableSlotIds.addAll(findSlotIds(generatedSlots, timeRange.getStartTime()));
+                    unavailableSlotIds.addAll(findSlotIds(generatedSlots, timeRange.startTime()));
                 }
                 DoctorTimeSlotDto doctorTimeSlotDto = new DoctorTimeSlotDto(doctorId, unavailableSlotIds);
                 doctorTimeSlots.add(doctorTimeSlotDto);

@@ -16,6 +16,11 @@ public class DoctorsWorkingHoursDTO {
     private LocalTime startTime;
     private LocalTime endTime;
 
+    public DoctorsWorkingHoursDTO(LocalTime startTime, LocalTime endTime) {
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+
     public int getId() {
         return id;
     }

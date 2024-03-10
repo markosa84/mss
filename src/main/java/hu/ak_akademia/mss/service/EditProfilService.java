@@ -21,6 +21,7 @@ import java.util.Map;
 
 @Service
 public class EditProfilService {
+
     @Autowired
     private MSSUserRepository mssUserRepository;
 
@@ -40,30 +41,6 @@ public class EditProfilService {
     public void delete(MssUser mssUsers) {
         mssUserRepository.delete(mssUsers);
     }
-/*
-    public Map<String, String> testMSSUserData(Assistant assistant) {
-        var assistantValidator = new CompositeAssistantValidator(this);
-        assistantValidator.validate(assistant);
-        return assistantValidator.getValidatorErrorList();
-    }
-
-    public Map<String, String> testMSSUserData(Doctor doctor, String passwordAgain) {
-        var doctorValidator = new CompositeDoctorValidator(this);
-        doctorValidator.validate(doctor);
-
-        var instance = MSSUserValidatorFactory.getInstance();
-        instance.collectValidationError(new ConfirmationPasswordValidator(), doctor.getPassword(), passwordAgain, doctorValidator.getValidatorErrorList());
-
-        return doctorValidator.getValidatorErrorList();
-    }
-
-    public Map<String, String> testMSSUserData(FinancialColleague colleague) {
-        var colleagueValidator = new CompositeColleagueValidator(this);
-        colleagueValidator.validate(colleague);
-        return colleagueValidator.getValidatorErrorList();
-    }
-
- */
 
     public Map<String, String> testMSSUserData(Client client, String passwordAgain) {
         var clientValidator = new CompositeClientValidatorEditProfil(this);

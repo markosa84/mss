@@ -5,10 +5,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.NoSuchElementException;
+
 @RestControllerAdvice
 public class ExceptionHandlerController {
 
-    @ExceptionHandler(value = {IllegalArgumentException.class, IllegalStateException.class, MessagingException.class})
+    @ExceptionHandler(value = {IllegalArgumentException.class, IllegalStateException.class, MessagingException.class, NoSuchElementException.class})
     protected ResponseEntity<Object> handleConflict(RuntimeException e) {
         String bodyOfResponse = "This should be application specific: ";
         return ResponseEntity.badRequest().body(bodyOfResponse + e.getMessage());

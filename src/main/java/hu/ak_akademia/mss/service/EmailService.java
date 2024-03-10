@@ -42,7 +42,6 @@ public class EmailService {
         MimeMessage message = emailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-
         helper.setFrom("akmss.project@gmail.com");
         helper.setTo(email);
         helper.setSubject("Regisztráció megerősítése");

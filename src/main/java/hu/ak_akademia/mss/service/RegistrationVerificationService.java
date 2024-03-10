@@ -12,7 +12,6 @@ public class RegistrationVerificationService {
 
     private EmailService emailService;
 
-    //
     @Autowired
     public void setEmailService(EmailService emailService) {
         this.emailService = emailService;

@@ -1,6 +1,7 @@
 package hu.ak_akademia.mss.model;
 
 import hu.ak_akademia.mss.model.user.MssUser;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -22,6 +23,7 @@ public class RegistrationVerificationCode {
     @JoinColumn(nullable = false, name = "user_id")
     private MssUser user;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate expiryDate;
 
     public RegistrationVerificationCode() {

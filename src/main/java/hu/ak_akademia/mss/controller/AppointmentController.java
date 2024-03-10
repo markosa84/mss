@@ -63,21 +63,18 @@ public class AppointmentController {
     }
 
     @PreAuthorize("hasAuthority('ROLE_CLIENT') or hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_ASSISTANT')")
-    @GetMapping("/get/client")
-    public ResponseEntity<List<AppointmentDetailsDTO>> getAppointmentsByClient(@RequestParam int clientId, Authentication authentication) {
+    @PostMapping("/get/client/{clientId}")
+    public ResponseEntity<List<AppointmentDetailsDTO>> getAppointmentsByClient(@PathVariable int clientId, Authentication authentication) {
         return appointmentService.getAppointmentByClient(clientId);
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_DOCTOR')")
     @GetMapping("/get/doctors")
     public ResponseEntity<List<AppointmentDetailsDTO>> getAppointmentsByDoctors(@RequestParam List<Integer> doctorsIds, @RequestParam String startDate, @RequestParam String endDate) {
-
-        HttpHeaders httpHeaders = new HttpHeaders();
         try {
-            LocalDate stDate = LocalDate.parse(startDate, dateFormatter);
-            LocalDate enDate = LocalDate.parse(endDate, dateFormatter);
-            return ResponseEntity.status(200).body(appointmentService.getAppointmentsByDoctors(doctorsIds, stDate, enDate));
+            return ResponseEntity.status(200).body(appointmentService.getAppointmentsByDoctors(doctorsIds, LocalDate.parse(startDate), LocalDate.parse(endDate)));
         } catch (DateTimeParseException e) {
+            HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.add("info", "You entered the wrong date format!! Try the Date in this format: yyyy-MM-dd, and the times in this format: HH:mm:ss!!");
             return new ResponseEntity<>(null, httpHeaders, HttpStatus.valueOf(400));
         }
@@ -86,13 +83,12 @@ public class AppointmentController {
     @PreAuthorize("hasAuthority('ROLE_DOCTOR') or hasAuthority('ROLE_ADMIN')")
     @GetMapping("/get/doctor")
     public ResponseEntity<List<AppointmentDetailsDTO>> getAppointmentsByDoctor(@RequestParam int doctorId, @RequestParam String startDate, @RequestParam String endDate, Authentication authentication) {
-        HttpHeaders httpHeaders = new HttpHeaders();
-
         try {
             LocalDate stDate = LocalDate.parse(startDate, dateFormatter);
             LocalDate enDate = LocalDate.parse(endDate, dateFormatter);
             return appointmentService.getAppointmentsByDoctor(doctorId, stDate, enDate);
         } catch (DateTimeParseException e) {
+            HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.add("info", "You entered the wrong date format!! Try the Date in this format: yyyy-MM-dd, and the times in this format: HH:mm:ss!!");
             return new ResponseEntity<>(null, httpHeaders, HttpStatus.valueOf(400));
         }
@@ -100,7 +96,7 @@ public class AppointmentController {
 
     @PreAuthorize("hasAuthority('ROLE_CLIENT') or hasAuthority('ROLE_DOCTOR') or hasAuthority('ROLE_ADMIN')")
     @GetMapping("/delete/doctor")
-    public ResponseEntity<String> deleteByIdWithDoctor(@RequestParam int id, Authentication authentication) {
+    public ResponseEntity<String> deleteAppointmentByIdWithDoctor(@RequestParam int id, Authentication authentication) {
         String userEmail = authentication.getName();
         HttpHeaders httpHeaders = new HttpHeaders();
 
@@ -112,7 +108,7 @@ public class AppointmentController {
 
     @PreAuthorize("hasAuthority('ROLE_CLIENT') or hasAuthority('ROLE_ADMIN')")
     @GetMapping("/delete/byClient")
-    public ResponseEntity<String> deleteByIdWithClient(@RequestParam int id, Authentication authentication) {
+    public ResponseEntity<String> deleteAppointmentByIdWithClient(@RequestParam int id, Authentication authentication) {
         HttpHeaders httpHeaders = new HttpHeaders();
         String userEmail = authentication.getName();
 
@@ -124,7 +120,7 @@ public class AppointmentController {
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/delete/admin")
-    public ResponseEntity<List<AppointmentDetailsDTO>> deleteByIdWithAdmin(@RequestParam int id) {
+    public ResponseEntity<List<AppointmentDetailsDTO>> deleteAppointmentByIdWithAdmin(@RequestParam int id) {
         HttpHeaders httpHeaders = new HttpHeaders();
 
         ResponseEntity response = appointmentService.deleteAppointmentById(id);

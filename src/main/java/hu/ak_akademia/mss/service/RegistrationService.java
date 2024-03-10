@@ -3,7 +3,6 @@ package hu.ak_akademia.mss.service;
 import hu.ak_akademia.mss.dto.*;
 import hu.ak_akademia.mss.login_security_service.PasswordEncryption;
 import hu.ak_akademia.mss.model.AreaOfExpertise;
-import hu.ak_akademia.mss.model.Gender;
 import hu.ak_akademia.mss.model.Language;
 import hu.ak_akademia.mss.model.user.MssUser;
 import hu.ak_akademia.mss.mss_user_validation_process.AssistantValidationRegistrationProcess;
@@ -16,7 +15,6 @@ import hu.ak_akademia.mss.repository.LanguageRepository;
 import hu.ak_akademia.mss.repository.MSSUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
@@ -71,14 +69,6 @@ public class RegistrationService {
 
     public List<Language> getLanguages(List<Integer> languageId) {
         return languageRepository.findAllById(languageId);
-    }
-
-    public MssUser getLoggedInUser(String email) {
-        return mssUserRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found"));
-    }
-
-    public List<Gender> getAllGender() {
-        return genderRepository.findAll();
     }
 
     public List<AreaOfExpertise> getAreaOfExpertises(List<Integer> areaOfExpertiseId) {

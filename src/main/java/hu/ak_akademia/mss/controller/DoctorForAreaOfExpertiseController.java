@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import java.util.List;
 
 @RestController
@@ -19,8 +20,7 @@ public class DoctorForAreaOfExpertiseController {
 
     @GetMapping("/area-of-expertise/{areaId}")
     public ResponseEntity<List<DoctorForAreaOfExpertiseDto>> getDoctorsByAreaOfExpertise(@PathVariable int areaId) {
-        List<DoctorForAreaOfExpertiseDto> doctors = doctorService.getDoctorDtosByAreaOfExpertise(areaId);
-        return ResponseEntity.ok(doctors);
+        return ResponseEntity.ok(doctorService.getDoctorDtosByAreaOfExpertise(areaId));
     }
 
 

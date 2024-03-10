@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,14 +22,10 @@ public class DoctorsWorkingHoursService {
     }
 
     public List<DoctorsWorkingHoursDTO> getAreaOfExpertiseSchedule(int areaId) {
-        List<DoctorsWorkingHoursDTO> list = new ArrayList<>();
-        for (var dwo : doctorsWorkingHoursRepository.getAllDoctorsWorkingHours(areaId)) {
-            DoctorsWorkingHoursDTO dto = new DoctorsWorkingHoursDTO();
-            dto.setStartTime(dwo.getStartTime());
-            dto.setEndTime(dwo.getEndTime());
-            list.add(dto);
-        }
-        return list;
+        return doctorsWorkingHoursRepository.getAllDoctorsWorkingHours(areaId)
+                .stream()
+                .map(d -> new DoctorsWorkingHoursDTO(d.getStartTime(), d.getEndTime()))
+                .toList();
     }
 
 }
