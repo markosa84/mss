@@ -1,0 +1,8 @@
+version: "3.8"
+services:
+  ak-postgres:
+    image: "postgres:latest"
+    env_file:
+      - database.env
+    ports:
+      - "5500:5432"
