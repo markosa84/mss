@@ -59,4 +59,18 @@ public class EmailService {
         verificationCode.setExpiryDate(LocalDate.now().plusDays(1));
         registrationVerificationCodeService.saveVerificationCode(verificationCode);
     }
+
+    public void sendAppointmentConfirmationEmail(String email, String appointmentDetails) throws MessagingException {
+        MimeMessage message = emailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+        helper.setFrom("akmss.project@gmail.com");
+        helper.setTo(email);
+        helper.setSubject("Foglalás megerősítése");
+        Context context = new Context();
+        context.setVariable("appointmentDetails", appointmentDetails);
+        String processedHtmlContent = templateEngine.process("appointment_confirmation.html", context);
+        helper.setText(processedHtmlContent, true);
+        emailSender.send(message);
+    }
 }

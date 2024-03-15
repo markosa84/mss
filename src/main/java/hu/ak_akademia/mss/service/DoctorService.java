@@ -26,4 +26,8 @@ public class DoctorService {
         return findDoctorsByAreaOfExpertise(areaId).stream().map(MssUser::getUserId).toList();
     }
 
+    public  String getDoctorName ( int userId){
+        var mssUser = mssUserRepository.findById(userId).orElseThrow();
+        return mssUser.getLastName() + " " + mssUser.getFirstName();
+    }
 }

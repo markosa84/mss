@@ -3,8 +3,11 @@ package hu.ak_akademia.mss.controller;
 
 import hu.ak_akademia.mss.dto.AppointmentDetailsDTO;
 import hu.ak_akademia.mss.dto.AppointmentDto;
+import hu.ak_akademia.mss.model.EmailSubject;
 import hu.ak_akademia.mss.model.Slot;
 import hu.ak_akademia.mss.service.AppointmentService;
+import hu.ak_akademia.mss.service.DoctorService;
+import hu.ak_akademia.mss.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.http.HttpHeaders;
@@ -14,12 +17,16 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 @RestController
 @ConfigurationProperties(prefix = "slot")
@@ -31,7 +38,14 @@ public class AppointmentController {
     DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
+    private final EmailService emailService;
+    private final DoctorService doctorService;
     private Integer time;
+
+    public AppointmentController(EmailService emailService, DoctorService doctorService) {
+        this.emailService = emailService;
+        this.doctorService = doctorService;
+    }
 
 
     public Integer getTime() {
@@ -49,7 +63,18 @@ public class AppointmentController {
             LocalTime startTime = LocalTime.parse((String) payLoad.get("startTime"), timeFormatter);
             LocalTime endTime = LocalTime.parse((String) payLoad.get("endTime"), timeFormatter);
             Slot slot = new Slot((int) payLoad.get("slotId"), startTime, endTime);
-            return appointmentService.saveAppointment((Integer) payLoad.get("drID"), (String) payLoad.get("username"), slot, (String) payLoad.get("areaOfExpertise"), LocalDate.parse((String) payLoad.get("date"), dateFormatter));
+            ResponseEntity<AppointmentDetailsDTO> saveResult = appointmentService.saveAppointment((Integer) payLoad.get("drID"), (String) payLoad.get("username"), slot, (String) payLoad.get("areaOfExpertise"), LocalDate.parse((String) payLoad.get("date"), dateFormatter));
+            if (saveResult.getStatusCode().is2xxSuccessful()) {
+                String userEmail = (String) payLoad.get("username");
+                String time1 = (String) payLoad.get("startTime");
+                String time2 = (String) payLoad.get("endTime");
+                int doctorId = (int) payLoad.get("drID");
+                String doctorName = doctorService.getDoctorName(doctorId);
+                String areaOfExpertise = (String) payLoad.get("areaOfExpertise");
+                String emailContent = "Kedves " + userEmail + "! Köszönjük a foglalást. A foglalás a következő időpontban lett rögzítve: " + time1 + " - " + time2 + ". Szakirány: " + areaOfExpertise + " " + " Orvosnál :" + doctorName;
+                emailService.sendAppointmentConfirmationEmail(userEmail, emailContent);
+            }
+            return saveResult;
         } catch (NullPointerException e) {
             httpHeaders.add("info", "None of the parameter values can be null!");
             return new ResponseEntity<>(null, httpHeaders, HttpStatus.valueOf(400));
@@ -59,6 +84,8 @@ public class AppointmentController {
         } catch (ClassCastException e) {
             httpHeaders.add("info", "drId parameter must be an integer");
             return new ResponseEntity<>(null, httpHeaders, HttpStatus.valueOf(400));
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -94,48 +121,34 @@ public class AppointmentController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ROLE_CLIENT') or hasAuthority('ROLE_DOCTOR') or hasAuthority('ROLE_ADMIN')")
-    @GetMapping("/delete/doctor")
+    private ResponseEntity<String> performAction(String operationName, List<String> requiredAuthorities, int id, Authentication authentication, Supplier<ResponseEntity<String>> action) {
+        if (requiredAuthorities.stream().anyMatch(authority -> authentication.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals(authority)))) {
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.add("info", action.get().getBody());
+            return ResponseEntity.status(action.get().getStatusCode()).headers(httpHeaders).build(); // Itt törzs nélküli választ adunk vissza
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+    }
+
+    @DeleteMapping("/delete/doctor")
     public ResponseEntity<String> deleteAppointmentByIdWithDoctor(@RequestParam int id, Authentication authentication) {
-        String userEmail = authentication.getName();
-        HttpHeaders httpHeaders = new HttpHeaders();
-
-        ResponseEntity response = appointmentService.deleteAppointmentByIdWithDoctor(id, userEmail);
-
-        httpHeaders.add("info", (String) response.getBody());
-        return ResponseEntity.status(response.getStatusCode()).headers(httpHeaders).body(null);
+        return performAction("delete by doctor", Arrays.asList("ROLE_CLIENT", "ROLE_DOCTOR", "ROLE_ADMIN"), id, authentication, () -> appointmentService.deleteAppointmentByIdWithDoctor(id, authentication.getName()));
     }
 
-    @PreAuthorize("hasAuthority('ROLE_CLIENT') or hasAuthority('ROLE_ADMIN')")
-    @GetMapping("/delete/byClient")
+    @DeleteMapping("/delete/byClient")
     public ResponseEntity<String> deleteAppointmentByIdWithClient(@RequestParam int id, Authentication authentication) {
-        HttpHeaders httpHeaders = new HttpHeaders();
-        String userEmail = authentication.getName();
-
-        ResponseEntity response = appointmentService.deleteAppointmentByIdWithClient(id, userEmail);
-
-        httpHeaders.add("info", (String) response.getBody());
-        return ResponseEntity.status(response.getStatusCode()).headers(httpHeaders).body(null);
+        return performAction("delete by client", Arrays.asList("ROLE_CLIENT", "ROLE_ADMIN"), id, authentication, () -> appointmentService.deleteAppointmentByIdWithClient(id, authentication.getName()));
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @GetMapping("/delete/admin")
-    public ResponseEntity<List<AppointmentDetailsDTO>> deleteAppointmentByIdWithAdmin(@RequestParam int id) {
-        HttpHeaders httpHeaders = new HttpHeaders();
-
-        ResponseEntity response = appointmentService.deleteAppointmentById(id);
-        httpHeaders.add("info", (String) response.getBody());
-        return ResponseEntity.status(response.getStatusCode()).headers(httpHeaders).body(null);
+    @DeleteMapping("/delete/admin")
+    public ResponseEntity<String> deleteAppointmentByIdWithAdmin(@RequestParam int id) {
+        return performAction("delete by admin", Collections.singletonList("ROLE_ADMIN"), id, null, () -> appointmentService.deleteAppointmentById(id));
     }
 
-
-    //csak a szakirány.Id je jön paraméterként, javitva Balász kérésére
     @GetMapping("/getAppointments")
     public ResponseEntity<List<AppointmentDto>> getAppointments(@RequestParam(name = "specialtyId") int specialtyId) {
-        // Adatbázisból történő lekérdezés a specialtyId és
         List<AppointmentDto> appointments = appointmentService.getAppointmentsBySpecialtyAndDoctors(specialtyId);
-
-        // Visszaadhatod a megfelelő választ a kliensnek
         return ResponseEntity.ok(appointments);
     }
 }
