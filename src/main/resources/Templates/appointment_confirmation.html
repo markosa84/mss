@@ -2,9 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foglalás megerősítése</title>
+    <link rel="stylesheet" href="CssStyle/style.css">
 </head>
 <body>
-
+<div class="container">
+    <div style="text-align: center;">
+        <img src="Logo/icon.png" alt="Logo" class="logo">
+        <h2>Foglalás megerősítése</h2>
+        <p>Kedves ${userEmail}!</p>
+        <p>Köszönjük a foglalást.</p>
+        <p>A foglalás a következő időpontban lett rögzítve:</p>
+        <p><strong>Kezdés:</strong> ${appointmentDetails.startTime}</p>
+        <p><strong>Befejezés:</strong> ${appointmentDetails.endTime}</p>
+        <p><strong>Doktor:</strong> ${appointmentDetails.doctorName}</p>
+        <p><strong>Szakirány:</strong> ${appointmentDetails.areaOfExpertise}</p>
+    </div>
+</div>
 </body>
 </html>
+

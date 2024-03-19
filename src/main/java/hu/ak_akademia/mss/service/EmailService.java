@@ -41,7 +41,6 @@ public class EmailService {
         generateUniqueCode();
         MimeMessage message = emailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
-
         helper.setFrom("akmss.project@gmail.com");
         helper.setTo(email);
         helper.setSubject("Regisztráció megerősítése");
@@ -63,7 +62,6 @@ public class EmailService {
     public void sendAppointmentConfirmationEmail(String email, String appointmentDetails) throws MessagingException {
         MimeMessage message = emailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
-
         helper.setFrom("akmss.project@gmail.com");
         helper.setTo(email);
         helper.setSubject("Foglalás megerősítése");

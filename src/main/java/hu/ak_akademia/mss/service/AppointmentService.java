@@ -110,51 +110,71 @@ public class AppointmentService {
     }
 
     public ResponseEntity<String> deleteAppointmentByIdWithDoctor(int id, String userEmail) {
-        Optional<Appointment> optionalAppointment = appointmentRepository.findById(id);
-        if (optionalAppointment.isEmpty()) {
-            return ResponseEntity.status(404).body("Appointment was not found!");
-        } else {
-            if (optionalAppointment.get().getMssUserDoctor().getEmail().equals(userEmail)) {
-                appointmentRepository.deleteById(id);
-                return ResponseEntity.status(200).body("Delete was successful");
+        try {
+            Optional<Appointment> optionalAppointment = appointmentRepository.findById(id);
+            if (optionalAppointment.isEmpty()) {
+                throw new NoSuchElementException("Appointment not found with id: " + id);
             }
-            return ResponseEntity.status(403).body("You don't have role to delete!");
-        }
-    }
-
-    public ResponseEntity<String> deleteAppointmentByIdWithClient(int id, String userEmail) {
-        Optional<Appointment> optionalAppointment = appointmentRepository.findById(id);
-        LocalDate date = optionalAppointment.get().getStartDate().toLocalDate();
-        if (optionalAppointment.isEmpty()) {
-            return ResponseEntity.status(404).body("Appointment was not found!");
-        } else {
-            if (optionalAppointment.get().getMssUserClient().getEmail().equals(userEmail)) {
-                if (LocalDate.now().until(date, ChronoUnit.DAYS) > 1) {
-                    appointmentRepository.deleteById(id);
-                    return ResponseEntity.status(200).body("Delete was successful");
-                } else {
-                    return ResponseEntity.status(403).body("You cannot cancel the appointment the day before!");
-                }
+            Appointment appointment = optionalAppointment.get();
+            if (!appointment.getMssUserDoctor().getEmail().equals(userEmail)) {
+                throw new IllegalArgumentException("You don't have the role to delete this appointment!");
             }
-            return ResponseEntity.status(403).body("You don't have role to delete!");
-        }
-    }
-
-    public ResponseEntity<String> deleteAppointmentById(int id) {
-        Optional<Appointment> optionalAppointment = appointmentRepository.findById(id);
-        if (optionalAppointment.isEmpty()) {
-            return ResponseEntity.status(404).body("Appointment was not found!");
-        } else {
             appointmentRepository.deleteById(id);
             return ResponseEntity.status(200).body("Delete was successful");
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(404).body("Appointment was not found!");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(403).body("You don't have role to delete!");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server error !!!!!.");
         }
     }
 
+
+    public ResponseEntity<String> deleteAppointmentByIdWithClient(int id, String userEmail) {
+        try {
+            Optional<Appointment> optionalAppointment = appointmentRepository.findById(id);
+            if (optionalAppointment.isEmpty()) {
+                throw new NoSuchElementException("Appointment not found with id: " + id);
+            }
+
+            Appointment appointment = optionalAppointment.get();
+            if (!appointment.getMssUserClient().getEmail().equals(userEmail)) {
+                throw new IllegalArgumentException("You don't have the role to delete this appointment!");
+            }
+
+            LocalDate date = appointment.getStartDate().toLocalDate();
+            if (LocalDate.now().until(date, ChronoUnit.DAYS) <= 1) {
+                throw new IllegalStateException("You cannot cancel the appointment the day before!");
+            }
+
+            appointmentRepository.deleteById(id);
+            return ResponseEntity.status(200).body("Delete was successful");
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+
+    public ResponseEntity<String> deleteAppointmentById(int id) {
+        try {
+            Optional<Appointment> optionalAppointment = appointmentRepository.findById(id);
+            Appointment appointment = optionalAppointment.orElseThrow(() -> new NoSuchElementException("Appointment not found with id: " + id));
+            appointmentRepository.deleteById(id);
+            return ResponseEntity.status(200).body("Delete was successful");
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(404).body("Appointment was not found with id: " + id);
+        }
+    }
+
+
     public List<Appointment> getAppointmentsByDateAndArea(LocalDateTime startDate, LocalDateTime endDate, int areaOfExpertiseId) {
-        List<Appointment> appointments = appointmentRepository.getAppointmentsByDateAndArea(startDate, endDate, areaOfExpertiseId);
+        Optional<List<Appointment>> appointmentsOptional = appointmentRepository.getAppointmentsByDateAndArea(startDate, endDate, areaOfExpertiseId);
+        List<Appointment> appointments = appointmentsOptional.orElseThrow(() -> new NoSuchElementException("No appointments found for the given criteria"));
         appointments.removeIf(appointment -> appointment.getEndDate().isEqual(endDate));
         return appointments;
     }
+
 
     public List<Appointment> getAppointmentsByDateAndDoctor(LocalDateTime startDate, LocalDateTime endDate, int doctorId) {
         List<Appointment> appointments = appointmentRepository.getAppointmentsByDateAndDoctor(startDate, endDate, doctorId);
@@ -322,11 +342,6 @@ public class AppointmentService {
                 }
                 DoctorTimeSlotDto doctorTimeSlotDto = new DoctorTimeSlotDto(doctorId, unavailableSlotIds);
                 doctorTimeSlots.add(doctorTimeSlotDto);
-
-                // Kiíratás az ellenőrzés céljából
-                System.out.println("Date: " + date);
-                System.out.println("Doctor ID: " + doctorTimeSlotDto.getDoctorId());
-                System.out.println("Unavailable Slot IDs: " + doctorTimeSlotDto.getUnavailableSlotIds());
             }
             result.add(new AppointmentDto(date, doctorTimeSlots));
         }
@@ -340,9 +355,6 @@ public class AppointmentService {
                 slotIds.add(slot.slotId());
             }
         }
-        // Kiíratás az ellenőrzés céljából
-        System.out.println("Slot IDs for startTime " + startTime + ": " + slotIds);
-
         return slotIds;
     }
 }

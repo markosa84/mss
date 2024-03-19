@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class DoctorService {
@@ -27,7 +28,8 @@ public class DoctorService {
     }
 
     public  String getDoctorName ( int userId){
-        var mssUser = mssUserRepository.findById(userId).orElseThrow();
+        var mssUser = mssUserRepository.findById(userId)
+                .orElseThrow(() -> new NoSuchElementException(String.format("Doctor not found with id: %d", userId)));
         return mssUser.getLastName() + " " + mssUser.getFirstName();
     }
 }
