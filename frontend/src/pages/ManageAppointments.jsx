@@ -15,13 +15,14 @@ export default function ManageAppointments() {
   const [appointments, setAppointments] = useState([]);
   console.log(appointments);
 
+  const fetchData = async () => {
+    const res = await axios1.get(`/appointment/get/client/7`, {
+      headers: { Authorization: auth.accessToken },
+    });
+    setAppointments(res.data);
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      const res = await axios1.get(`/appointment/get/client/7`, {
-        headers: { Authorization: auth.accessToken },
-      });
-      setAppointments(res.data);
-    };
     fetchData();
   }, []);
 
@@ -30,7 +31,7 @@ export default function ManageAppointments() {
       .delete(`/appointment/delete/byClient?id=${appiontmentId}`, {
         headers: { Authorization: auth.accessToken },
       })
-      .then((res) => console.log(res));
+      .then((res) => fetchData());
   }
 
   return (
