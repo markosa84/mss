@@ -3,7 +3,6 @@ package hu.ak_akademia.mss.controller;
 
 import hu.ak_akademia.mss.dto.AppointmentDetailsDTO;
 import hu.ak_akademia.mss.dto.AppointmentDto;
-import hu.ak_akademia.mss.model.EmailSubject;
 import hu.ak_akademia.mss.model.Slot;
 import hu.ak_akademia.mss.service.AppointmentService;
 import hu.ak_akademia.mss.service.DoctorService;
@@ -34,7 +33,7 @@ import java.util.function.Supplier;
 public class AppointmentController {
 
     @Autowired
-    AppointmentService appointmentService;
+    private final AppointmentService appointmentService;
     DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
@@ -42,7 +41,8 @@ public class AppointmentController {
     private final DoctorService doctorService;
     private Integer time;
 
-    public AppointmentController(EmailService emailService, DoctorService doctorService) {
+    public AppointmentController(AppointmentService appointmentService, EmailService emailService, DoctorService doctorService) {
+        this.appointmentService = appointmentService;
         this.emailService = emailService;
         this.doctorService = doctorService;
     }
@@ -90,8 +90,8 @@ public class AppointmentController {
     }
 
     @PreAuthorize("hasAuthority('ROLE_CLIENT') or hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_ASSISTANT')")
-    @PostMapping("/get/client/{clientId}")
-    public ResponseEntity<List<AppointmentDetailsDTO>> getAppointmentsByClient(@PathVariable int clientId, Authentication authentication) {
+    @GetMapping("/get/client/{clientId}")
+    public ResponseEntity<List<AppointmentDetailsDTO>> getAppointmentsByClient(@PathVariable int clientId) {
         return appointmentService.getAppointmentByClient(clientId);
     }
 
@@ -125,7 +125,7 @@ public class AppointmentController {
         if (requiredAuthorities.stream().anyMatch(authority -> authentication.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals(authority)))) {
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.add("info", action.get().getBody());
-            return ResponseEntity.status(action.get().getStatusCode()).headers(httpHeaders).build(); // Itt törzs nélküli választ adunk vissza
+            return ResponseEntity.ok("Appointment deleted successfully!"); // Itt törzs nélküli választ adunk vissza
         } else {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }

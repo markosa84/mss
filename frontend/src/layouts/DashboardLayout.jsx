@@ -4,7 +4,7 @@ import { useAuth } from "../Context/useAuth";
 const ROLES_FUNCTIONALITIES = {
   ROLE_CLIENT: [
     { name: "Book an appointment", url: "appointments" },
-    { name: "2nd client functionality", url: "client-menu-page-2" },
+    { name: "My Appointments", url: "my-appointments" },
     { name: "3rd client functionality", url: "client-menu-page-3" },
   ],
   ROLE_EXTRA: [

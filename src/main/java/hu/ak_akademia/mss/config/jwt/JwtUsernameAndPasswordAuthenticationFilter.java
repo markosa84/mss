@@ -60,6 +60,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
         Map<String, Object> responseObject = new LinkedHashMap<>();
         responseObject.put("name", String.format("%s %s", mssUser.getLastName(), mssUser.getFirstName()));
         responseObject.put("roles", List.of(mssUser.getRoles()));
+        responseObject.put("userId", mssUser.getUserId());
         String jsonResponse = new ObjectMapper().writeValueAsString(responseObject);
         String token = getTokenFromAuth(authResult);
         if (securityUser.getUser().isActive()) {

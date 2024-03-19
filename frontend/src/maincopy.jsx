@@ -11,7 +11,7 @@ import { BookAppointment } from "./pages/BookAppointment/BookAppointment";
 import { AppointmentProvider } from "./pages/BookAppointment/AppointmentProvider";
 import { AppointmentBooked } from "./pages/AppointmentBooked";
 import AuthProvider from "./Context/AuthProvider";
-import ClientMenuPage2 from "./pages/ClientMenuPage2";
+import ManageAppointments from "./pages/ManageAppointments";
 import ClientMenuPage3 from "./pages/ClientMenuPage3";
 import ExtraMenuPage1 from "./pages/ExtraMenuPage1";
 import ExtraMenuPage2 from "./pages/ExtraMenuPage2";
@@ -44,8 +44,8 @@ export default function App() {
                     element={<AppointmentBooked />}
                   />
                   <Route
-                    path="client-menu-page-2"
-                    element={<ClientMenuPage2 />}
+                    path="my-appointments"
+                    element={<ManageAppointments />}
                   />
                   <Route
                     path="client-menu-page-3"

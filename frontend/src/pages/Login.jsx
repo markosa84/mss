@@ -42,6 +42,7 @@ export const Login = () => {
         name: res.data.name,
         roles: [...res.data.roles],
         accessToken: res.headers.authorization,
+        userId: res.data.userId,
       });
       navigate(from, { replace: true });
       // localStorage.setItem("mssAuth", res.headers.authorization);
