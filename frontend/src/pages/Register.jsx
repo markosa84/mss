@@ -76,7 +76,7 @@ export const Register = () => {
     ];
     console.log(rest);
     try {
-      const response = await axios1.post("/register/client", rest);
+      const response = await axios1.post("/register/client/registration", rest);
       console.log(response);
       navigate("../email-sent");
     } catch (error) {

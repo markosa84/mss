@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import javax.mail.MessagingException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class RegistrationService {

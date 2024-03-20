@@ -1,8 +1,8 @@
 package hu.ak_akademia.mss.exception;
 
-public class ExpiredActivationException extends RuntimeException {
+public class InvalidActivationException extends RuntimeException {
 
-    public ExpiredActivationException(String message) {
+    public InvalidActivationException(String message) {
         super(message);
     }
 }

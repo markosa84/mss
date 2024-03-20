@@ -19,6 +19,7 @@ public class RegistrationController {
     @Autowired
     private RegistrationService registrationService;
 
+
     @Autowired
     private RegistrationVerificationCodeService registrationVerificationCodeService;
 
@@ -39,11 +40,7 @@ public class RegistrationController {
 
     @PostMapping("/verify")
     public ResponseEntity<String> registrationVerifyCode(@RequestBody Map<String, String> payload) {
-        String code = payload.get("code");
-        if (!registrationVerificationCodeService.isRegistrationCodeValid(code)) {
-            return ResponseEntity.status(400).build();
-        }
-        registrationVerificationCodeService.findUserByVerificationCode(code);
-        return ResponseEntity.status(200).build();
+        registrationVerificationCodeService.activateUser(payload);
+        return ResponseEntity.ok("Activation successful");
     }
 }

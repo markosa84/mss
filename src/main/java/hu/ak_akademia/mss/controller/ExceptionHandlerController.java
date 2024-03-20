@@ -1,6 +1,8 @@
 package hu.ak_akademia.mss.controller;
 
+import hu.ak_akademia.mss.exception.InvalidActivationException;
 import jakarta.mail.MessagingException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -32,6 +34,11 @@ public class ExceptionHandlerController {
     protected ResponseEntity<Object> handleNoSuchElementException(NoSuchElementException e) {
         String bodyOfResponse = "NoSuchElementException occurred: Element not  ";
         return ResponseEntity.badRequest().body(bodyOfResponse + e.getMessage());
+    }
+
+    @ExceptionHandler(value = InvalidActivationException.class)
+    protected ResponseEntity<ErrorResponse> handleInvalidActivationException(InvalidActivationException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(HttpStatus.NOT_FOUND, e.getMessage()));
     }
 
 }
