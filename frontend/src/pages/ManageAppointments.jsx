@@ -16,7 +16,7 @@ export default function ManageAppointments() {
   console.log(appointments);
 
   const fetchData = async () => {
-    const res = await axios1.get(`/appointment/get/client/7`, {
+    const res = await axios1.get(`/appointment/get/client/${auth.userId}`, {
       headers: { Authorization: auth.accessToken },
     });
     setAppointments(res.data);

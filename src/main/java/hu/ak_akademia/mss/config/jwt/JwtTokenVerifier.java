@@ -56,6 +56,7 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
         return claimsJws.getPayload();
     }
 
+    @SuppressWarnings("unchecked")
     @NotNull
     private static List<SimpleGrantedAuthority> getSimpleGrantedAuthorities(Claims body) {
         var authorities = (List<Map<String, String>>) body.get("authorities");

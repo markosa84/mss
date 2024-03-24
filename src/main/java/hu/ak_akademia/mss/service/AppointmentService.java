@@ -35,9 +35,6 @@ public class AppointmentService {
     @Value("${appointment.endDateOffset}")
     private int endDateOffset;
 
-    public record TimeRange(LocalTime startTime, LocalTime endTime) {
-    }
-
     private final DoctorsWorkingHoursService doctorsWorkingHoursService;
 
     private final AppointmentRepository appointmentRepository;
@@ -292,12 +289,12 @@ public class AppointmentService {
                 .map(MssUser::getUserId)
                 .toList();
         List<Appointment> appointments = new ArrayList<>();
-        checkedIdList.forEach(id -> appointments.
-                addAll(appointmentRepository.getAppointmentsByDoctor(id, start.atStartOfDay(), end.atTime(23, 59, 59))));
+        checkedIdList.forEach(id -> appointments.addAll(appointmentRepository.getAppointmentsByDoctor(id, start.atStartOfDay(), end.atTime(23, 59, 59))));
         return convertToAppointmentDTO(appointments);
     }
 
     // Csaba dolgai
+
     public List<AppointmentDto> getAppointmentsBySpecialtyAndDoctors(int specialtyId) {
         DoctorsSchedule scheduleService = new DoctorsSchedule();
         scheduleService.setWorkingHoursService(doctorsWorkingHoursService);
@@ -327,7 +324,6 @@ public class AppointmentService {
         List<AppointmentDto> appointmentDtos = convertToAppointmentDtoList(generatedSlots, appointmentsByDoctor);
         return appointmentDtos;
     }
-
     private List<AppointmentDto> convertToAppointmentDtoList(List<Slot> generatedSlots, Map<LocalDate, Map<Integer, List<TimeRange>>> appointmentsByDoctor) {
         List<AppointmentDto> result = new ArrayList<>();
         for (Map.Entry<LocalDate, Map<Integer, List<TimeRange>>> entry : appointmentsByDoctor.entrySet()) {
@@ -356,5 +352,8 @@ public class AppointmentService {
             }
         }
         return slotIds;
+    }
+
+    public record TimeRange(LocalTime startTime, LocalTime endTime) {
     }
 }

@@ -7,9 +7,8 @@ import hu.ak_akademia.mss.repository.MSSUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class HomeAdminService {
@@ -17,68 +16,36 @@ public class HomeAdminService {
     MSSUserRepository mssUserRepository;
 
     @Autowired
-    HomeAdminService(MSSUserRepository mssUserRepository){
+    HomeAdminService(MSSUserRepository mssUserRepository) {
         this.mssUserRepository = mssUserRepository;
     }
 
-    public List<Client> getAllClients(){
-
-        Optional<List<Client>> clients = mssUserRepository.getAllClients();
-
-        if (clients.isPresent()) {
-            return clients.get();
-        }
-        return Collections.emptyList();
+    public List<Client> getAllClients() {
+        return mssUserRepository.getAllClients().orElse(new ArrayList<>());
     }
 
-    public List<Client> getActiveClients(){
-
-        Optional<List<Client>> activeClients = mssUserRepository.getActiveClients();
-
-        if (activeClients.isPresent()) {
-            return activeClients.get();
-        }
-        return Collections.emptyList();
+    public List<Client> getAllActiveClients() {
+        return mssUserRepository.getActiveClients().orElse(new ArrayList<>());
     }
 
-    public List<Client> getInActiveClients(){
-
-        Optional<List<Client>> inActiveClients = mssUserRepository.getInActiveClients();
-
-        if (inActiveClients.isPresent()) {
-            return inActiveClients.get();
-        }
-        return Collections.emptyList();
+    public List<Client> getAllInactiveClients() {
+        return mssUserRepository.getInActiveClients().orElse(new ArrayList<>());
     }
 
-    public List<Doctor> getDoctors(){
-
-        Optional<List<Doctor>> doctors = mssUserRepository.getDoctors();
-
-        if (doctors.isPresent()) {
-            return doctors.get();
-        }
-        return Collections.emptyList();
+    public List<Doctor> getAllDoctors() {
+        return mssUserRepository.getDoctors().orElse(new ArrayList<>());
     }
 
-    public Object getClientByName(String firstName, String lastName) {
-        Optional<List<Client>> clientByName = mssUserRepository.getClientByName(firstName, lastName);
-        if (clientByName.isPresent()){
-            return clientByName.get();
-        }
-        return Collections.emptyList();
+    public List<Client> getClientByName(String firstName, String lastName) {
+        return mssUserRepository.getClientByName(firstName, lastName).orElse(new ArrayList<>());
     }
 
-    public Object getClientByLastName(String lastName) {
-        Optional<List<Client>> clientByLastName = mssUserRepository.getClientByLastName(lastName);
-        if (clientByLastName.isPresent()){
-            return clientByLastName.get();
-        }
-        return Collections.emptyList();
+    public List<Client> getClientByLastName(String lastName) {
+        return mssUserRepository.getClientByLastName(lastName).orElse(new ArrayList<>());
     }
 
     public MssUser getById(int id) {
-        return  mssUserRepository.getMSSUserByUserId(id);
+        return mssUserRepository.getMSSUserByUserId(id);
     }
 
     public void deleteById(int id) {
