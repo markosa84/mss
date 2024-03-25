@@ -2,11 +2,9 @@ package hu.ak_akademia.mss.service;
 
 import hu.ak_akademia.mss.dto.AppointmentDetailsDTO;
 import hu.ak_akademia.mss.dto.AppointmentDto;
+import hu.ak_akademia.mss.dto.RequestAppointmentDto;
 import hu.ak_akademia.mss.dto.DoctorTimeSlotDto;
-import hu.ak_akademia.mss.model.Appointment;
-import hu.ak_akademia.mss.model.AppointmentStatus;
-import hu.ak_akademia.mss.model.AreaOfExpertise;
-import hu.ak_akademia.mss.model.Slot;
+import hu.ak_akademia.mss.model.*;
 import hu.ak_akademia.mss.model.user.Client;
 import hu.ak_akademia.mss.model.user.Doctor;
 import hu.ak_akademia.mss.model.user.MssUser;
@@ -14,13 +12,17 @@ import hu.ak_akademia.mss.repository.AppointmentRepository;
 import hu.ak_akademia.mss.repository.AppointmentStatusRepository;
 import hu.ak_akademia.mss.repository.AreaOfExpertiseRepository;
 import hu.ak_akademia.mss.repository.MSSUserRepository;
+import hu.ak_akademia.mss.service.exceptions.AppointmentExistException;
+import hu.ak_akademia.mss.service.exceptions.AppointmentStatusNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -70,40 +72,31 @@ public class AppointmentService {
     }
 
 
-    public ResponseEntity<AppointmentDetailsDTO> saveAppointment(int drId, String username, Slot slot, String name, LocalDate date) {
-        ResponseEntity<Appointment> response = createAppointment(drId, username, slot, name, date);
-        if (response.getStatusCode() != HttpStatus.valueOf(200)) {
-            HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.add("info", response.getHeaders().get("info").get(0));
-            return ResponseEntity.status(response.getStatusCode().value()).headers(httpHeaders).body(null);
-        }
+    public Appointment saveAppointment(RequestAppointmentDto appointmentDto, Slot slot) {
+        Appointment appointment = createAppointment(appointmentDto, slot);
+        checkAppointmentIfExistAtDoctor(appointment);
+        checkExistingAppointmentAtClient(appointment);
+        return appointmentRepository.save(appointment);
+    }
 
-        Appointment appointment = response.getBody();
-        List<Appointment> existingAppointmentInTheSameTimeByDoctor = appointmentRepository.getAppointmentsByDateAndDoctor(appointment.getStartDate(), appointment.getEndDate(), appointment.getMssUserDoctor().getUserId());
-        if (!existingAppointmentInTheSameTimeByDoctor.isEmpty()) {
-            HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.add("info", "Sorry!! This appointment is already booked");
-            return new ResponseEntity<>(null, httpHeaders, HttpStatus.valueOf(400));
+    private void checkAppointmentIfExistAtDoctor(Appointment appointment) {
+        List<Appointment> doctorAppointment = appointmentRepository.getAppointmentsByDateAndDoctor(
+                appointment.getStartDate(),
+                appointment.getEndDate(),
+                appointment.getMssUserDoctor().getUserId());
+        if (!doctorAppointment.isEmpty()) {
+            throw new AppointmentExistException("Sorry!! This appointment is already booked!");
         }
-        List<Appointment> existingAppointmentInTheSameTimeByClient = appointmentRepository.getAppointmentsByDateAndClient(appointment.getStartDate(), appointment.getEndDate(), appointment.getMssUserClient().getUserId());
+    }
+
+    private void checkExistingAppointmentAtClient(Appointment appointment) {
+        List<Appointment> existingAppointmentInTheSameTimeByClient = appointmentRepository.getAppointmentsByDateAndClient(
+                appointment.getStartDate(),
+                appointment.getEndDate(),
+                appointment.getMssUserClient().getUserId());
         if (!existingAppointmentInTheSameTimeByClient.isEmpty()) {
-            HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.add("info", "Sorry!! You already have another booked appointment at this time");
-            return new ResponseEntity<>(null, httpHeaders, HttpStatus.valueOf(400));
+            throw new AppointmentExistException("Sorry!! You already have another booked appointment at this time");
         }
-        Appointment result = appointmentRepository.save(appointment);
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("info", "The appointment was successfully booked");
-        AppointmentDetailsDTO responseBody = new AppointmentDetailsDTO(result.getId(), result.getMssUserDoctor().getUserId(), result.getMssUserClient().getEmail(), result.getStartDate().toString(), result.getEndDate().toString(), result.getAreaOfExpertise().getName());
-        return new ResponseEntity<>(responseBody, httpHeaders, HttpStatus.valueOf(200));
-    }
-
-    public Optional<Appointment> getAppointmentById(int id) {
-        return appointmentRepository.findById(id);
-    }
-
-    public List<Appointment> getAllAppointments() {
-        return appointmentRepository.findAll();
     }
 
     public ResponseEntity<String> deleteAppointmentByIdWithDoctor(int id, String userEmail) {
@@ -179,63 +172,19 @@ public class AppointmentService {
         return appointments;
     }
 
-    public ResponseEntity<Appointment> createAppointment(int drId, String username, Slot slot, String name, LocalDate date) {
-        Client client;
-        Doctor doctor;
-        AppointmentStatus appointmentStatus;
-        AreaOfExpertise areaOfExpertise;
-        HttpHeaders httpHeaders = new HttpHeaders();
+
+    public Appointment createAppointment(RequestAppointmentDto appointmentDto, Slot slot) {
         try {
-            Optional<? extends MssUser> optionalClient = mssUserRepository.findByEmail(username);
-            if (optionalClient.isPresent()) {
-                client = (Client) optionalClient.get();
-            } else {
-                httpHeaders.add("info", "Client was not found");
-                return ResponseEntity.status(404).headers(httpHeaders).body(null);
-                //return new ResponseEntity<>(null, httpHeaders, HttpStatus.valueOf(404));
-            }
+            Client client = (Client) mssUserRepository.findByEmail(appointmentDto.username()).orElseThrow(() -> new UsernameNotFoundException("Client was not found"));
+            Doctor doctor = (Doctor) mssUserRepository.findById(appointmentDto.drId()).orElseThrow(() -> new UsernameNotFoundException("Doctor was not found"));
+            AppointmentStatus appointmentStatus = appointmentStatusRepository.findById(AppointmentStatuses.BOOKED.getStatus()).orElseThrow(() -> new AppointmentStatusNotFoundException("Appointment status was not found"));
+            AreaOfExpertise areaOfExpertise = areaOfExpertiseRepository.getByName(appointmentDto.areaOfExpertise()).orElseThrow(() -> new EntityNotFoundException("Area of expertise was not found"));
+            LocalDateTime startDate = LocalDateTime.of(appointmentDto.date(), slot.startTime());
+            LocalDateTime endDate = LocalDateTime.of(appointmentDto.date(), slot.endTime());
+            return new Appointment(client, doctor, appointmentStatus, areaOfExpertise, startDate, endDate);
         } catch (ClassCastException e) {
-            httpHeaders.add("info", "The user id: " + username + " doesn't belong to a client!");
-            return new ResponseEntity<>(null, httpHeaders, HttpStatus.valueOf(400));
+            throw new UsernameNotFoundException("Doesn't belong to a client!: %s".formatted(e.getMessage()));
         }
-
-        try {
-            Optional<? extends MssUser> optionalDoctor = mssUserRepository.findById(drId);
-            if (optionalDoctor.isPresent()) {
-                doctor = (Doctor) optionalDoctor.get();
-            } else {
-                httpHeaders.add("info", "Doctor was not found");
-                return new ResponseEntity<>(null, httpHeaders, HttpStatus.valueOf(404));
-            }
-        } catch (ClassCastException e) {
-            httpHeaders.add("info", "The doctor id: " + drId + " doesn't belong to a doctor!");
-            return new ResponseEntity<>(null, httpHeaders, HttpStatus.valueOf(400));
-        }
-
-        Optional<AppointmentStatus> optionalAppointmentStatus = appointmentStatusRepository.findById(3);
-        if (optionalAppointmentStatus.isPresent()) {
-            appointmentStatus = optionalAppointmentStatus.get();
-        } else {
-            httpHeaders.add("info", "Appointment status was not found");
-            return new ResponseEntity<>(null, httpHeaders, HttpStatus.valueOf(404));
-        }
-
-        Optional<AreaOfExpertise> optionalAreaOfExpertise = areaOfExpertiseRepository.getByName(name);
-        if (optionalAreaOfExpertise.isPresent()) {
-            areaOfExpertise = optionalAreaOfExpertise.get();
-        } else {
-            httpHeaders.add("info", "Area of expertise was not found");
-            return new ResponseEntity<>(null, httpHeaders, HttpStatus.valueOf(404));
-        }
-
-        LocalTime startTime = slot.startTime();
-        LocalTime endTime = slot.endTime();
-
-        LocalDateTime startDate = LocalDateTime.of(date, startTime);
-        LocalDateTime endDate = LocalDateTime.of(date, endTime);
-
-        Appointment appointment = new Appointment(client, doctor, appointmentStatus, areaOfExpertise, startDate, endDate);
-        return new ResponseEntity<>(appointment, HttpStatus.valueOf(200));
     }
 
     public ResponseEntity<List<AppointmentDetailsDTO>> getAppointmentByClient(int clientId) {
@@ -293,7 +242,7 @@ public class AppointmentService {
         return convertToAppointmentDTO(appointments);
     }
 
-    // Csaba dolgai
+// Csaba dolgai
 
     public List<AppointmentDto> getAppointmentsBySpecialtyAndDoctors(int specialtyId) {
         DoctorsSchedule scheduleService = new DoctorsSchedule();
@@ -324,6 +273,7 @@ public class AppointmentService {
         List<AppointmentDto> appointmentDtos = convertToAppointmentDtoList(generatedSlots, appointmentsByDoctor);
         return appointmentDtos;
     }
+
     private List<AppointmentDto> convertToAppointmentDtoList(List<Slot> generatedSlots, Map<LocalDate, Map<Integer, List<TimeRange>>> appointmentsByDoctor) {
         List<AppointmentDto> result = new ArrayList<>();
         for (Map.Entry<LocalDate, Map<Integer, List<TimeRange>>> entry : appointmentsByDoctor.entrySet()) {
@@ -352,6 +302,15 @@ public class AppointmentService {
             }
         }
         return slotIds;
+    }
+
+    public AppointmentDetailsDTO mappingAppointmentToDto(Appointment appointment) {
+        return new AppointmentDetailsDTO(appointment.getId(),
+                appointment.getMssUserDoctor().getUserId(),
+                appointment.getMssUserClient().getEmail(),
+                appointment.getStartDate().toString(),
+                appointment.getEndDate().toString(),
+                appointment.getAreaOfExpertise().getName());
     }
 
     public record TimeRange(LocalTime startTime, LocalTime endTime) {

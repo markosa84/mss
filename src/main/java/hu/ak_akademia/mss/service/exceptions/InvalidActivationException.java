@@ -1,4 +1,4 @@
-package hu.ak_akademia.mss.exception;
+package hu.ak_akademia.mss.service.exceptions;
 
 public class InvalidActivationException extends RuntimeException {
 

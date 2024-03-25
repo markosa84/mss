@@ -3,10 +3,13 @@ package hu.ak_akademia.mss.controller;
 
 import hu.ak_akademia.mss.dto.AppointmentDetailsDTO;
 import hu.ak_akademia.mss.dto.AppointmentDto;
+import hu.ak_akademia.mss.dto.RequestAppointmentDto;
+import hu.ak_akademia.mss.model.Appointment;
 import hu.ak_akademia.mss.model.Slot;
 import hu.ak_akademia.mss.service.AppointmentService;
 import hu.ak_akademia.mss.service.DoctorService;
 import hu.ak_akademia.mss.service.EmailService;
+import hu.ak_akademia.mss.service.exceptions.EmailMessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.http.HttpHeaders;
@@ -18,13 +21,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Supplier;
 
 @RestController
@@ -39,7 +40,6 @@ public class AppointmentController {
 
     private final EmailService emailService;
     private final DoctorService doctorService;
-    private Integer time;
 
     public AppointmentController(AppointmentService appointmentService, EmailService emailService, DoctorService doctorService) {
         this.appointmentService = appointmentService;
@@ -47,45 +47,24 @@ public class AppointmentController {
         this.doctorService = doctorService;
     }
 
-
-    public Integer getTime() {
-        return time;
-    }
-
-    public void setTime(Integer time) {
-        this.time = time;
-    }
-
     @PostMapping("/save")
-    public ResponseEntity<AppointmentDetailsDTO> saveDate(@RequestBody Map<String, Object> payLoad, Authentication authentication) {
-        HttpHeaders httpHeaders = new HttpHeaders();
+    public ResponseEntity<AppointmentDetailsDTO> saveDate(@RequestBody RequestAppointmentDto appointmentDto) {
         try {
-            LocalTime startTime = LocalTime.parse((String) payLoad.get("startTime"), timeFormatter);
-            LocalTime endTime = LocalTime.parse((String) payLoad.get("endTime"), timeFormatter);
-            Slot slot = new Slot((int) payLoad.get("slotId"), startTime, endTime);
-            ResponseEntity<AppointmentDetailsDTO> saveResult = appointmentService.saveAppointment((Integer) payLoad.get("drID"), (String) payLoad.get("username"), slot, (String) payLoad.get("areaOfExpertise"), LocalDate.parse((String) payLoad.get("date"), dateFormatter));
-            if (saveResult.getStatusCode().is2xxSuccessful()) {
-                String userEmail = (String) payLoad.get("username");
-                String time1 = (String) payLoad.get("startTime");
-                String time2 = (String) payLoad.get("endTime");
-                int doctorId = (int) payLoad.get("drID");
-                String doctorName = doctorService.getDoctorName(doctorId);
-                String areaOfExpertise = (String) payLoad.get("areaOfExpertise");
-                String emailContent = "Kedves " + userEmail + "! Köszönjük a foglalást. A foglalás a következő időpontban lett rögzítve: " + time1 + " - " + time2 + ". Szakirány: " + areaOfExpertise + " " + " Orvosnál :" + doctorName;
-                emailService.sendAppointmentConfirmationEmail(userEmail, emailContent);
-            }
-            return saveResult;
+            Slot slot = new Slot(appointmentDto.slotId(), appointmentDto.startTime(), appointmentDto.endTime());
+            Appointment appointment = appointmentService.saveAppointment(appointmentDto, slot);
+            String doctorName = doctorService.getDoctorName(appointmentDto.drId());
+            String emailContent = emailService.getEmailContent(appointment, doctorName);
+            emailService.sendAppointmentConfirmationEmail(appointmentDto.username(), emailContent);
+            AppointmentDetailsDTO responseDto = appointmentService.mappingAppointmentToDto(appointment);
+            return ResponseEntity.ok().header("info", "The appointment was successfully booked").body(responseDto);
         } catch (NullPointerException e) {
-            httpHeaders.add("info", "None of the parameter values can be null!");
-            return new ResponseEntity<>(null, httpHeaders, HttpStatus.valueOf(400));
+            return ResponseEntity.badRequest().header("warningInfo", "None of the parameter values can be null!").build();
         } catch (DateTimeParseException e) {
-            httpHeaders.add("info", "You entered the wrong date format!! Try the Date in this format: yyyy-MM-dd, and the times in this format: HH:mm:ss!!");
-            return new ResponseEntity<>(null, httpHeaders, HttpStatus.valueOf(400));
+            return ResponseEntity.badRequest().header("warningInfo", "You entered the wrong date format!! Try the Date in this format: yyyy-MM-dd, and the times in this format: HH:mm:ss!!").build();
         } catch (ClassCastException e) {
-            httpHeaders.add("info", "drId parameter must be an integer");
-            return new ResponseEntity<>(null, httpHeaders, HttpStatus.valueOf(400));
+            return ResponseEntity.badRequest().header("warningInfo", "drId parameter must be an integer").build();
         } catch (MessagingException e) {
-            throw new RuntimeException(e);
+            throw new EmailMessagingException(e.getMessage());
         }
     }
 

@@ -1,13 +1,11 @@
 package hu.ak_akademia.mss.repository;
 
 import hu.ak_akademia.mss.model.Appointment;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -16,12 +14,10 @@ import java.util.Optional;
 @Repository
 public interface AppointmentRepository extends JpaRepository<Appointment, Integer> {
     @Query("SELECT a FROM Appointment a WHERE a.startDate BETWEEN :start AND :end AND a.endDate BETWEEN :start AND :end AND a.areaOfExpertise.id = :areaId")
-  Optional<List<Appointment>> getAppointmentsByDateAndArea(@Param("start") LocalDateTime startDate, @Param("end") LocalDateTime endDate, @Param("areaId") int areaOfExpertiseId);
-
+    Optional<List<Appointment>> getAppointmentsByDateAndArea(@Param("start") LocalDateTime startDate, @Param("end") LocalDateTime endDate, @Param("areaId") int areaOfExpertiseId);
 
     @Query("SELECT a FROM Appointment a WHERE a.startDate BETWEEN :start AND :end AND a.endDate BETWEEN :start AND :end AND a.mssUserDoctor.id = :doctorId")
     List<Appointment> getAppointmentsByDateAndDoctor(@Param("start") LocalDateTime startDate, @Param("end") LocalDateTime endDate, @Param("doctorId") int doctorId);
-
 
     @Query("SELECT a FROM Appointment a WHERE a.startDate BETWEEN :start AND :end AND a.endDate BETWEEN :start AND :end AND a.mssUserClient.id = :clientId")
     List<Appointment> getAppointmentsByDateAndClient(@Param("start") LocalDateTime startDate, @Param("end") LocalDateTime endDate, @Param("clientId") int clientId);
@@ -30,7 +26,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
     List<Appointment> getAppointmentsByClient(@Param("clientId") int clientId);
 
     @Query("SELECT a FROM Appointment a WHERE a.mssUserDoctor.id = :doctorId AND a.startDate >= :start AND a.startDate <= :end")
-    List<Appointment> getAppointmentsByDoctor(@Param("doctorId") int doctorId,@Param("start") LocalDateTime startDate, @Param("end") LocalDateTime endDate);
+    List<Appointment> getAppointmentsByDoctor(@Param("doctorId") int doctorId, @Param("start") LocalDateTime startDate, @Param("end") LocalDateTime endDate);
 
     @Query("SELECT a FROM Appointment a WHERE a.mssUserDoctor.id IN :doctorIds")
     List<Appointment> getAppointmentsByDoctors(@Param("doctorIds") List<Integer> doctorIds);
@@ -45,7 +41,6 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
     List<Appointment> getAppointmentsByDateAndAreaModefied(@Param("start") LocalDateTime startDate,
                                                            @Param("end") LocalDateTime endDate,
                                                            @Param("areaId") int areaOfExpertiseId);
-
 
 
 }

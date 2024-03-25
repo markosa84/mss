@@ -20,12 +20,8 @@ public class ClientController {
     private RegistrationService registrationService;
 
     @PostMapping("/registration")
-    public ResponseEntity<Collection<String>> registrationFormClient(@RequestBody ClientRegistrationDto registrationClient) {
-        try {
-            return registrationService.validateRegistrationClient(registrationClient);
-        } catch (MessagingException e) {
-            throw new RuntimeException(e);
-        }
+    public ResponseEntity<Collection<String>> registrationFormClient(@RequestBody ClientRegistrationDto registrationClient) throws MessagingException {
+        return registrationService.validateRegistrationClient(registrationClient);
     }
 
 }

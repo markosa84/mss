@@ -2,6 +2,7 @@ package hu.ak_akademia.mss.controller;
 
 import hu.ak_akademia.mss.dto.GenderDto;
 import hu.ak_akademia.mss.dto.LanguageDto;
+import hu.ak_akademia.mss.dto.RegistrationCodeDto;
 import hu.ak_akademia.mss.dto.UniqueEmailDto;
 import hu.ak_akademia.mss.service.RegistrationService;
 import hu.ak_akademia.mss.service.RegistrationVerificationCodeService;
@@ -10,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/register")
@@ -39,8 +39,8 @@ public class RegistrationController {
     }
 
     @PostMapping("/verify")
-    public ResponseEntity<String> registrationVerifyCode(@RequestBody Map<String, String> payload) {
-        registrationVerificationCodeService.activateUser(payload);
+    public ResponseEntity<String> registrationVerifyCode(@RequestBody RegistrationCodeDto code) {
+        registrationVerificationCodeService.activateUser(code);
         return ResponseEntity.ok("Activation successful");
     }
 }

@@ -1,5 +1,6 @@
 package hu.ak_akademia.mss.service;
 
+import hu.ak_akademia.mss.model.Appointment;
 import hu.ak_akademia.mss.model.RegistrationVerificationCode;
 import hu.ak_akademia.mss.model.user.MssUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,5 +71,14 @@ public class EmailService {
         String processedHtmlContent = templateEngine.process("appointment_confirmation.html", context);
         helper.setText(processedHtmlContent, true);
         emailSender.send(message);
+    }
+
+    public String getEmailContent(Appointment appointment, String doctorName) {
+        return "Kedves %s ! Köszönjük a foglalást. A foglalás a következő időpontban lett rögzítve: %s - %s. Szakirány: %s Orvosnál : %s"
+                .formatted(appointment.getMssUserClient().getFirstName() + " " + appointment.getMssUserClient().getLastName(),
+                        appointment.getStartDate(),
+                        appointment.getEndDate(),
+                        appointment.getAreaOfExpertise().getName(),
+                        doctorName);
     }
 }
